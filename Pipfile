@@ -11,6 +11,7 @@ django = "*"
 djangorestframework = "*"
 markdown = "*"
 django-filter = "*"
+httpie = "*"
 
 
 [dev-packages]
