@@ -1,4 +1,4 @@
-# Team
+## Team
 * Noah Moss (ngb@princeton.edu)  
 * Devina Singh (devinas@princeton.edu)  
 * Oğulcan Bayol (obayol@princeton.edu)  
@@ -6,10 +6,10 @@
 
 TA: Lance Goodridge
 
-# Design Document
-https://docs.google.com/document/d/1O8IU8MvJzNO1VNn3uFWB5d6HNoiGz2s87-BDtsRXxH0/edit?usp=sharing
+## Design Document
+[Design Document](https://docs.google.com/document/d/1O8IU8MvJzNO1VNn3uFWB5d6HNoiGz2s87-BDtsRXxH0/edit?usp=sharing)
 
-# Timeline
+## Timeline
 * 3/19-3/25 (Spring Break)  
   * Complete tutorials in Django, PostgreSQL (for backend) and React, CSS/HTML (for frontend)  
   * Set up PostgreSQL database and plan database schema  
