@@ -25,8 +25,7 @@ SECRET_KEY = 'p0y2#qp+)8+-&qyy3@$$sal4950uw7!5j-81oly1#dmu1%vdi#'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -137,6 +136,3 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.AllowAny',
     ]
 }
-
-import django_heroku
-django_heroku.settings(locals())
