@@ -22,6 +22,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'p0y2#qp+)8+-&qyy3@$$sal4950uw7!5j-81oly1#dmu1%vdi#'
 
+ALLOWED_HOSTS = ['0.0.0.0', 'localhost', 'princetontigertalk.herokuapp.com']
+
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -138,6 +141,3 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.AllowAny',
     ]
 }
-
-# Activate Django-Heroku.
-django_heroku.settings(locals())
