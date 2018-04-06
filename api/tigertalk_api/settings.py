@@ -130,9 +130,14 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+import dj_database_url
+DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=True)
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.AllowAny',
     ]
 }
+
+# Activate Django-Heroku.
+django_heroku.settings(locals())
