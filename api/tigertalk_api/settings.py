@@ -19,10 +19,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the seSTATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')cret key used in production secret!
+# SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'p0y2#qp+)8+-&qyy3@$$sal4950uw7!5j-81oly1#dmu1%vdi#'
 
-ALLOWED_HOSTS = ['0.0.0.0', 'localhost', 'princetontigertalk.herokuapp.com']
+ALLOWED_HOSTS = ['0.0.0.0', 'localhost', '127.0.0.1', 'princetontigertalk.herokuapp.com']
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'corsheaders',
-    'posts',
+    'posts.apps.PostsConfig',
 ]
 
 MIDDLEWARE = [
@@ -84,21 +84,21 @@ WSGI_APPLICATION = 'tigertalk_api.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': 'tigertalk_db',
-#         'USER': 'tigertalk',
-#         'PASSWORD': 'tigertalk333',
-#         'HOST': 'localhost',
-#         'PORT': '5432',
-#     }
-# }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'tigertalk_db',
+        'USER': 'tigertalk',
+        'PASSWORD': 'tigertalk333',
+        'HOST': 'localhost',
+        'PORT': '',
+    }
+}
 
-import dj_database_url
-DATABASES = {}
-DATABASES['default'] = dj_database_url.config(conn_max_age=600)
-
+# import dj_database_url
+# db_config = dj_database_url.config(conn_max_age=600)
+# if db_config:
+#     DATABASES['default'] = db_config
 
 # Password validation
 # https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators

@@ -16,6 +16,7 @@ gunicorn = "*"
 dj-database-url = "*"
 django-heroku = "*"
 whitenoise = "*"
+django-environ = "*"
 
 
 [dev-packages]

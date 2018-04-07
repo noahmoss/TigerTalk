@@ -1,11 +1,24 @@
 from django.db import models
 
-# Create your models here.
 class Post(models.Model):
     user = models.CharField(max_length=20)
-    text = models.TextField(max_length=5000)
-    timestamp = models.DateTimeField()
+    content = models.TextField(max_length=5000)
+    timestamp = models.DateTimeField(auto_now_add=True)
+    votes = models.IntegerField(default=0)
+    reported = models.BooleanField(default=False)
 
     def __str__(self):
         """A string representation of the post."""
-        return self.text[:50]
+        return self.content[:50]
+
+class Comment(models.Model):
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    user = models.CharField(max_length=20)
+    content = models.TextField(max_length=2000)
+    timestamp = models.DateTimeField(auto_now_add=True)
+    votes = models.IntegerField(default=0)
+    reported = models.BooleanField(default=False)
+
+    def __str__(self):
+        """A string representation of the comment."""
+        return self.content[:50]
