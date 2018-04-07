@@ -2,7 +2,7 @@
 * Noah Moss (ngb@princeton.edu)  
 * Devina Singh (devinas@princeton.edu)  
 * Oğulcan Bayol (obayol@princeton.edu)  
-* Ryan Gizzie (rgizzie@princeton.edu) - Group Leader 
+* Ryan Gizzie (rgizzie@princeton.edu) - Group Leader
 
 TA: Lance Goodridge
 
