@@ -16,7 +16,7 @@ TA: Lance Goodridge
   * ~~Set up a project site~~
   * ~~Work on elevator pitch~~
 * 3/26
-* ~~Set up Django project and PostgreSQL database~~
+  * ~~Set up Django project and PostgreSQL database~~
   * ~~Setup Bootstrap and create a minimal UI (simple submission box and raw text posts)~~
 * 4/2
   * ~~Continue developing MVP front-end~~
