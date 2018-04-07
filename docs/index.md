@@ -11,23 +11,22 @@ TA: Lance Goodridge
 
 ## Timeline
 * 3/19-3/25 (Spring Break)  
-  * Complete tutorials in Django, PostgreSQL (for backend) and React, CSS/HTML (for frontend)  
-  * Set up PostgreSQL database and plan database schema  
-  * Put up an initial GitHub repo and get everyone connected  
-  * Set up a project site  
-  * Work on elevator pitch  
+  * ~~Complete tutorials in Django, PostgreSQL (for backend) and JS/CSS/HTML (for frontend)~~
+  * ~~Put up an initial GitHub repo and get everyone connected~~
+  * ~~Set up a project site~~
+  * ~~Work on elevator pitch~~
 * 3/26
-  * Write core database processing code (adding/removing posts and comments) and define the server API
-  * Setup Bootstrap and create a minimal UI (simple submission box and raw text posts)
+  * ~~Set up Django project and PostgreSQL database~
+  * ~~Setup Bootstrap and create a minimal UI (simple submission box and raw text posts)~~
 * 4/2
-  * Develop front-end with React; support core functionality
-  * Have core server functionality working
+  * ~~Continue developing MVP front-end~~
+  * ~~Create basic API with Django REST framework and deploy on Heroku~~
 * 4/9
-  * Link server with front-end and deploy on Heroku as prototype
+  * Link front-end with API to provide MVP functionality
   * Continue to build the UI to match design specs
-  * Begin adding stretch features to both front and back-end
-* 4/16
+  * Add voting, reports, and comments to database
   * Implement user authentication (probably via CAS) and create a splash page
+* 4/16
   * Implement user features (user settings, viewing one’s own posts, etc) and test them by creating our own accounts
   * Continue adding stretch features and fixing bugs
   * Begin recruiting alpha testers
