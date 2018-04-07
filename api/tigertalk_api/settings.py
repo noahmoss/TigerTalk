@@ -82,16 +82,21 @@ WSGI_APPLICATION = 'tigertalk_api.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'tigertalk_db',
-        'USER': 'tigertalk',
-        'PASSWORD': 'tigertalk333',
-        'HOST': 'localhost',
-        'PORT': '5432',
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'tigertalk_db',
+#         'USER': 'tigertalk',
+#         'PASSWORD': 'tigertalk333',
+#         'HOST': 'localhost',
+#         'PORT': '5432',
+#     }
+# }
+
+import dj_database_url
+DATABASES = {}
+DATABASES['default'] = dj_database_url.config()
+
 
 # Password validation
 # https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators
@@ -135,9 +140,6 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
-
-import dj_database_url
-DATABASES['default'] = dj_database_url.config()
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
