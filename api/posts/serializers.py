@@ -5,7 +5,9 @@ class PostSerializer(serializers.ModelSerializer):
     class Meta:
         fields = (
             'user',
-            'text',
+            'content',
             'timestamp',
+            'votes',
+            'reported',
         )
         model = models.Post
