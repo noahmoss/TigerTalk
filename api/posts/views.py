@@ -1,12 +1,11 @@
+from posts.models import Post
+from posts.serializers import PostSerializer
 from rest_framework import generics
-from . import models
-from . import serializers
 
-# Create your views here.
-class ListPost(generics.ListCreateAPIView):
-    queryset = models.Post.objects.all()
-    serializer_class = serializers.PostSerializer
+class PostList(generics.ListCreateAPIView):
+    queryset = Snippet.objects.all()
+    serializer_class = SnippetSerializer
 
-class DetailPost(generics.RetrieveUpdateDestroyAPIView):
-    queryset = models.Post.objects.all()
-    serializer_class = serializers.PostSerializer
+class PostDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Snippet.objects.all()
+    serializer_class = SnippetSerializer
