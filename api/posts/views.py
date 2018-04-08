@@ -1,11 +1,15 @@
-from posts.models import Post
-from posts.serializers import PostSerializer
+from posts.models import Post, Comment
+from posts.serializers import PostSerializer, CommentSerializer
 from rest_framework import generics
 
 class PostList(generics.ListCreateAPIView):
-    queryset = Snippet.objects.all()
-    serializer_class = SnippetSerializer
+    queryset = Post.objects.all()
+    serializer_class = PostSerializer
 
 class PostDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Snippet.objects.all()
-    serializer_class = SnippetSerializer
+    queryset = Post.objects.all()
+    serializer_class = PostSerializer
+
+class CommentList(generics.ListCreateAPIView):
+    queryset = Comment.objects.all()
+    serializer_class = CommentSerializer
