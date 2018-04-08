@@ -7,7 +7,7 @@ class Post(models.Model):
 
     def __str__(self):
         """A string representation of the post."""
-        return self.content[:50]
+        return self.content[:100]
 
 class Comment(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
@@ -17,4 +17,4 @@ class Comment(models.Model):
 
     def __str__(self):
         """A string representation of the comment."""
-        return self.content[:50]
+        return self.content[:100]
