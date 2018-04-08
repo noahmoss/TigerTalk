@@ -1,8 +1,7 @@
 from django.db import models
 
 class Post(models.Model):
-    user = models.CharField(max_length=20)
-    content = models.CharField(max_length=5000)
+    content = models.TextField(max_length=5000)
     timestamp = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -10,10 +9,9 @@ class Post(models.Model):
         return self.content[:100]
 
 class Comment(models.Model):
-    post = models.ForeignKey(Post, on_delete=models.CASCADE)
-    user = models.CharField(max_length=20)
     content = models.CharField(max_length=2000)
     timestamp = models.DateTimeField(auto_now_add=True)
+    post = models.ForeignKey(Post, related_name='comments', on_delete=models.CASCADE)
 
     def __str__(self):
         """A string representation of the comment."""
