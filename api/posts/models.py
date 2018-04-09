@@ -9,6 +9,9 @@ class Post(models.Model):
         """A string representation of the post."""
         return self.content[:100]
 
+    class Meta:
+        ordering = ['date_created']
+
 class Comment(models.Model):
     content = models.CharField(max_length=2000)
     date_created = models.DateTimeField(auto_now_add=True)
@@ -18,3 +21,6 @@ class Comment(models.Model):
     def __str__(self):
         """A string representation of the comment."""
         return self.content[:100]
+
+    class Meta:
+        ordering = ['date_created']
