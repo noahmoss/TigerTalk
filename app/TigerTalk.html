@@ -7,20 +7,36 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 </head>
 <style type="text/css">
-div.col-10, div.col-8 {
+div.col-10 {
+background-color: #5F9EA0;
 border-right: 0.2rem solid #282524;
 border-left: 0.2rem solid #282524;
 border-top: 0.1rem solid #282524;
 border-bottom: 0.1rem solid #282524;
 }
+div.col-9 {
+background-color: #6495ED;
+border-right: 0.2rem solid #282524;
+border-left: 0.2rem solid #282524;
+border-top: 0.1rem solid #282524;
+border-bottom: 0.1rem solid #282524;
+}
+div.container-fluid {
+  background-color: coral;
+}
 #reply1, #reply2, #reply3, #reply4, #reply5 {
   display: none;
+}
+body {
+  background-color: #E6E6FA
 }
 </style>
 <body>
 </br>
 
-<h3>TigerTalk</h3>
+<div class="container-fluid">
+  <h3>TigerTalk</h3>
+</div>
 
 <div class="container">
   <div class="row">
@@ -55,17 +71,26 @@ border-bottom: 0.1rem solid #282524;
 
   <div id = "reply1">
     <div class="row">
-      <div class="col-8 offset-md-2">
+      <div class="col-9 offset-md-1">
         Where is Frist Lawn, again?
       </div>
     </div>
-
+  
 
     <div class="row">
-      <div class="col-8 offset-md-2">
+      <div class="col-9 offset-md-1">
         How many people are there right now?
       </div>
     </div>
+
+    <form>
+      <div class="col-9 offset-md-1">
+        <textarea name="reply entry" cols="100" rows="1" placeholder="Reply here..."></textarea>
+      </div>
+      <div>
+        <button>Reply</button>
+      </div>
+    </form>
   </div>
 </div>
 
@@ -80,13 +105,13 @@ border-bottom: 0.1rem solid #282524;
 
   <div id = "reply2">
     <div class="row">
-      <div class="col-8 offset-md-2">
+      <div class="col-9 offset-md-1">
         It might not be open tonight.
       </div>
     </div>
 
     <div class="row">
-      <div class="col-8 offset-md-2">
+      <div class="col-9 offset-md-1">
         I've heard from someone that it's list.
       </div>
     </div>
@@ -104,7 +129,7 @@ border-bottom: 0.1rem solid #282524;
 
   <div id = "reply3">
     <div class="row">
-      <div class="col-8 offset-md-2">
+      <div class="col-9 offset-md-1">
         Don't get me started...
       </div>
     </div>
@@ -121,20 +146,20 @@ border-bottom: 0.1rem solid #282524;
   </div>
   <div id = "reply4">
     <div class="row">
-      <div class="col-8 offset-md-2">
+      <div class="col-9 offset-md-1">
         Go with ORF if you can't decide between finance and software.
       </div>
     </div>
 
     <div class="row d-flex justify-content-right">
-      <div class="col-8 offset-md-2">
+      <div class="col-9 offset-md-1">
         I would COS for ample job oppurtunities.
       </div>
     </div>
 
     <div class="row d-flex justify-content-right">
-      <div class="col-8 offset-md-2">
-        Don't major in ORF. The courses are poorly taught.
+      <div class="col-9 offset-md-1">
+        Don't major in ORF. The courses are poorly taught. 
       </div>
     </div>
   </div>
@@ -151,13 +176,13 @@ border-bottom: 0.1rem solid #282524;
 
   <div id = "reply5">
     <div class="row">
-      <div class="col-8 offset-md-2">
+      <div class="col-9 offset-md-1">
         This guy is seriously awesome. Everyone should go!
       </div>
     </div>
 
     <div class="row">
-      <div class="col-8 offset-md-2">
+      <div class="col-9 offset-md-1">
         Poland represent!
       </div>
     </div>
