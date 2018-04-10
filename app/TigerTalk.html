@@ -5,38 +5,104 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-</head>
+<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Quicksand" />
 <style type="text/css">
-div.col-10 {
-background-color: #5F9EA0;
-border-right: 0.2rem solid #282524;
-border-left: 0.2rem solid #282524;
-border-top: 0.1rem solid #282524;
-border-bottom: 0.1rem solid #282524;
+div.entry {
+padding-left:70px;
+padding-bottom:30px;
+margin-bottom:0px;
+margin-left:75px;
+font-family: Georgia, Times, "Times New Roman", serif;
+width:890px;
+background-color: #cfd8dc;
+border-right: 0.2rem solid #cfd8dc;
+border-left: 0.2rem solid #cfd8dc;
+border-top: 0.1rem solid #cfd8dc;
+border-bottom: 0.1rem solid #cfd8dc;
 }
-div.col-9 {
-background-color: #6495ED;
-border-right: 0.2rem solid #282524;
-border-left: 0.2rem solid #282524;
-border-top: 0.1rem solid #282524;
-border-bottom: 0.1rem solid #282524;
+
+div.reply {
+padding-left:70px;
+padding-bottom:30px;
+padding-top: 0px;
+margin-left: 145px;
+margin-bottom: 0px;
+margin-top: 5px;
+font-family: Georgia, Times, "Times New Roman", serif;
+width:820px;
+background-color: #cfd8dc;
+border-right: 0.2rem solid ##cfd8dc;
+border-left: 0.2rem solid  ##cfd8dc;
+border-top: 0.1rem solid  #cfd8dc;
+border-bottom: 0.1rem solid  ##cfd8dc;
 }
-div.container-fluid {
-  background-color: coral;
+
+.chunk{
+  margin-bottom: 5px;
 }
-#reply1, #reply2, #reply3, #reply4, #reply5 {
-  display: none;
+
+
+h3 {
+  margin-top: 100px;
+  margin-left: 527px;
+  font-size: 36px;
+  font-weight: 100px;
+  font-family: Quicksand;
+} 
+
+form.posting {
+  margin-left: 180px;
+  margin-right: 100px;
+  width: 900px;
+  font-family: Quicksand;
 }
+
+button {
+  margin-top: 5px;
+  border-radius: 5px;
+  background-color: #cfd8dc;
+  font-family: Quicksand;
+}
+
+textarea {
+  border: 0.1rem solid #676767;
+  border-radius: 5px;
+  background-color: #f3f3f3;
+}
+
 body {
-  background-color: #E6E6FA
+  background-color: #f3f3f3;
 }
+
+.container {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.col-1 {
+  font-family: Quicksand;
+  margin-right: 5px;
+}
+
+.row {
+  margin-left: 470px;
+}
+
+.comments {
+  margin-top: 20px;
+}
+
+
 </style>
+</head>
+
 <body>
 </br>
 
 <div class="container-fluid">
-  <h3>TigerTalk</h3>
+  <h3 class="header">TigerTalk</h3>
 </div>
+
 
 <div class="container">
   <div class="row">
@@ -49,11 +115,10 @@ body {
   </div>
 </div>
 
-</br>
 
-<form>
+<form class="posting">
   <div>
-    <textarea name="entry" cols="150" rows="2" placeholder="What do you want to talk about?"></textarea>
+    <textarea name="entry" cols="109" rows="2" placeholder="What do you want to talk about?"></textarea>
   </div>
   <div>
     <button>Post</button>
@@ -62,131 +127,134 @@ body {
 
 </br>
 
-<div class="container">
-  <div class="row">
-    <div class="col-10" id="post1">
-      Everyone come to Frist Lawn at 12:30 to protest for more gun control!
+<div class="chunk">
+<div class="media offset-md-1">
+  <div class="media-body">
+    <div class="entry">
+    Everyone come to Frist Lawn at 12:30 to protest for more gun control!
     </div>
-  </div>
-
-  <div id = "reply1">
-    <div class="row">
-      <div class="col-9 offset-md-1">
-        Where is Frist Lawn, again?
+    <div class="comments"> 
+      <div class="media mt-3">
+       <div class="media-body">
+        <div class="reply"> 
+           Where is Frist Lawn, again? 
+       </div>
       </div>
-    </div>
-  
-
-    <div class="row">
-      <div class="col-9 offset-md-1">
+      </div>
+      <div class="media mt-3">
+       <div class="media-body">
+        <div class="reply">  
         How many people are there right now?
+        </div>
+       </div>
       </div>
-    </div>
-
-    <form>
-      <div class="col-9 offset-md-1">
-        <textarea name="reply entry" cols="100" rows="1" placeholder="Reply here..."></textarea>
-      </div>
-      <div>
-        <button>Reply</button>
-      </div>
-    </form>
   </div>
+ </div>
+</div>
 </div>
 
 </br>
 
-<div class="container">
-  <div class="row" id="post2">
-    <div class="col-10">
-      Is Cap list or pass tonight?
+<div class="chunk">
+<div class="media offset-md-1">
+  <div class="media-body">
+    <div class="entry">
+    Is Cap list or pass tonight?
     </div>
-  </div>
-
-  <div id = "reply2">
-    <div class="row">
-      <div class="col-9 offset-md-1">
+    <div class="media mt-3">
+      <div class="media-body">
+        <div class="reply">
         It might not be open tonight.
+        </div>
       </div>
     </div>
-
-    <div class="row">
-      <div class="col-9 offset-md-1">
+    <div class="media mt-3">
+      <div class="media-body">
+        <div class="reply">
         I've heard from someone that it's list.
+        </div>
       </div>
     </div>
   </div>
 </div>
+</div>
 
 </br>
 
-<div class="container">
-  <div class="row" id="post3">
-    <div class="col-10">
-      Thoughts on the COS126 final?
+<div class="chunk">
+<div class="media offset-md-1">
+  <div class="media-body">
+    <div class="entry">
+    Thoughts on the COS126 final?
     </div>
-  </div>
-
-  <div id = "reply3">
-    <div class="row">
-      <div class="col-9 offset-md-1">
+    <div class="media mt-3">
+      <div class="media-body">
+        <div class="reply">
         Don't get me started...
+        </div>
       </div>
     </div>
   </div>
 </div>
+</div>
 
 </br>
 
-<div class="container">
-  <div class="row" id="post4">
-    <div class="col-10">
-      ECO vs. ORF vs. COS?
+<div>
+<div class="media offset-md-1">
+  <div class="media-body">
+    <div class="entry">
+    ECO vs. ORF vs. COS?
     </div>
-  </div>
-  <div id = "reply4">
-    <div class="row">
-      <div class="col-9 offset-md-1">
+    <div class="media mt-3">
+      <div class="media-body">
+        <div class="reply">
         Go with ORF if you can't decide between finance and software.
+        </div>
       </div>
     </div>
-
-    <div class="row d-flex justify-content-right">
-      <div class="col-9 offset-md-1">
-        I would COS for ample job oppurtunities.
+    <div class="media mt-3">
+      <div class="media-body">
+        <div class="reply">
+        I would say COS for ample job opportunities.
+        </div>
       </div>
     </div>
-
-    <div class="row d-flex justify-content-right">
-      <div class="col-9 offset-md-1">
-        Don't major in ORF. The courses are poorly taught. 
+    <div class="media mt-3">
+      <div class="media-body">
+        <div class="reply">
+        Don't major in ORF. The courses are poorly taught.
+        </div>
       </div>
     </div>
   </div>
 </div>
+</div>
 
 </br>
 
-<div class="container">
-  <div class="row" id="post5">
-    <div class="col-10">
-      Lech Walesa, Nobel Prize recipient and Former President of Poland, will be giving a public speech at 12:30 today. Everyone welcome to attend at McCosh 50!
+<div>
+<div class="media offset-md-1">
+  <div class="media-body">
+    <div class="entry">
+    Lech Walesa, Nobel Prize recipient and Former President of Poland, will be giving a public speech at 12:30 today. Everyone welcome to attend at McCosh 50!
     </div>
-  </div>
-
-  <div id = "reply5">
-    <div class="row">
-      <div class="col-9 offset-md-1">
+    <div class="media mt-3">
+      <div class="media-body">
+        <div class="reply">
         This guy is seriously awesome. Everyone should go!
+        </div>
       </div>
     </div>
-
-    <div class="row">
-      <div class="col-9 offset-md-1">
+    <div class="media mt-3">
+      <div class="media-body">
+        <div class="reply">
         Poland represent!
+        </div>
       </div>
     </div>
   </div>
+</div>
 </div>
 
 </body>
