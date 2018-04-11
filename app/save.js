@@ -1,7 +1,8 @@
 $(document).ready(function() {
+		var length;
 	    $.ajax({
         type: 'GET',
-        url: 'http://127.0.0.1:8000/posts/',
+        url: 'http://tigertalkapi.herokuapp.com/posts', 
         data: { get_param: 'value' },
         dataType: 'json',
         success: function (data) {
