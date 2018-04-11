@@ -1,4 +1,5 @@
 $(document).ready(function() {
+		var length;
 	    $.ajax({ 
         type: 'GET', 
         url: 'http://tigertalkapi.herokuapp.com/posts/?format=json', 
@@ -7,6 +8,7 @@ $(document).ready(function() {
         success: function (data) { 
             var out = "";
 			var i;
+			length = data.length;
 
 			for (i = 0; i < data.length; i ++) {
 			out += '<div class="chunk"> <div class="media offset-md-1"> <div class="media-body"> <div class="entry" id="e' + i;
@@ -29,4 +31,29 @@ $(document).ready(function() {
         	window.alert("rip");
         }
     });
+
+	var h;
+
+	for (h = 0; h < length; h++) {
+	    var e = "#e" + i;
+	    var c = "#c" + i;
+	    $(e).click(function() {
+  		if ($(c).css("display") == "none") {
+        	$(c).css("display", "block");
+    	}
+    	else {
+        	$(c).css("display", "none");
+    	}
+	   	});
+	}
+
+	$("#mainpost").click(function() {
+		var post = $("#maintext").val();
+		if (post.length != 0) {
+			
+
+		}
+	});
+
+
 });
