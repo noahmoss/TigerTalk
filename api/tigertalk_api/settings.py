@@ -58,15 +58,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-<<<<<<< HEAD
-CORS_ORIGIN_ALLOW_ALL=True
-=======
-#CORS_ORIGIN_WHITELIST = (
- #   'localhost',
-#)
-
 CORS_ORIGIN_ALLOW_ALL = True
->>>>>>> 72cc7a6f68aba781f45602591b869b68dd8c0d82
 
 ROOT_URLCONF = 'tigertalk_api.urls'
 
