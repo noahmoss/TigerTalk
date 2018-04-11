@@ -2,7 +2,7 @@ $(document).ready(function() {
 		var length;
 	    $.ajax({
         type: 'GET',
-        url: 'http://tigertalkapi.herokuapp.com/posts', 
+        url: 'http://localhost:8000/posts/', 
         data: { get_param: 'value' },
         dataType: 'json',
         success: function (data) {
