@@ -1,5 +1,5 @@
 	var xhttp = new XMLHttpRequest();
-	var url = "http://tigertalkapi.herokuapp.com/posts/?format=json"
+	var url = "https://tigertalkapi.herokuapp.com/posts/?format=json"
 	xhttp.open("GET", url, true);
 	xhttp.send();
 	var myArr = JSON.parse(xhttp.responseText);
