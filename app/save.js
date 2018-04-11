@@ -24,6 +24,9 @@ $(document).ready(function() {
 			}
 
             $('#chunks').html(out);
+        },
+        error: function () {
+        	window.alert("rip");
         }
     });
 });
