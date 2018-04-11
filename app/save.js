@@ -1,10 +1,10 @@
 $(document).ready(function() {
-	    $.ajax({ 
-        type: 'GET', 
-        url: 'http://tigertalkapi.herokuapp.com/posts/?format=json', 
+	    $.ajax({
+        type: 'GET',
+        url: 'http://tigertalkapi.herokuapp.com/posts/?format=json',
         data: { get_param: 'value' },
-        dataType: 'json', 
-        success: function (data) { 
+        dataType: 'json',
+        success: function (data) {
             var out = "";
 			var i;
 
