@@ -1,4 +1,5 @@
 $(document).ready(function() {
+    
 	$("#post1").click(function() {
   		if ($("#reply1").css("display") == "none") {
         	$("#reply1").css("display", "block");
