@@ -1,10 +1,12 @@
 $(document).ready(function() {
-	    $.ajax({
+	var length;
+    $.ajax({
         type: 'GET',
         url: 'http://tigertalkapi.herokuapp.com/posts/',
         data: { get_param: 'value' },
         dataType: 'json',
         success: function (data) {
+			length = data.length;
             var out = "";
 			var i;
 			for (i = 0; i < data.length; i ++) {
@@ -21,26 +23,29 @@ $(document).ready(function() {
 			out += '</div><div><button>Post</button></div></form></div>';
 			out += ' </div> </div> </div>';
 			}
-
             $('#chunks').append(out);
+
+			// Assign click events to posts to show comments on click
+			var h;
+			length = 3
+			for (h = 0; h < length; h++) {
+				console.log(h);
+				let e = "#e" + h;
+				let c = "#c" + h;
+				$(e).click(function() {
+					if ($(c).css("display") === "none") {
+						$(c).css("display", "block");
+					}
+					else {
+						$(c).css("display", "none");
+					}
+				});
+			}
+
         },
         error: function () {
         	window.alert("rip");
         }
     });
 
-	var h;
-
-	for (h = 0; h < length; h++) {
-	    var e = "#e" + i.toString();
-	    var c = "#c" + i.toString();
-	    $(e).click(function() {
-  		if ($(c).css("display") == "none") {
-        	$(c).css("display", "block");
-    	}
-    	else {
-        	$(c).css("display", "none");
-    	}
-	   	});
-	}
 });
