@@ -66,7 +66,7 @@ $(document).ready(function() {
 	function addPost(newPost) {
 		var toAppend = '<div class="chunk"> <div class="media offset-md-1"> <div class="media-body"> <div class="entry" id="e' + length;
 		toAppend += '">' + newPost + '</div> <div class="comments" id="c' + length + '">';
-		toAppend += '<form class="replying"> <div> <textarea name="entry" cols="100" rows="2" placeholder="Reply"></textarea>';
+		toAppend += '<form class="replying"> <div> <textarea name="entry" cols="100" rows="2" autocomplete="off" placeholder="Reply"></textarea>';
 		toAppend += '</div><div><button>Post</button></div></form></div>';
 		toAppend += ' </div> </div> </div>';
 		$('#chunks').prepend(toAppend);
