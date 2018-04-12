@@ -78,6 +78,33 @@ body {
   margin-top: 10px;
   margin-bottom: 10px;
 }
+#navbar {
+  text-align: center;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+
+}
+
+#navbar li {
+  float: center;
+  display: inline-block;
+}
+
+#navbar li button {
+  text-align: center;
+  align-content: center;
+  border:none;
+  margin:8;
+  padding:16;
+  outline: none
+}
+
+#navbar li button:hover {
+  cursor:pointer;
+}
+
 .col-1 {
   font-family: Quicksand;
   margin-right: 5px;
@@ -98,7 +125,16 @@ body {
 <div class="container-fluid">
   <h3 class="header">TigerTalk</h3>
 </div>
-<div class="container">
+
+<ul id="navbar">
+  <br>
+  <li><button type="button" onclick="changePage('recent')">Recent</a></li>
+  <li><button type="button" onclick="changePage('popular')">Popular</a></li>
+  <br><br>
+</ul>
+
+
+<!-- <div class="container">
   <div class="row">
     <div class="col-1">
       Recent
@@ -107,8 +143,7 @@ body {
       Popular
     </div>
   </div>
-</div>
-
+</div> -->
 
 
 <form class="posting">
@@ -122,12 +157,21 @@ body {
 
 </br>
 
-
 <div id="chunks">
 </div>
 
 
 </br>
+<div id="recent">
+  <h2>Projects</h2>
+  No content yet!
+</div>
+
+<div id="popular">
+  <h2>Experience</h2>
+  No content yet!
+</div>
+
 
 
 </body>
