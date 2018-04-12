@@ -28,4 +28,19 @@ $(document).ready(function() {
         	window.alert("rip");
         }
     });
+
+	var h;
+
+	for (h = 0; h < length; h++) {
+	    var e = "#e" + i.toString();
+	    var c = "#c" + i.toString();
+	    $(e).click(function() {
+  		if ($(c).css("display") == "none") {
+        	$(c).css("display", "block");
+    	}
+    	else {
+        	$(c).css("display", "none");
+    	}
+	   	});
+	}
 });
