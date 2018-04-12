@@ -27,7 +27,6 @@ $(document).ready(function() {
 
 			// Assign click events to posts to show comments on click
 			var h;
-			length = 3
 			for (h = 0; h < length; h++) {
 				console.log(h);
 				let e = "#e" + h;
@@ -42,10 +41,41 @@ $(document).ready(function() {
 				});
 			}
 
+			// this might be problematic
+			$("#mainpost").click(function () {
+				var text = $("#maintext").text();
+				if (text.length != 0) {
+					length = length + 1;
+					$.ajax({
+						type: 'POST',
+						url: 'http://tigertalkapi.herokuapp.com/posts/',
+						dataType: 'json',
+						data: {
+							"content": text
+						},
+						success: function(data) {
+							var toAppend = '<div class="chunk"> <div class="media offset-md-1"> <div class="media-body"> <div class="entry" id="e' + length;
+							toAppend += '">' + data[0].content + '</div> <div class="comments" id="c' + length + '">';
+							toAppend += '<form class="replying"> <div> <textarea name="entry" cols="100" rows="2" placeholder="Reply"></textarea>';
+							toAppend += '</div><div><button>Post</button></div></form></div>';
+							toAppend += ' </div> </div> </div>';
+							$('#chunks').append(toAppend);
+						}
+					});
+				}
+
+				$("#e" + length).click(function () {
+					if ($("#c" + length).css("display") === "none") {
+						$(c).css("display", "block");
+					}
+					else {
+						$("#c" + length).css("display", "none");
+					}
+				});
+			});
         },
         error: function () {
         	window.alert("rip");
         }
     });
-
 });
