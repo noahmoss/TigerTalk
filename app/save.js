@@ -38,6 +38,7 @@ $(document).ready(function() {
 
 	$("#mainpost").click(function(){
 		let text = $("#maintext").val();
+		$("#maintext").val("");
 		if (text.length != 0) {
 			$.ajax({
 				type: 'POST',
