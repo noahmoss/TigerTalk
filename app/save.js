@@ -10,7 +10,7 @@ $(document).ready(function() {
 			length = data.length;
             var out = "";
 			var i;
-			for (i = 0; i < data.length; i++) {
+			for (i = data.length-1; i >= 0; i --) {
 			out += '<div class="chunk"> <div class="media offset-md-1"> <div class="media-body"> <div class="entry" id="e' + i;
 			out += '">' + data[i].content + '</div> <div class="comments" id="c' + i + '">';
 			comments = data[i].comments;
@@ -27,8 +27,8 @@ $(document).ready(function() {
             $('#chunks').append(out);
 
 			// Assign click events to posts to show comments on click
-			var h;
 			for (h = 0; h < length; h++) {
+				console.log(h);
 				let e = "#e" + h;
 				let c = "#c" + h;
 				$(e).click(function() {
@@ -46,6 +46,7 @@ $(document).ready(function() {
         }
     });
 
+	// this might be problematic
 	$("#mainpost").click(function(){
 		var text = $("#maintext").val();
 		if (text.length != 0) {
@@ -68,14 +69,15 @@ $(document).ready(function() {
 					h++;
 					let e = "#e" + h;
 					let c = "#c" + h;
-					$(e).click(function() {
-						if ($(c).css("display") === "none") {
+					$("#e" + length).click(function () {
+						if ($("#c" + length).css("display") === "none") {
 							$(c).css("display", "block");
 						}
 						else {
-							$(c).css("display", "none");
+							$("#c" + length).css("display", "none");
 						}
 					});
+
 				}
 			});
 		}
