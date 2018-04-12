@@ -46,7 +46,6 @@ $(document).ready(function() {
         }
     });
 
-	// this might be problematic
 	$("#mainpost").click(function(){
 		var text = $("#maintext").val();
 		if (text.length != 0) {
