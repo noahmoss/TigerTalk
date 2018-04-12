@@ -27,8 +27,8 @@ $(document).ready(function() {
             $('#chunks').append(out);
 
 			// Assign click events to posts to show comments on click
+			var h;
 			for (h = 0; h < length; h++) {
-				console.log(h);
 				let e = "#e" + h;
 				let c = "#c" + h;
 				$(e).click(function() {
@@ -69,15 +69,14 @@ $(document).ready(function() {
 					h++;
 					let e = "#e" + h;
 					let c = "#c" + h;
-					$("#e" + length).click(function () {
-						if ($("#c" + length).css("display") === "none") {
+					$(e).click(function() {
+						if ($(c).css("display") === "none") {
 							$(c).css("display", "block");
 						}
 						else {
-							$("#c" + length).css("display", "none");
+							$(c).css("display", "none");
 						}
 					});
-
 				}
 			});
 		}
