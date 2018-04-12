@@ -21,7 +21,7 @@ $(document).ready(function() {
 					out += '</div> </div> </div>';
 				}
 				out += '<form class="replying"> <div> <textarea name="entry" cols="100" rows="2" placeholder="Reply"></textarea>';
-				out += '</div><div><button>Post</button></div></form></div>';
+				out += '</div><div><button type="button">Post</button></div></form></div>';
 				out += ' </div> </div> </div>';
 			}
             $('#chunks').append(out);
