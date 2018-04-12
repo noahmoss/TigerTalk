@@ -10,7 +10,7 @@ $(document).ready(function() {
 			length = data.length;
             var out = "";
 			var i;
-			for (i = 0; i < data.length; i ++) {
+			for (i = 0; i < data.length; i++) {
 			out += '<div class="chunk"> <div class="media offset-md-1"> <div class="media-body"> <div class="entry" id="e' + i;
 			out += '">' + data[i].content + '</div> <div class="comments" id="c' + i + '">';
 			comments = data[i].comments;
