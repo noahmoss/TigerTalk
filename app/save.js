@@ -48,6 +48,7 @@ $(document).ready(function() {
 	// this might be problematic
 	$("#mainpost").click(function(){
 		let text = $("#maintext").val();
+		$("#maintext").val("");
 		if (text.length != 0) {
 			length = length + 1;
 			$.ajax({
