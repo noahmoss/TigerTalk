@@ -1,13 +1,10 @@
 $(document).ready(function() {
-	var length;
-	var h;
-    $.ajax({
+	    $.ajax({
         type: 'GET',
         url: 'http://tigertalkapi.herokuapp.com/posts/',
         data: { get_param: 'value' },
         dataType: 'json',
         success: function (data) {
-			length = data.length;
             var out = "";
 			var i;
 			for (i = 0; i < data.length; i ++) {
@@ -24,64 +21,32 @@ $(document).ready(function() {
 			out += '</div><div><button>Post</button></div></form></div>';
 			out += ' </div> </div> </div>';
 			}
-            $('#chunks').append(out);
 
-			// Assign click events to posts to show comments on click
-			for (h = 0; h < length; h++) {
-				console.log(h);
-				let e = "#e" + h;
-				let c = "#c" + h;
-				$(e).click(function() {
-					if ($(c).css("display") === "none") {
-						$(c).css("display", "block");
-					}
-					else {
-						$(c).css("display", "none");
-					}
-				});
-			}
+            $('#chunks').append(out);
         },
         error: function () {
         	window.alert("rip");
         }
     });
 
-	// this might be problematic
-	$("#mainpost").click(function(){
-		var text = $("#maintext").val();
-		if (text.length != 0) {
-			length = length + 1;
-			$.ajax({
-				type: 'POST',
-				url: 'http://tigertalkapi.herokuapp.com/posts/',
-				dataType: 'json',
-				data: {
-					"content": text
-				},
-				success: function(data) {
-					var toAppend = '<div class="chunk"> <div class="media offset-md-1"> <div class="media-body"> <div class="entry" id="e' + length;
-					toAppend += '">' + data['content'] + '</div> <div class="comments" id="c' + length + '">';
-					toAppend += '<form class="replying"> <div> <textarea name="entry" cols="100" rows="2" placeholder="Reply"></textarea>';
-					toAppend += '</div><div><button>Post</button></div></form></div>';
-					toAppend += ' </div> </div> </div>';
-					$('#chunks').prepend(toAppend);
+    var h;
 
-					h++;
-					let e = "#e" + h;
-					let c = "#c" + h;
-					$("#e" + length).click(function () {
-						if ($("#c" + length).css("display") === "none") {
-							$(c).css("display", "block");
-						}
-						else {
-							$("#c" + length).css("display", "none");
-						}
-					});
+	for (h = 0; h < length; h++) {
+	    var e = "#e" + i;
+	    var c = "#c" + i;
+	    $(e).click(function() {
+  		if ($(c).css("display") == "none") {
+        	$(c).css("display", "block");
+    	}
+    	else {
+        	$(c).css("display", "none");
+    	}
+	   	});
+	}
 
-				}
-			});
+	$("#mainpost").click(function() {
+		var post = $("#maintext").val();
+		if (post.length != 0) {
 		}
-
 	});
-
 });
