@@ -11,7 +11,7 @@ $(document).ready(function() {
             var out = "";
 			for (let i = data.length-1; i >= 0; i--) {
 				let id = data[i].id;
-				out += '<div class="chunk"> <div class="media offset-md-1"> <div class="media-body"> <div class="entry" id="e' + id;
+				out += '<div class="chunk"> <div class="media offset-md-0"> <div class="media-body"> <div class="entry" id="e' + id;
 				out += '">' + data[i].content + '</div> <div class="comments" id="c' + id + '">';
 				comments = data[i].comments;
 				var j;
@@ -21,7 +21,7 @@ $(document).ready(function() {
 					out += '</div> </div> </div>';
 				}
 				out += '<form class="replying"> <div> <textarea name="entry" cols="100" rows="2" placeholder="Reply"></textarea>';
-				out += '</div><div><button type="button">Post</button></div></form></div>';
+				out += '</div><div><button>Post</button></div></form></div>';
 				out += ' </div> </div> </div>';
 			}
             $('#chunks').append(out);
@@ -68,7 +68,7 @@ $(document).ready(function() {
 	}
 
 	function displayPost(newPost, id) {
-		var toAppend = '<div class="chunk"> <div class="media offset-md-1"> <div class="media-body"> <div class="entry" id="e' + id;
+		var toAppend = '<div class="chunk"> <div class="media offset-md-0"> <div class="media-body"> <div class="entry" id="e' + id;
 		toAppend += '">' + newPost + '</div> <div class="comments" id="c' + id + '">';
 		toAppend += '<form class="replying"> <div> <textarea name="entry" cols="100" rows="2" placeholder="Reply"></textarea>';
 		toAppend += '</div><div><button>Post</button></div></form></div>';
