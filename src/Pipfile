@@ -8,8 +8,6 @@ name = "pypi"
 [packages]
 
 django = "*"
-"psycopg2" = "*"
-"psycopg2-binary" = "*"
 djangorestframework = "*"
 django-cors-headers = "*"
 gunicorn = "*"
@@ -18,6 +16,9 @@ django-heroku = "*"
 whitenoise = "*"
 django-environ = "*"
 django-extensions = "*"
+honcho = "*"
+"psycopg2" = "==2.7.3.2"
+django-cas-ng = "*"
 
 
 [dev-packages]

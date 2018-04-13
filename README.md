@@ -1,15 +1,18 @@
 # TigerTalk
 
-## Guide to installing, running, and deploying the server
+## Guide to installing and running the server
 
 To install and enter virtual environment:
 
 	pipenv install django
 	pipenv shell
 
-To deploy on Heroku:
+To run the server locally (with the correct environmental variables set):
+
+	honcho start
 
 Api:
+
 	princetontigertalk.herokuapp.com/admin/
 	princetontigertalk.herokuapp.com/api/posts/
     princetontigertalk.herokuapp.com/api/posts/<int:pk>/
