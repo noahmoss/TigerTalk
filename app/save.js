@@ -105,10 +105,28 @@ $(document).ready(function() {
 
 	function displayPost(newPost, id) {
 		let toAppend = '<div class="chunk"> <div class="media offset-md-0"> <div class="media-body"> <div class="entry" id="e' + id;
-		toAppend += '">' + newPost + '</div> <div class="comments" id="c' + id + '">';
-		toAppend += '<form class="replying"> <div> <textarea name="entry" cols="100" rows="2" placeholder="Reply"></textarea>';
-		toAppend += '</div><div><button>Post</button></div></form></div>';
-		toAppend += ' </div> </div> </div>';
+		toAppend += '">' + newPost + '</div>';
+
+		toAppend += '<div class="commentblock" id ='
+		let commentBlockID = 'commentblock'+id;
+		toAppend += commentBlockID + '>';
+
+		toAppend += '<div class="comments" id="c' + id + '"></div>';
+		toAppend += '<form class="replying"> <div> <textarea name="entry" '
+		let commentEntryID = 'commententry' + id;
+		toAppend += 'id=' + commentEntryID;
+		toAppend += ' cols="100" rows="2" placeholder="Reply"></textarea>';
+		toAppend += '</div><div><button type="button" id='
+		let commentButtonID = "commentpost" + id;
+		toAppend += commentButtonID;
+		toAppend += '>Post</button></div></form></div>';
+		toAppend += '</div></div></div>';
+
+		// Assign click events on comment post buttons
+		$(document).on('click','#'+commentButtonID,function() {
+			submitComment(id);
+		});
+
 		$('#chunks').prepend(toAppend);
 
 		addShowCommentsEvent(id);
