@@ -1,8 +1,6 @@
 var React = require('react')
 var ReactDOM = require('react-dom')
 
-
-
 // TODO: Add proper onclick event
 function SortButton(props) {
 	function hello(){console.log('Hello!')};
@@ -23,7 +21,5 @@ class SortBar extends React.Component {
         );
     }
 }
-
-
 
 ReactDOM.render(<SortBar />, document.getElementById('container'))
