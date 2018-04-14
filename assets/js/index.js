@@ -69,7 +69,7 @@ function Comment(props) {
         <div className="media mt-1">
         <div className="media-body">
             <div className="reply">
-				{props.text}
+				{props.content}
 			</div>
         </div>
         </div>
@@ -100,24 +100,30 @@ class CommentEntryForm extends React.Component {
 
 class CommentBlock extends React.Component {
 	render() {
+		console.log(this.props.comments);
 		return (
-				<div className='commentBlock'>
-					<Comment text = "This is a comment" />
-					<CommentEntryForm />
-				</div>
+			<div className='commentBlock'>
+				{this.props.comments.map((comment) =>
+					(
+						<Comment
+							content={comment.content}
+							key={comment.id}
+						/>
+					)
+				)
+			}
+			<CommentEntryForm />
+			</div>
 		);
 	}
 }
-
-
-
 
 class PostCommentBlock extends React.Component {
 	render() {
 		return (
 			<div>
-				<Post text="Hello world!" /> 
-				<CommentBlock />
+				<Post text={this.props.content} />
+				<CommentBlock comments={this.props.comments} />
 			</div>
 		);
 	}
@@ -133,15 +139,15 @@ class PostList extends React.Component {
 		};
 	}
 
-	// load current posts and comments upon page load
+	// fetch current posts and comments upon page load
 	componentDidMount() {
-		fetch("/api/posts/")
+		fetch("https://tigertalkapi.herokuapp.com/posts/")
 		.then(res => res.json())
 		.then(
 			(result) => {
 				this.setState({
 					isLoaded: true,
-					posts: result
+					posts: result.reverse(),
 				});
 			},
 			(error) => {
@@ -152,15 +158,16 @@ class PostList extends React.Component {
 			}
 		)
 	}
-
 	render() {
-		Object.keys(this.state.posts).map(function(key)
-		{
-		    console.log(key + 'test');
-		});
 		return (
 			<div>
-				<PostCommentBlock />
+			{this.state.posts.map((post) =>
+          		<PostCommentBlock
+		   			key={post.id}
+                	content={post.content}
+					comments={post.comments}
+				/>
+	        )}
 			</div>
 		);
 	}
