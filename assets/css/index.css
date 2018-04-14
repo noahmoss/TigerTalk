@@ -125,5 +125,5 @@ body {
   margin-top: 3px;
 }
 .commentblock {
-    display: none;
+    display: block;
 }
