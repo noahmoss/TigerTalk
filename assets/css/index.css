@@ -1,5 +1,44 @@
-body {
-  background-color: #f3f3f3;
+div.entry {
+    padding-left:70px;
+    padding-right:70px;
+    padding-bottom:25px;
+    padding-top:5px;;
+    margin-bottom:0px;
+    /*margin-left:75px; */
+    font-family: Georgia, Times, "Times New Roman", serif;
+    width:890px;
+    background-color: #cfd8dc;
+    border-right: 0.2rem solid #cfd8dc;
+    border-left: 0.2rem solid #cfd8dc;
+    border-top: 0.1rem solid #cfd8dc;
+    border-bottom: 0.1rem solid #cfd8dc;
+    margin: auto;
+    /*text-align: left; */
+}
+div.reply {
+    padding-left:70px;
+    padding-bottom:25px;
+    padding-top: 7px;
+    /*margin-left: 145px; */
+    margin-bottom: 0px;
+    margin-top: 5px;
+    font-family: Georgia, Times, "Times New Roman", serif;
+    width: 820px;
+    background-color: #cfd8dc;
+    border-right: 0.2rem solid ##cfd8dc;
+    border-left: 0.2rem solid  ##cfd8dc;
+    border-top: 0.1rem solid  #cfd8dc;
+    border-bottom: 0.1rem solid  ##cfd8dc;
+    margin: auto;
+    position: relative;
+    left: 35px;
+
+    /*padding: 0 30px 0 10px; */
+
+
+}
+.chunk{
+  margin-bottom: 5px;
 }
 
 h3 {
@@ -11,6 +50,22 @@ h3 {
   text-align: center;
 }
 
+form.posting {
+  /*margin-left: 180px;
+  margin-right: 100px; */
+  margin: auto;
+  width: 900px;
+  font-family: Quicksand;
+}
+
+form.replying {
+  padding-top: 3px;
+  padding-left: 38px;
+  width: 830px;
+  margin: auto;
+
+}
+
 button {
   margin-top: 5px;
   border-radius: 5px;
@@ -20,8 +75,20 @@ button {
 button:focus {
     outline: none;
 }
+textarea {
+  border: 0.1rem solid #676767;
+  border-radius: 5px;
+  background-color: #f3f3f3;
+}
+body {
+  background-color: #f3f3f3;
+}
+.container {
+  margin-top: 10px;
+  margin-bottom: 10px;
 
-#navbar {
+}
+#sortbar {
   text-align: center;
   list-style-type: none;
   margin: auto;
@@ -29,12 +96,12 @@ button:focus {
   overflow: hidden;
 }
 
-#navbar li {
+#sortbar li {
   float: center;
   display: inline-block;
 }
 
-#navbar li button {
+#sortbar li button {
   text-align: center;
   align-content: center;
   border:none;
@@ -43,6 +110,20 @@ button:focus {
   outline: none
 }
 
-#navbar li button:hover {
+#sortbar li button:hover {
   cursor:pointer;
+}
+
+.col-1 {
+  font-family: Quicksand;
+  margin-right: 5px;
+}
+.row {
+  margin-left: 470px;
+}
+.comments {
+  margin-top: 3px;
+}
+.commentblock {
+    display: none;
 }

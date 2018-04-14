@@ -10,6 +10,9 @@ module.exports = {
 	// entry point
 	entry: './assets/js/index',
 
+	// default to dev mode
+	mode: 'development',
+
 	// location and naming convention for compiled bundles
 	output: {
 		path: path.resolve('./assets/bundles/'),

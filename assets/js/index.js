@@ -14,7 +14,7 @@ function SortButton(props) {
 class SortBar extends React.Component {
     render() {
         return (
-			<ul id="navbar">
+			<ul id="sortbar">
 			  <li><SortButton value='Recent' /></li>
 			  <li><SortButton value='Popular' /></li>
 			</ul>
@@ -22,4 +22,51 @@ class SortBar extends React.Component {
     }
 }
 
-ReactDOM.render(<SortBar />, document.getElementById('container'))
+function Post(props) {
+	return (
+		<div className="chunk">
+		<div className="media offset-md-0">
+		<div className="media-body">
+		<div className="entry" >
+			{props.text}
+		</div>
+		</div>
+		</div>
+		</div>
+	);
+}
+
+
+class PostList extends React.Component {
+	// renderPost(text) {
+	// 	return (
+	// 		<Post text={text} />
+	// 	);
+	// }
+	// constructor(props) {
+	// 	super(props);
+	// }
+
+	render() {
+		return (
+			<div>
+				<Post text="post1" />
+				<Post text="post2" />
+				<Post text="post3. Hello world!" />
+			</div>
+		);
+	}
+}
+
+class App extends React.Component {
+	render() {
+		return (
+			<div>
+				<SortBar />
+				<PostList />
+			</div>
+		);
+	}
+}
+
+ReactDOM.render(<App />, document.getElementById('root'))

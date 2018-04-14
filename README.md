@@ -29,7 +29,7 @@ In case of the error 'ModuleNotFoundError: No module named 'webpack_loader', ins
 
 Any changes to the ReactJS components must be bundled before being available to Django. Run the following command:
 
-	/node_modules/.bin/webpack --config webpack.config.js
+	node_modules/.bin/webpack --config webpack.config.js
 
 Any changes to the data models must be migrated before becoming visible. Run the following commands, prefixed by "honcho run" if using honcho:
 
