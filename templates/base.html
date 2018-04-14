@@ -1,0 +1,23 @@
+{% load render_bundle from webpack_loader %}
+{% load static %}
+<html>
+<head>
+    <title>TigerTalk</title>
+    <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script> -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Quicksand" type="text/css" />
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+</head>
+
+<body>
+    </br>
+    <div class="container-fluid">
+        <h3 class="header">TigerTalk</h3>
+    </div>
+
+    <div id="container">
+        {% render_bundle 'main' %}
+    </div>
+
+</body>
+</html>

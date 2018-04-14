@@ -1,0 +1,48 @@
+body {
+  background-color: #f3f3f3;
+}
+
+h3 {
+  margin-top: 100px;
+  /* margin-left: 534px; */
+  font-size: 36px;
+  font-weight: 100px;
+  font-family: Quicksand;
+  text-align: center;
+}
+
+button {
+  margin-top: 5px;
+  border-radius: 5px;
+  background-color: #cfd8dc;
+  font-family: Quicksand;
+}
+button:focus {
+    outline: none;
+}
+
+#navbar {
+  text-align: center;
+  list-style-type: none;
+  margin: auto;
+  padding: 5px;
+  overflow: hidden;
+}
+
+#navbar li {
+  float: center;
+  display: inline-block;
+}
+
+#navbar li button {
+  text-align: center;
+  align-content: center;
+  border:none;
+  margin:8;
+  padding:5;
+  outline: none
+}
+
+#navbar li button:hover {
+  cursor:pointer;
+}

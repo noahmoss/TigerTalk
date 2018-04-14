@@ -11,6 +11,8 @@ To run the server locally (with the correct environmental variables set):
 
 	honcho start
 
+The app should now be available at http://127.0.0.1:5000/.
+
 Api:
 
 	princetontigertalk.herokuapp.com/admin/

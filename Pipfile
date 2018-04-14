@@ -1,0 +1,31 @@
+[[source]]
+
+url = "https://pypi.python.org/simple"
+verify_ssl = true
+name = "pypi"
+
+
+[packages]
+
+django = "*"
+djangorestframework = "*"
+django-cors-headers = "*"
+gunicorn = "*"
+dj-database-url = "*"
+django-heroku = "*"
+whitenoise = "*"
+django-environ = "*"
+django-extensions = "*"
+honcho = "*"
+"psycopg2" = "==2.7.3.2"
+django-cas-ng = "*"
+django-webpack-loader = "*"
+
+
+[dev-packages]
+
+
+
+[requires]
+
+python_version = "3.6"
