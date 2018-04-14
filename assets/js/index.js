@@ -89,7 +89,40 @@ class PostCommentBlock extends React.Component {
 }
 
 class PostList extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			error: null,
+			isLoaded: false,
+			posts: []
+		};
+	}
+
+	// load current posts and comments upon page load
+	componentDidMount() {
+		fetch("/api/posts/")
+		.then(res => res.json())
+		.then(
+			(result) => {
+				this.setState({
+					isLoaded: true,
+					posts: result
+				});
+			},
+			(error) => {
+				this.setState({
+					isLoaded: true,
+					error
+				});
+			}
+		)
+	}
+
 	render() {
+		Object.keys(this.state.posts).map(function(key)
+		{
+		    console.log(key + 'test');
+		});
 		return (
 			<div>
 				<PostCommentBlock />
