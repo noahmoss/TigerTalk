@@ -34,8 +34,6 @@ function CommentButton(props) {
 	)
 }
 
-
-
 class PostEntryForm extends React.Component {
 	render() {
 		return (
@@ -57,29 +55,14 @@ class PostEntryForm extends React.Component {
 	}
 }
 
-function handleclick() {
-	console.log("in handleclick");
-	return (
-		<CommentBlock />
-	);
-}
-
 class Post extends React.Component  {
-
-	constructor(props) {
-    	super(props);
-    	this.state = {
-    	  value: null,
-    	};
-  	}
   	render() {
 		return (
-			<div className="chunk" onClick={() => this.setState({value: 'X'})}>
-				{this.state.value}
+			<div className="chunk" >
 			<div className="media offset-md-0">
 			<div className="media-body">
-				<div className="entry" >
-					{props.text}
+				<div className="entry" onClick={this.props.onClick}>
+					{this.props.content}
 				</div>
 			</div>
 			</div>
@@ -125,18 +108,15 @@ class CommentEntryForm extends React.Component {
 
 class CommentBlock extends React.Component {
 	render() {
-		console.log(this.props.comments);
 		return (
 			<div className='commentBlock'>
-				{this.props.comments.map((comment) =>
-					(
+				{ this.props.comments.map((comment) => (
 						<Comment
 							content={comment.content}
 							key={comment.id}
-						/>
+						/>)
 					)
-				)
-			}
+				}
 			<CommentEntryForm />
 			</div>
 		);
@@ -144,11 +124,22 @@ class CommentBlock extends React.Component {
 }
 
 class PostCommentBlock extends React.Component {
+	constructor(props) {
+		super(props);
+		this.handleClick = this.handleClick.bind(this);
+		this.state = {showing: false};
+	}
+	handleClick() {
+		this.setState({showing : !this.state.showing});
+	}
 	render() {
 		return (
 			<div>
-				<Post text={this.props.content} />
-				<CommentBlock comments={this.props.comments} />
+				<Post content={this.props.content} onClick={this.handleClick}/>
+				{this.state.showing
+					? <CommentBlock comments={this.props.comments} />
+					: null
+				}
 			</div>
 		);
 	}
