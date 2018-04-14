@@ -22,6 +22,12 @@ class SortBar extends React.Component {
     }
 }
 
+function PostButton(props) {
+	return (
+		<button type="button" id="mainpost">Post</button>
+	)
+}
+
 class PostEntryForm extends React.Component {
 	render() {
 		return (
@@ -35,9 +41,7 @@ class PostEntryForm extends React.Component {
 						autoComplete="off"
 						placeholder="What do you want to talk about?"
 					/>
-				</div>
-				<div>
-					<button type="button" id="mainpost">Post</button>
+					<PostButton />
 				</div>
 				<br />
 			</form>
