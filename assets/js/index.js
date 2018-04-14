@@ -74,15 +74,50 @@ function Comment(props) {
         </div>
         </div>
         </div>
-	)
+	);
 }
+
+class CommentEntryForm extends React.Component {
+	render() {
+		return (
+			<form className="replying">
+				<div>
+					<textarea
+						name="entry"
+						id="maintext"
+						cols="100"
+						rows="2"
+						autoComplete="off"
+						placeholder="Reply"
+					/>
+					<PostButton />
+				</div>
+				<br />
+			</form>
+		);
+	}
+}
+
+class CommentBlock extends React.Component {
+	render() {
+		return (
+				<div className='commentBlock'>
+					<Comment text = "This is a comment" />
+					<CommentEntryForm />
+				</div>
+		);
+	}
+}
+
+
+
 
 class PostCommentBlock extends React.Component {
 	render() {
 		return (
 			<div>
-				<Post text="Hello world!" />
-				<Comment text="Hello!" />
+				<Post text="Hello world!" /> 
+				<CommentBlock />
 			</div>
 		);
 	}
