@@ -2,22 +2,41 @@
 
 ## Guide to installing and running the server
 
+TigerTalk uses [pipenv](https://docs.pipenv.org/) to manage Python dependencies, so this must be first installed as detailed on the pipenv site.
+
 To install and enter virtual environment:
 
 	pipenv install django
 	pipenv shell
 
-To run the server locally (with the correct environmental variables set):
+To run the server locally:
+
+	python manage.py runserver
+
+To run the server locally, using environmental variables in a .env file:
 
 	honcho start
 
-The app should now be available at http://127.0.0.1:5000/.
+In case of the error 'ModuleNotFoundError: No module named 'webpack_loader', install django-webpack-loader via pip, and restart the server:
 
-Api:
+	pip install django-webpack-loader
+	honcho start
 
-	princetontigertalk.herokuapp.com/admin/
-	princetontigertalk.herokuapp.com/api/posts/
-    princetontigertalk.herokuapp.com/api/posts/<int:pk>/
-    princetontigertalk.herokuapp.com/api/posts/<int:pk>/comments/
-    princetontigertalk.herokuapp.com/api/comments/
-    princetontigertalk.herokuapp.com/api/comments/<int:pk>/
+The server should now be available at http://127.0.0.1/5000, displaying the most recent
+webpack bundle.
+
+Any changes to the ReactJS components must be bundled before being available to Django. Run the following command:
+
+	/node_modules/.bin/webpack --config webpack.config.js
+
+Any changes to the data models must be migrated before becoming visible. Run the following commands, prefixed by "honcho run" if using honcho:
+
+	python manage.py makemigrations
+	python manage.py migrate
+
+
+If database migration issues occur, the database can be reset using:
+
+	python manage.py reset_db
+
+**DO NOT use this commend on the production database. This drops all tables to recreate the models.**
