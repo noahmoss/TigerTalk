@@ -22,37 +22,73 @@ class SortBar extends React.Component {
     }
 }
 
+class PostEntryForm extends React.Component {
+	render() {
+		return (
+			<form className="posting">
+				<div>
+					<textarea
+						name="entry"
+						id="maintext"
+						cols="109"
+						rows="2"
+						autoComplete="off"
+						placeholder="What do you want to talk about?"
+					/>
+				</div>
+				<div>
+					<button type="button" id="mainpost">Post</button>
+				</div>
+				<br />
+			</form>
+		);
+	}
+}
+
 function Post(props) {
 	return (
 		<div className="chunk">
 		<div className="media offset-md-0">
 		<div className="media-body">
-		<div className="entry" >
-			{props.text}
-		</div>
+			<div className="entry" >
+				{props.text}
+			</div>
 		</div>
 		</div>
 		</div>
 	);
 }
 
+function Comment(props) {
+	return (
+		<div className="comments">
+        <div className="media mt-1">
+        <div className="media-body">
+            <div className="reply">
+				{props.text}
+			</div>
+        </div>
+        </div>
+        </div>
+	)
+}
 
-class PostList extends React.Component {
-	// renderPost(text) {
-	// 	return (
-	// 		<Post text={text} />
-	// 	);
-	// }
-	// constructor(props) {
-	// 	super(props);
-	// }
-
+class PostCommentBlock extends React.Component {
 	render() {
 		return (
 			<div>
-				<Post text="post1" />
-				<Post text="post2" />
-				<Post text="post3. Hello world!" />
+				<Post text="Hello world!" />
+				<Comment text="Hello!" />
+			</div>
+		);
+	}
+}
+
+class PostList extends React.Component {
+	render() {
+		return (
+			<div>
+				<PostCommentBlock />
 			</div>
 		);
 	}
@@ -63,6 +99,7 @@ class App extends React.Component {
 		return (
 			<div>
 				<SortBar />
+				<PostEntryForm />
 				<PostList />
 			</div>
 		);
