@@ -28,6 +28,14 @@ function PostButton(props) {
 	)
 }
 
+function CommentButton(props) {
+	return (
+		<button type="button" id="mainpost">Post</button>
+	)
+}
+
+
+
 class PostEntryForm extends React.Component {
 	render() {
 		return (
@@ -49,18 +57,35 @@ class PostEntryForm extends React.Component {
 	}
 }
 
-function Post(props) {
+function handleclick() {
+	console.log("in handleclick");
 	return (
-		<div className="chunk">
-		<div className="media offset-md-0">
-		<div className="media-body">
-			<div className="entry" >
-				{props.text}
-			</div>
-		</div>
-		</div>
-		</div>
+		<CommentBlock />
 	);
+}
+
+class Post extends React.Component  {
+
+	constructor(props) {
+    	super(props);
+    	this.state = {
+    	  value: null,
+    	};
+  	}
+  	render() {
+		return (
+			<div className="chunk" onClick={() => this.setState({value: 'X'})}>
+				{this.state.value}
+			<div className="media offset-md-0">
+			<div className="media-body">
+				<div className="entry" >
+					{props.text}
+				</div>
+			</div>
+			</div>
+			</div>
+		);
+	}
 }
 
 function Comment(props) {
@@ -90,7 +115,7 @@ class CommentEntryForm extends React.Component {
 						autoComplete="off"
 						placeholder="Reply"
 					/>
-					<PostButton />
+					<CommentButton />
 				</div>
 				<br />
 			</form>
@@ -117,7 +142,6 @@ class PostCommentBlock extends React.Component {
 		return (
 			<div>
 				<Post text="Hello world!" /> 
-				<CommentBlock />
 			</div>
 		);
 	}
