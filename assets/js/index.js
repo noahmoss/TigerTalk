@@ -145,6 +145,19 @@ class PostCommentBlock extends React.Component {
 	}
 }
 
+function Spinner() {
+	return (
+		<div style={{}}>
+		<div className="lds-css ng-scope">
+		<div style={{width:"100%",height:"100%"}} className="lds-dual-ring">
+		<div>
+		</div>
+		</div>
+		</div>
+		</div>
+	)
+}
+
 class PostList extends React.Component {
 	constructor(props) {
 		super(props);
@@ -177,13 +190,15 @@ class PostList extends React.Component {
 	render() {
 		return (
 			<div>
-			{this.state.posts.map((post) =>
-          		<PostCommentBlock
-		   			key={post.id}
-                	content={post.content}
-					comments={post.comments}
-				/>
-	        )}
+			{this.state.isLoaded
+				? this.state.posts.map((post) =>
+	          		<PostCommentBlock
+			   			key={post.id}
+	                	content={post.content}
+						comments={post.comments}
+					/>)
+				: <Spinner />
+	        }
 			</div>
 		);
 	}
