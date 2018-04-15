@@ -1,6 +1,4 @@
 .DS_Store
 .env*
 *.pyc
-node_modules/
-assets/bundles/
 webpack-stats.json
