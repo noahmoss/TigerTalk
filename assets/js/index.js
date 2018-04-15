@@ -53,6 +53,7 @@ class PostEntryForm extends React.Component {
 						cols="109"
 						rows="2"
 						autoComplete="off"
+						maxLength="1000"
 						placeholder="What do you want to talk about?"
 					/>
 					<button
@@ -207,19 +208,30 @@ class PostList extends React.Component {
 
 	// add a new post
 	handlePost(text) {
-		fetch("https://tigertalkapi.herokuapp.com/posts/", {
-				method: 'POST',
-				headers : new Headers(),
-				headers: {
-					 'Accept': 'application/json',
-					 'Content-Type': 'application/json',
-				},
-				body:JSON.stringify({
-					"content":text,
+		if (text != ''){
+			fetch("https://tigertalkapi.herokuapp.com/posts/", {
+					method: 'POST',
+					headers : new Headers(),
+					headers: {
+						 'Accept': 'application/json',
+						 'Content-Type': 'application/json',
+					},
+					body:JSON.stringify({
+						"content":text,
+					})
 				})
-			})
-		.then(res => res.json())
-		.then((result) => this.setState({posts : [result].concat(this.state.posts)}))
+			.then(res => res.json())
+			.then(
+				(result) => {
+					this.setState({
+						posts : [result].concat(this.state.posts),
+					});
+				},
+				(error) => {
+					alert(error);
+				}
+			)
+		}
 	}
 
 	render() {
