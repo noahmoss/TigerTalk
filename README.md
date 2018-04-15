@@ -2,16 +2,22 @@
 
 ## Guide to installing and running the server
 
-TigerTalk uses [pipenv](https://docs.pipenv.org/) to manage Python dependencies, so this must be first installed as detailed on the pipenv site.
 
 To install Javascript dependencies:
 
 	npm install
 
+
+TigerTalk uses [pipenv](https://docs.pipenv.org/) to manage Python dependencies, so this must be installed as detailed on the pipenv site.
+
 To install and enter the virtual environment:
 
 	pipenv install django
 	pipenv shell
+
+Any changes to the ReactJS components must be bundled before being available to Django. Run the following command from the root directory:
+
+	node_modules/.bin/webpack --config webpack.config.js
 
 To run the server locally:
 
@@ -26,10 +32,6 @@ To run the server locally, using environmental variables in a .env file:
 The server should now be available at http://127.0.0.1/5000.
 
 In case of the error 'ModuleNotFoundError: No module named 'webpack_loader', install django-webpack-loader via pip, and restart the server.
-
-Any changes to the ReactJS components must be bundled before being available to Django. Run the following command:
-
-	node_modules/.bin/webpack --config webpack.config.js
 
 Any changes to the data models must be migrated before becoming visible. Run the following commands, prefixed by "honcho run" if using honcho:
 
