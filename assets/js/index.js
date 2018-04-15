@@ -11,6 +11,7 @@ function SortButton(props) {
 	);
 }
 
+// Buttons for sorting posts by recent or popular
 class SortBar extends React.Component {
     render() {
         return (
@@ -22,6 +23,7 @@ class SortBar extends React.Component {
     }
 }
 
+// A single comment
 function Comment(props) {
 	return (
 		<div className="comments">
@@ -36,6 +38,7 @@ function Comment(props) {
 	);
 }
 
+// The textarea and reply button underneath every group of comments
 class CommentEntryForm extends React.Component {
 	constructor(props) {
 		super(props);
@@ -83,6 +86,7 @@ class CommentEntryForm extends React.Component {
 	}
 }
 
+// A block of comments and associated entry form
 class CommentBlock extends React.Component {
 	constructor(props) {
 		super(props);
@@ -137,6 +141,7 @@ class CommentBlock extends React.Component {
 	}
 }
 
+// The textarea and reply button for creating new posts
 class PostEntryForm extends React.Component {
 	constructor(props) {
 		super(props);
@@ -185,12 +190,13 @@ class PostEntryForm extends React.Component {
 	}
 }
 
+// A single post
 function Post(props)  {
 	return (
 		<div className="chunk" >
 		<div className="media offset-md-0">
 		<div className="media-body">
-			<div className="entry" onClick={props.onClick}>
+			<div className="post" onClick={props.onClick}>
 				{props.content}
 			</div>
 		</div>
@@ -199,6 +205,7 @@ function Post(props)  {
 	);
 }
 
+// A post and its associated comments
 class PostCommentBlock extends React.Component {
 	constructor(props) {
 		super(props);
@@ -222,6 +229,7 @@ class PostCommentBlock extends React.Component {
 	}
 }
 
+// Spinner for loading posts
 function Spinner() {
 	return (
 		<div style={{}}>
@@ -235,6 +243,7 @@ function Spinner() {
 	)
 }
 
+// The main list of posts and associated post entry form (above it)
 // TODO: add error handling ('ie could not reach server notification')
 class PostList extends React.Component {
 	constructor(props) {
@@ -313,6 +322,7 @@ class PostList extends React.Component {
 	}
 }
 
+// Parent class which is rendered in the Django template
 class App extends React.Component {
 	render() {
 		return (

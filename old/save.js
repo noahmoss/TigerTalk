@@ -34,7 +34,6 @@ $(document).ready(function() {
 				out += commentButtonID;
 				out += '>Post</button></div></form></div>';
 				out += '</div></div></div>';
-				console.log(out);
 				// Assign click events on comment post buttons
 				$(document).on('click','#'+commentButtonID,function() {
 					submitComment(id);
