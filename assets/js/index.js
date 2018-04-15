@@ -22,32 +22,45 @@ class SortBar extends React.Component {
     }
 }
 
-function PostButton(props) {
-	return (
-		<button type="button" id="mainpost">Post</button>
-	)
-}
-
-function CommentButton(props) {
-	return (
-		<button type="button" id="mainpost">Post</button>
-	)
-}
-
 class PostEntryForm extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			value: '',
+		};
+		this.handleChange = this.handleChange.bind(this);
+		this.handleSubmit = this.handleSubmit.bind(this);
+	}
+
+	handleChange(event) {
+		this.setState({value: event.target.value});
+	}
+
+	handleSubmit(event) {
+		this.setState({value:''});
+    	event.preventDefault();
+	}
+
 	render() {
 		return (
-			<form className="posting">
+			<form className="posting" onSubmit={this.handleSubmit}>
 				<div>
 					<textarea
 						name="entry"
 						id="maintext"
+						value={this.state.value}
+						onChange={this.handleChange}
 						cols="109"
 						rows="2"
 						autoComplete="off"
 						placeholder="What do you want to talk about?"
 					/>
-					<PostButton />
+					<button
+						type="submit"
+						id="mainpost"
+						onClick={() => this.props.onClick(this.state.value)} >
+							Post
+					</button>
 				</div>
 				<br />
 			</form>
@@ -98,7 +111,9 @@ class CommentEntryForm extends React.Component {
 						autoComplete="off"
 						placeholder="Reply"
 					/>
-					<CommentButton />
+					<button type="button" id="mainpost" >
+						Post
+					</button>
 				</div>
 				<br />
 			</form>
@@ -158,14 +173,16 @@ function Spinner() {
 	)
 }
 
+// TODO: add error handling ('ie could not reach server notification')
 class PostList extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			error: null,
 			isLoaded: false,
-			posts: []
+			posts: [],
 		};
+		this.handlePost = this.handlePost.bind(this);
 	}
 
 	// fetch current posts and comments upon page load
@@ -187,9 +204,28 @@ class PostList extends React.Component {
 			}
 		)
 	}
+
+	// add a new post
+	handlePost(text) {
+		fetch("https://tigertalkapi.herokuapp.com/posts/", {
+				method: 'POST',
+				headers : new Headers(),
+				headers: {
+					 'Accept': 'application/json',
+					 'Content-Type': 'application/json',
+				},
+				body:JSON.stringify({
+					"content":text,
+				})
+			})
+		.then(res => res.json())
+		.then((result) => this.setState({posts : [result].concat(this.state.posts)}))
+	}
+
 	render() {
 		return (
 			<div>
+			<PostEntryForm onClick={this.handlePost}/>
 			{this.state.isLoaded
 				? this.state.posts.map((post) =>
 	          		<PostCommentBlock
@@ -209,7 +245,6 @@ class App extends React.Component {
 		return (
 			<div>
 				<SortBar />
-				<PostEntryForm />
 				<PostList />
 			</div>
 		);
