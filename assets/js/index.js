@@ -22,6 +22,121 @@ class SortBar extends React.Component {
     }
 }
 
+function Comment(props) {
+	return (
+		<div className="comments">
+        <div className="media mt-1">
+        <div className="media-body">
+            <div className="reply">
+				{props.content}
+			</div>
+        </div>
+        </div>
+        </div>
+	);
+}
+
+class CommentEntryForm extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			value: '',
+		};
+		this.handleChange = this.handleChange.bind(this);
+		this.handleSubmit = this.handleSubmit.bind(this);
+	}
+
+	handleChange(event) {
+		this.setState({value: event.target.value});
+	}
+
+	handleSubmit(event) {
+		this.setState({value:''});
+		event.preventDefault();
+	}
+
+	render() {
+		return (
+			<form className="replying" onSubmit={this.handleSubmit}>
+				<div>
+					<textarea
+						name="entry"
+						id="maintext"
+						value={this.state.value}
+						onChange={this.handleChange}
+						cols="100"
+						rows="2"
+						autoComplete="off"
+						placeholder="Reply"
+					/>
+					<button
+						type="submit"
+						id="mainpost"
+						onClick={() => this.props.onClick(this.state.value)}
+					>
+						Post
+					</button>
+				</div>
+				<br />
+			</form>
+		);
+	}
+}
+
+class CommentBlock extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			comments: this.props.comments,
+		}
+		this.handleComment = this.handleComment.bind(this);
+	}
+
+	// add a new comment
+	handleComment(text) {
+		if (text.trim() != ''){
+			fetch("https://tigertalkapi.herokuapp.com/comments/", {
+					method: 'POST',
+					headers : new Headers(),
+					headers: {
+						 'Accept': 'application/json',
+						 'Content-Type': 'application/json',
+					},
+					body:JSON.stringify({
+						"post":this.props.id,
+						"content":text,
+					})
+				})
+			.then(res => res.json())
+			.then(
+				(result) => {
+					this.setState({
+						comments: this.state.comments.concat([result]),
+					});
+				},
+				(error) => {
+					alert(error);
+				}
+			)
+		}
+	}
+
+	render() {
+		return (
+			<div className='commentBlock'>
+				{ this.state.comments.map((comment) => (
+						<Comment
+							content={comment.content}
+							key={comment.id}
+						/>)
+					)
+				}
+			<CommentEntryForm onClick={this.handleComment}/>
+			</div>
+		);
+	}
+}
+
 class PostEntryForm extends React.Component {
 	constructor(props) {
 		super(props);
@@ -59,60 +174,8 @@ class PostEntryForm extends React.Component {
 					<button
 						type="submit"
 						id="mainpost"
-						onClick={() => this.props.onClick(this.state.value)} >
-							Post
-					</button>
-				</div>
-				<br />
-			</form>
-		);
-	}
-}
-
-class Post extends React.Component  {
-  	render() {
-		return (
-			<div className="chunk" >
-			<div className="media offset-md-0">
-			<div className="media-body">
-				<div className="entry" onClick={this.props.onClick}>
-					{this.props.content}
-				</div>
-			</div>
-			</div>
-			</div>
-		);
-	}
-}
-
-function Comment(props) {
-	return (
-		<div className="comments">
-        <div className="media mt-1">
-        <div className="media-body">
-            <div className="reply">
-				{props.content}
-			</div>
-        </div>
-        </div>
-        </div>
-	);
-}
-
-class CommentEntryForm extends React.Component {
-	render() {
-		return (
-			<form className="replying">
-				<div>
-					<textarea
-						name="entry"
-						id="maintext"
-						cols="100"
-						rows="2"
-						autoComplete="off"
-						placeholder="Reply"
-					/>
-					<button type="button" id="mainpost" >
+						onClick={() => this.props.onClick(this.state.value)}
+					>
 						Post
 					</button>
 				</div>
@@ -122,21 +185,18 @@ class CommentEntryForm extends React.Component {
 	}
 }
 
-class CommentBlock extends React.Component {
-	render() {
-		return (
-			<div className='commentBlock'>
-				{ this.props.comments.map((comment) => (
-						<Comment
-							content={comment.content}
-							key={comment.id}
-						/>)
-					)
-				}
-			<CommentEntryForm />
+function Post(props)  {
+	return (
+		<div className="chunk" >
+		<div className="media offset-md-0">
+		<div className="media-body">
+			<div className="entry" onClick={props.onClick}>
+				{props.content}
 			</div>
-		);
-	}
+		</div>
+		</div>
+		</div>
+	);
 }
 
 class PostCommentBlock extends React.Component {
@@ -152,8 +212,9 @@ class PostCommentBlock extends React.Component {
 		return (
 			<div>
 				<Post content={this.props.content} onClick={this.handleClick}/>
-				{this.state.showing
-					? <CommentBlock comments={this.props.comments} />
+				{
+					this.state.showing
+					? <CommentBlock id={this.props.id} comments={this.props.comments} />
 					: null
 				}
 			</div>
@@ -208,7 +269,7 @@ class PostList extends React.Component {
 
 	// add a new post
 	handlePost(text) {
-		if (text != ''){
+		if (text.trim() != ''){
 			fetch("https://tigertalkapi.herokuapp.com/posts/", {
 					method: 'POST',
 					headers : new Headers(),
@@ -242,9 +303,9 @@ class PostList extends React.Component {
 				? this.state.posts.map((post) =>
 	          		<PostCommentBlock
 			   			key={post.id}
+						id={post.id}
 	                	content={post.content}
-						comments={post.comments}
-					/>)
+						comments={post.comments} />)
 				: <Spinner />
 	        }
 			</div>
