@@ -14,7 +14,7 @@ div.post {
     border-bottom: 0.1rem solid #cfd8dc;
     margin: auto;
     white-space: pre-wrap;
-    text-align: left;
+    /*text-align: left; */
 }
 div.reply {
     padding-left:70px;
@@ -78,7 +78,6 @@ button:focus {
 textarea {
   border: 0.1rem solid #676767;
   border-radius: 5px;
-  margin-left : 10px;
   background-color: #f3f3f3;
 }
 body {
@@ -129,7 +128,6 @@ body {
     display: block;
 }
 
-/*----------------------------------------------------------------------------*/
 /*  loading icon -- from https://loading.io/ */
 @keyframes lds-dual-ring {
   0% {
@@ -173,9 +171,8 @@ body {
   -webkit-transform: translate(-100px, -100px) scale(1) translate(100px, 100px);
   transform: translate(-100px, -100px) scale(1) translate(100px, 100px);
 }
-/*----------------------------------------------------------------------------*/
 
-/* .arrow-up {
+.arrow-up {
   width: 0;
   height: 0;
   border-left: 12px solid transparent;
@@ -189,4 +186,4 @@ body {
   border-left: 12px solid transparent;
   border-right: 12px solid transparent;
   border-top: 12px solid black;
-} */
+}
