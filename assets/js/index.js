@@ -47,8 +47,8 @@ function Comment(props) {
         <div className="media mt-1">
         <div className="media-body">
             <div className="reply">
-				{props.content}
-			</div>
+				{props.content} <ArrowUp /> <br /> <ArrowDown />
+			</div> 
         </div>
         </div>
         </div>
