@@ -14,7 +14,7 @@ div.post {
     border-bottom: 0.1rem solid #cfd8dc;
     margin: auto;
     white-space: pre-wrap;
-    /*text-align: left; */
+    text-align: left; 
 }
 div.reply {
     padding-left:70px;
@@ -78,6 +78,7 @@ button:focus {
 textarea {
   border: 0.1rem solid #676767;
   border-radius: 5px;
+  margin-left : 10px;
   background-color: #f3f3f3;
 }
 body {
@@ -171,4 +172,23 @@ body {
   height: 200px !important;
   -webkit-transform: translate(-100px, -100px) scale(1) translate(100px, 100px);
   transform: translate(-100px, -100px) scale(1) translate(100px, 100px);
+}
+
+.arrow-up {
+  width: 0; 
+  height: 0; 
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-bottom: 5px solid black;
+  margin-right: 800px;
+
+}
+
+.arrow-down {
+  width: 0; 
+  height: 0; 
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  
+  border-top: 5px solid black;
 }
