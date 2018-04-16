@@ -39,11 +39,16 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'whitenoise.runserver_nostatic',
     'django.contrib.staticfiles',
-    'posts.apps.PostsConfig',
     'rest_framework',
     'corsheaders',
     'django_extensions',
     'webpack_loader',
+    'django_cas_ng',
+    'posts.apps.PostsConfig',
+]
+
+MIDDLEWARE_CLASSES = [
+    'django_cas_ng.middleware.CASMiddleware',
 ]
 
 MIDDLEWARE = [
@@ -58,6 +63,13 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'django_cas_ng.backends.CASBackend',
+)
+
+CAS_SERVER_URL= 'https://fed.princeton.edu/cas/'
 
 CORS_ORIGIN_ALLOW_ALL = True
 
