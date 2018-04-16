@@ -23,22 +23,17 @@ class SortBar extends React.Component {
     }
 }
 
-
-function ArrowUp()  {
-	return (
-
-		<div class="arrow-up">
-		</div>
-	);
-}
-
-function ArrowDown()  {
-	return (
-
-		<div class="arrow-down">
-		</div>
-	);
-}
+// class VotingBlock extends React.Component {
+// 	render() {
+// 		return (
+// 			<div className="voting-block">
+// 				<div className="arrow-up" />
+// 				<br />
+// 				<div className="arrow-down" />
+// 			</div>
+// 		)
+// 	}
+// }
 
 // A single comment
 function Comment(props) {
@@ -47,8 +42,8 @@ function Comment(props) {
         <div className="media mt-1">
         <div className="media-body">
             <div className="reply">
-				{props.content} <ArrowUp /> <br /> <ArrowDown />
-			</div> 
+				{props.content}
+			</div>
         </div>
         </div>
         </div>
@@ -214,7 +209,7 @@ function Post(props)  {
 		<div className="media offset-md-0">
 		<div className="media-body">
 			<div className="post" onClick={props.onClick}>
-				{props.content} <ArrowUp /> <ArrowDown />
+				{props.content}
 			</div>
 
 		</div>
@@ -333,7 +328,7 @@ class PostList extends React.Component {
 						id={post.id}
 	                	content={post.content}
 						comments={post.comments} />)
-					
+
 				: <Spinner />
 	        }
 			</div>

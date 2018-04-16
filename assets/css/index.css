@@ -175,21 +175,18 @@ body {
 }
 /*----------------------------------------------------------------------------*/
 
-.arrow-up {
+/* .arrow-up {
   width: 0;
   height: 0;
-  border-left: 8px solid transparent;
-  border-right: 8px solid transparent;
-  border-bottom: 8px solid black;
-
-
+  border-left: 12px solid transparent;
+  border-right: 12px solid transparent;
+  border-bottom: 12px solid black;
 }
 
 .arrow-down {
   width: 0;
   height: 0;
-  border-left: 8px solid transparent;
-  border-right: 8px solid transparent;
-
-  border-top: 8px solid black;
-}
+  border-left: 12px solid transparent;
+  border-right: 12px solid transparent;
+  border-top: 12px solid black;
+} */
