@@ -353,15 +353,26 @@ class MainTitle extends React.Component {
 
 class NavBar extends React.Component {
 	render() {
-		return (
-			<Navbar fixedTop>
-			  <Nav pullRight>
-				  <NavItem eventKey={1} href="/accounts/logout">
-					Logout
-				  </NavItem>
-			  </Nav>
-			</Navbar>
 
+		return (
+			<Navbar fixedTop collapseOnSelect>
+			  <Navbar.Header>
+			    <Navbar.Toggle />
+			  </Navbar.Header>
+			  <Navbar.Collapse>
+			    <Nav pullRight>
+					<NavItem eventKey={1} href="#">
+					  About
+					</NavItem>
+					<NavItem eventKey={2} href="#">
+					  Feedback
+					</NavItem>
+					<NavItem eventKey={3} href="/accounts/logout">
+					  Logout
+					</NavItem>
+			    </Nav>
+			  </Navbar.Collapse>
+			</Navbar>
 		);
 	}
 }

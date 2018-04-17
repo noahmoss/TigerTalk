@@ -1,9 +1,20 @@
 .navbar-default {
-    background-image: none !important;
     background-color: #323d49;
 }
 .navbar .nav > li > a {
-    color: white;
+    color: silver;
+}
+.navbar .nav > li > a:hover {
+    color: silver;
+}
+.navbar .nav > li > a:visited {
+    color: silver;
+}
+.navbar .nav > li > a:active {
+    color: silver;
+}
+.navbar .nav > li > a:focus {
+    color: silver;
 }
 
 
