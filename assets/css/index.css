@@ -83,10 +83,10 @@ textarea {
 body {
   background-color: #f3f3f3;
 }
+
 .container {
   margin-top: 10px;
   margin-bottom: 10px;
-
 }
 #sortbar {
   text-align: center;
@@ -171,6 +171,8 @@ body {
   -webkit-transform: translate(-100px, -100px) scale(1) translate(100px, 100px);
   transform: translate(-100px, -100px) scale(1) translate(100px, 100px);
 }
+
+/* end loading icon */
 
 .arrow-up {
   width: 0;

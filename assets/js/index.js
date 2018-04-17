@@ -211,7 +211,6 @@ function Post(props)  {
 			<div className="post" onClick={props.onClick}>
 				{props.content}
 			</div>
-
 		</div>
 		</div>
 		</div>
