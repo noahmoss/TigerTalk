@@ -1,5 +1,7 @@
 var React = require('react')
 var ReactDOM = require('react-dom')
+import { Navbar, Nav, NavItem } from 'react-bootstrap';
+
 
 // TODO: Add proper onclick event
 function SortButton(props) {
@@ -84,6 +86,8 @@ class CommentEntryForm extends React.Component {
 						autoComplete="off"
 						placeholder="Reply"
 					/>
+				</div>
+				<div>
 					<button
 						type="submit"
 						id="mainpost"
@@ -335,11 +339,40 @@ class PostList extends React.Component {
 	}
 }
 
+class MainTitle extends React.Component {
+	render() {
+		return (
+			<div className="container-fluid">
+				<br />
+				<br />
+				<h3 className="header">TigerTalk</h3>
+			</div>
+		)
+	}
+}
+
+class NavBar extends React.Component {
+	render() {
+		return (
+			<Navbar fixedTop>
+			  <Nav pullRight>
+				  <NavItem eventKey={1} href="/accounts/logout">
+					Logout
+				  </NavItem>
+			  </Nav>
+			</Navbar>
+
+		);
+	}
+}
+
 // Parent class which is rendered in the Django template
 class App extends React.Component {
 	render() {
 		return (
 			<div>
+				<NavBar />
+				<MainTitle />
 				<SortBar />
 				<PostList />
 			</div>
