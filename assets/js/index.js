@@ -1,6 +1,6 @@
 var React = require('react')
 var ReactDOM = require('react-dom')
-import { Row, Col } from 'react-bootstrap'
+import { Grid, Row, Col } from 'react-bootstrap'
 import { Navbar, Nav, NavItem } from 'react-bootstrap';
 import { FormGroup, ControlLabel, FormControl, Button } from 'react-bootstrap';
 
@@ -178,36 +178,45 @@ class PostEntryForm extends React.Component {
 
 	handleSubmit(event) {
 		this.setState({value:''});
+		console.log('test');
     	event.preventDefault();
 	}
 
 	render() {
 		return (
-			<div>
-			<FormGroup className="posting">
-			  <FormControl componentClass="textarea"
-			  				className="posting"
-						  name="entry"
-						  id="maintext"
-						  value={this.state.value}
-						  onChange={this.handleChange}
-						  cols="109"
-						  rows="2"
-						  autoComplete="off"
-						  maxLength="1000"
-						  placeholder="What do you want to talk about?"
-							/>
-				<Button className="pull-right"
-					className="post-button"
-					type="submit"
-					id="mainpost"
-					onClick={() => this.props.onClick(this.state.value)}
-				>
-					Post
-				</Button>
-			</FormGroup>
+			<div class="container-fluid">
+			<div class="row">
+			<div class="col-md-20">
+			<form onSubmit={this.handleSubmit}>
+				  <FormControl componentClass="textarea"
+				  				className="posting"
+							  name="entry"
+							  id="maintext"
+							  value={this.state.value}
+							  onChange={this.handleChange}
+							  cols="109"
+							  rows="2"
+							  autoComplete="off"
+							  maxLength="1000"
+							  placeholder="What do you want to talk about?"
+								/>
+					<div/>
+					<Col>
+					<Button
+						className="pull-right"
+						type="submit"
+						id="mainpost"
+						onClick={() => this.props.onClick(this.state.value)}
+					>
+						Post
+						</Button>
+					</Col>
+			</form>
 			<br />
 			<br />
+
+			</div>
+			</div>
 			</div>
 		);
 	}

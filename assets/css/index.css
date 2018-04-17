@@ -71,11 +71,19 @@ h3 {
 }
 
 textarea.form-control {
+    resize: vertical;
+    border: 0.1rem solid #676767;
+    /* border-radius: 5px; */
+    background-color: #f3f3f3;
+    margin: auto;
+    min-height: 50px;
+    max-width: 768px;; !important
+}
+
+.textarea {
     border: 0.1rem solid #676767;
     border-radius: 5px;
     background-color: #f3f3f3;
-    max-width: 800px;
-    margin: auto;
 }
 
 form.posting {
@@ -90,15 +98,16 @@ form.replying {
   padding-top: 3px;
   padding-left: 38px;
   margin-bottom: 3px;
-  width: 730px;
+  width: 80%;
   margin: auto;
 }
 
 .btn {
+    position: absolute;
     border-radius: 5px;
     background-color: #cfd8dc;
     font-family: Quicksand;
-    left-margin: auto;
+    margin-right: 5%;
 }
 
 button {
@@ -141,12 +150,8 @@ body {
   cursor:pointer;
 }
 
-.col-1 {
-  font-family: Quicksand;
-  margin-right: 5px;
-}
 .row {
-  margin-left: 470px;
+  margin-left: 0px;
 }
 .comments {
   margin-top: 0px;
