@@ -103,18 +103,15 @@ form.replying {
 }
 
 .btn {
-    position: absolute;
     border-radius: 5px;
     background-color: #cfd8dc;
     font-family: Quicksand;
-    margin-right: 5%;
 }
 
 button {
   border-radius: 5px;
   background-color: #cfd8dc;
   font-family: Quicksand;
-  left-margin: auto;
 }
 button:focus {
     outline: none;
