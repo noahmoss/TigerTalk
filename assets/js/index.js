@@ -1,6 +1,8 @@
 var React = require('react')
 var ReactDOM = require('react-dom')
+import { Row, Col } from 'react-bootstrap'
 import { Navbar, Nav, NavItem } from 'react-bootstrap';
+import { FormGroup, ControlLabel, FormControl, Button } from 'react-bootstrap';
 
 
 // TODO: Add proper onclick event
@@ -74,6 +76,7 @@ class CommentEntryForm extends React.Component {
 
 	render() {
 		return (
+			<div>
 			<form className="replying" onSubmit={this.handleSubmit}>
 				<div>
 					<textarea
@@ -98,6 +101,7 @@ class CommentEntryForm extends React.Component {
 				</div>
 				<br />
 			</form>
+			</div>
 		);
 	}
 }
@@ -179,29 +183,32 @@ class PostEntryForm extends React.Component {
 
 	render() {
 		return (
-			<form className="posting" onSubmit={this.handleSubmit}>
-				<div>
-					<textarea
-						name="entry"
-						id="maintext"
-						value={this.state.value}
-						onChange={this.handleChange}
-						cols="109"
-						rows="2"
-						autoComplete="off"
-						maxLength="1000"
-						placeholder="What do you want to talk about?"
-					/>
-					<button
-						type="submit"
-						id="mainpost"
-						onClick={() => this.props.onClick(this.state.value)}
-					>
-						Post
-					</button>
-				</div>
-				<br />
-			</form>
+			<div>
+			<FormGroup className="posting">
+			  <FormControl componentClass="textarea"
+			  				className="posting"
+						  name="entry"
+						  id="maintext"
+						  value={this.state.value}
+						  onChange={this.handleChange}
+						  cols="109"
+						  rows="2"
+						  autoComplete="off"
+						  maxLength="1000"
+						  placeholder="What do you want to talk about?"
+							/>
+				<Button className="pull-right"
+					className="post-button"
+					type="submit"
+					id="mainpost"
+					onClick={() => this.props.onClick(this.state.value)}
+				>
+					Post
+				</Button>
+			</FormGroup>
+			<br />
+			<br />
+			</div>
 		);
 	}
 }

@@ -70,6 +70,14 @@ h3 {
   text-align: center;
 }
 
+textarea.form-control {
+    border: 0.1rem solid #676767;
+    border-radius: 5px;
+    background-color: #f3f3f3;
+    max-width: 800px;
+    margin: auto;
+}
+
 form.posting {
   /* margin-left: 180px;
   margin-right: 100px; */
@@ -86,19 +94,23 @@ form.replying {
   margin: auto;
 }
 
+.btn {
+    border-radius: 5px;
+    background-color: #cfd8dc;
+    font-family: Quicksand;
+    left-margin: auto;
+}
+
 button {
   border-radius: 5px;
   background-color: #cfd8dc;
   font-family: Quicksand;
+  left-margin: auto;
 }
 button:focus {
     outline: none;
 }
-textarea {
-  border: 0.1rem solid #676767;
-  border-radius: 5px;
-  background-color: #f3f3f3;
-}
+
 body {
   background-color: #f3f3f3;
 }
