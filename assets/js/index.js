@@ -27,17 +27,17 @@ class SortBar extends React.Component {
     }
 }
 
-// class VotingBlock extends React.Component {
-// 	render() {
-// 		return (
-// 			<div className="voting-block">
-// 				<div className="arrow-up" />
-// 				<br />
-// 				<div className="arrow-down" />
-// 			</div>
-// 		)
-// 	}
-// }
+class VotingBlock extends React.Component {
+ 	render() {
+ 		return (
+ 			<div className="voting-block">
+ 				<div className="arrow-up" />
+ 				<br/>
+ 				<div className="arrow-down" />
+ 			</div>
+ 		)
+ 	}
+}
 
 // A single comment
 function Comment(props) {
@@ -193,7 +193,7 @@ class PostEntryForm extends React.Component {
 							  id="maintext"
 							  value={this.state.value}
 							  onChange={this.handleChange}
-							  cols="109"
+							  //cols="109"
 							  rows="2"
 							  autoComplete="off"
 							  maxLength="1000"
@@ -224,10 +224,10 @@ function Post(props)  {
 	<div class="wrap">
 	<div class="contain">
 	<Grid>
-		<Row className="show-grid" style={{ height: 30 }}>
+		<Row className="show-grid" style={{ height: 60 }}>
 			
-			<div class="col-xs-0 col-xs-1-5">
-				<br />
+			<div class="col-xs-1 col-xs-1-5">
+				{<VotingBlock/>}
 			</div>
 			<Col sm={6} md={1}>
 				{props.content}
