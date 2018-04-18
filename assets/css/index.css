@@ -18,6 +18,23 @@
 }
 
 
+.contain {
+  width: 100%;
+  margin: auto;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  background-color: #cfd8dc;
+  font-family: Quicksand, serif;
+}
+
+.wrap {
+  width: 60%;
+  margin: auto;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  font-family: Quicksand, serif;
+}
+
 div.post {
     padding-left:70px;
     padding-right:70px;

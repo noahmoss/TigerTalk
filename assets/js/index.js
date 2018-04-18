@@ -221,17 +221,27 @@ class PostEntryForm extends React.Component {
 // A single post
 function Post(props)  {
 	return (
-		<div className="chunk" >
-		<div className="media offset-md-0">
-		<div className="media-body">
-			<div className="post" onClick={props.onClick}>
+	<div class="wrap">
+	<div class="contain">
+	<Grid>
+		<Row className="show-grid">
+			<Col sm={1} md={1}>
+				<br />
+			</Col>
+
+			<Col sm={6} md={1}>
 				{props.content}
-			</div>
-		</div>
-		</div>
-		</div>
+			</Col>
+
+			<Col sm={1} md={1}>
+				<br />
+			</Col>
+		</Row>
+	</Grid>
+	</div>
+	</div>
 	);
-}
+} 
 
 // A post and its associated comments
 class PostCommentBlock extends React.Component {
