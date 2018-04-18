@@ -43,8 +43,8 @@ class SortBar extends React.Component {
 class Chevron_up extends React.Component {
  	render() {
  		return (
- 			<button type="button" class="btn btn-default" aria-label="Left Align">
-			  	<span class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span>
+ 			<button type="button" className="btn btn-default" aria-label="Left Align">
+			  	<span className="glyphicon glyphicon-chevron-up" aria-hidden="true"></span>
 			</button>
 		);
 	}
@@ -53,8 +53,8 @@ class Chevron_up extends React.Component {
 class Chevron_down extends React.Component {
  	render() {
  		return (
- 			<button type="button" class="btn btn-default" aria-label="Left Align">
-			  	<span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
+ 			<button type="button" className="btn btn-default" aria-label="Left Align">
+			  	<span className="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
 			</button>
 		);
 	}
@@ -214,9 +214,9 @@ class PostEntryForm extends React.Component {
 
 	render() {
 		return (
-			<div class="container-fluid">
+			<div className="container-fluid">
 			<form onSubmit={this.handleSubmit}>
-			<div class="col-md-20">
+			<div className="col-md-20">
 				  <FormControl componentClass="textarea"
 				  			className="posting"
 							  name="entry"
@@ -229,7 +229,7 @@ class PostEntryForm extends React.Component {
 							  maxLength="1000"
 							  placeholder="What do you want to talk about?"/>
 			</div>
-			<div class="col-md-20">
+			<div className="col-md-20">
 					<Button
 						className="pull-right"
 						type="submit"
@@ -247,12 +247,12 @@ class PostEntryForm extends React.Component {
 // A single post
 function Post(props)  {
 	return (
-	<div class="wrap" onClick={props.onClick}>
-	<div class="contain">
+	<div className="wrap" onClick={props.onClick}>
+	<div className="contain">
 	<Grid>
 		<Row className="show-grid" style={{ height: 60 }}>
 
-			<div class="col-xs-1 col-xs-1-5">
+			<div className="col-xs-1 col-xs-1-5">
 				{<Chevron_up/>}
 				{<Chevron_down/>}
 			</div>
@@ -261,7 +261,7 @@ function Post(props)  {
   		   		{props.content}
 			</Col>
 
-		   <div class="col-xs-9 col-xs-9-5">
+		   <div className="col-xs-9 col-xs-9-5">
 		     <ButtonToolbar>
     		<DropdownButton
       		bsSize="small"
@@ -273,7 +273,7 @@ function Post(props)  {
       		<MenuItem divider />
       		<MenuItem eventKey="3">Delete</MenuItem>
     		</DropdownButton>
-  			</ButtonToolbar>    	
+  			</ButtonToolbar>
 		   </div>
 		</Row>
 	</Grid>
