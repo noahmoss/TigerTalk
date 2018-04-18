@@ -193,7 +193,7 @@ class PostEntryForm extends React.Component {
 							  id="maintext"
 							  value={this.state.value}
 							  onChange={this.handleChange}
-							  //cols="109"
+							  cols="109"
 							  rows="2"
 							  autoComplete="off"
 							  maxLength="1000"
