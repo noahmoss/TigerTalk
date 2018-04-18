@@ -60,6 +60,8 @@ class Chevron_down extends React.Component {
 	}
 }
 
+
+
 //class VotingBlock2 extends React.Component {
  //	render() {
  	//	return (
