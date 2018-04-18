@@ -98,7 +98,7 @@ textarea.form-control {
     border: 0.1rem solid #676767;
     /* border-radius: 5px; */
     background-color: #f3f3f3;
-    margin: auto; 
+    margin: auto;
     min-height: 50px;
     max-width: 768px !important;
 }
@@ -251,8 +251,6 @@ body {
 }
 
 
-
-
 .arrow-down {
   position:relative;
   display:block;
@@ -274,4 +272,3 @@ body {
   top:-7px;/*adjust thickness*/
   border-top-color:#cfd8dc;/*Match background colour*/
 }
-
