@@ -98,9 +98,9 @@ textarea.form-control {
     border: 0.1rem solid #676767;
     /* border-radius: 5px; */
     background-color: #f3f3f3;
-    margin: auto;
+    margin: auto; 
     min-height: 50px;
-    max-width: 768px;; !important
+    max-width: 768px !important;
 }
 
 .textarea {
@@ -110,11 +110,11 @@ textarea.form-control {
 }
 
 form.posting {
-  /* margin-left: 180px;
+  /*margin-left: 180px;
   margin-right: 100px; */
-  position: relative;
   width: 90%;
   font-family: Quicksand;
+
 }
 
 form.replying {
@@ -136,6 +136,7 @@ button {
   border-radius: 5px;
   background-color: #cfd8dc;
   font-family: Quicksand;
+  position:relative;
 }
 button:focus {
     outline: none;

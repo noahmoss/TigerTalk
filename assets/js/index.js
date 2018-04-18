@@ -35,7 +35,7 @@ class VotingBlock extends React.Component {
  				<br/>
  				<div className="arrow-down" />
  			</div>
- 		)
+ 		);
  	}
 }
 
@@ -197,22 +197,18 @@ class PostEntryForm extends React.Component {
 							  rows="2"
 							  autoComplete="off"
 							  maxLength="1000"
-							  placeholder="What do you want to talk about?"
-								/>
+							  placeholder="What do you want to talk about?"/>
 			</div>
 			<div class="col-md-20">
 					<Button
 						className="pull-right"
 						type="submit"
 						id="mainpost"
-						onClick={() => this.props.onClick(this.state.value)}
-					>
-						Post
-						</Button>
+						onClick={() => this.props.onClick(this.state.value)}>
+					Post
+					</Button>
 			</div>
 			</form>
-			<br />
-			<br />
 			</div>
 		);
 	}
@@ -278,7 +274,7 @@ function Spinner() {
 		</div>
 		</div>
 		</div>
-	)
+	);
 }
 
 // The main list of posts and associated post entry form (above it)
@@ -369,7 +365,7 @@ class MainTitle extends React.Component {
 				<br />
 				<h3 className="header">TigerTalk</h3>
 			</div>
-		)
+		);
 	}
 }
 
