@@ -225,13 +225,24 @@ function Post(props)  {
 			<div class="col-xs-1 col-xs-1-5">
 				<VotingBlock/>
 			</div>
+
 			<Col sm={6} md={1}>
-				{props.content}
+  		   		{props.content}
 			</Col>
 
-			<Col sm={1} md={1}>
-				<br />
-			</Col>
+		   <div class="col-xs-1 col-xs-1-5">
+		   		<ButtonToolbar>
+   			 	<DropdownButton
+      				bsSize="small"
+      				title="Options"
+      				id="dropdown-size-small">
+   		   			<MenuItem eventKey="1">Track</MenuItem>
+     	  	    	<MenuItem eventKey="2">Report</MenuItem>
+      	   			<MenuItem divider />
+      	        	<MenuItem eventKey="3">Delete</MenuItem>
+   		     	</DropdownButton>
+  		   		</ButtonToolbar>
+		   </div>
 		</Row>
 	</Grid>
 	</div>
