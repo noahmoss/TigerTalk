@@ -30,6 +30,7 @@
     "webpack-cli": "^2.0.14"
   },
   "dependencies": {
+    "npm": "^5.8.0",
     "react-bootstrap": "^0.32.1"
   }
 }
