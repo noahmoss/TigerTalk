@@ -22,7 +22,7 @@
 }
 
 .col-xs-9-5 {
-  width: 0.8%;
+  width: 8%;
 }
 .contain {
   width: 100%;
@@ -98,7 +98,7 @@ textarea.form-control {
     border: 0.1rem solid #676767;
     /* border-radius: 5px; */
     background-color: #f3f3f3;
-    margin: auto;
+    margin: auto; 
     min-height: 50px;
     max-width: 768px !important;
 }
@@ -277,3 +277,4 @@ body {
   background-color: #323d49;
   border: solid;
 }
+
