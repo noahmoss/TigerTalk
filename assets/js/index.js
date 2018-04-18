@@ -262,7 +262,18 @@ function Post(props)  {
 			</Col>
 
 		   <div class="col-xs-1 col-xs-1-5">
-		    	
+		     <ButtonToolbar>
+    		<DropdownButton
+      		bsSize="small"
+      		title=""
+     		id="dropdown-size-small"
+    		>
+      		<MenuItem eventKey="1">Report</MenuItem>
+      		<MenuItem eventKey="2">Track</MenuItem>
+      		<MenuItem divider />
+      		<MenuItem eventKey="3">Delete</MenuItem>
+    		</DropdownButton>
+  			</ButtonToolbar>    	
 		   </div>
 		</Row>
 	</Grid>
