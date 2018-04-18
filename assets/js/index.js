@@ -185,8 +185,8 @@ class PostEntryForm extends React.Component {
 	render() {
 		return (
 			<div class="container-fluid">
-			<div class="col-md-20">
 			<form onSubmit={this.handleSubmit}>
+			<div class="col-md-20">
 				  <FormControl componentClass="textarea"
 				  				className="posting"
 							  name="entry"
@@ -199,6 +199,8 @@ class PostEntryForm extends React.Component {
 							  maxLength="1000"
 							  placeholder="What do you want to talk about?"
 								/>
+			</div>
+			<div class="col-md-20">
 					<Button
 						className="pull-right"
 						type="submit"
@@ -207,13 +209,10 @@ class PostEntryForm extends React.Component {
 					>
 						Post
 						</Button>
-
-					<div/>
+			</div>
 			</form>
 			<br />
 			<br />
-
-			</div>
 			</div>
 		);
 	}

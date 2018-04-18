@@ -89,8 +89,8 @@ textarea.form-control {
 form.posting {
   /* margin-left: 180px;
   margin-right: 100px; */
-  margin: auto;
-  width: 800px;
+  position: relative;
+  width: 90%;
   font-family: Quicksand;
 }
 
@@ -103,6 +103,7 @@ form.replying {
 }
 
 .btn {
+    position: relative;
     border-radius: 5px;
     background-color: #cfd8dc;
     font-family: Quicksand;
