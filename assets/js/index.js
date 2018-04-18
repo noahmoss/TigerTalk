@@ -225,10 +225,10 @@ function Post(props)  {
 	<div class="contain">
 	<Grid>
 		<Row className="show-grid">
-			<Col sm={1} md={1}>
+			
+			<div class="col-xs-1 col-xs-1-5">
 				<br />
-			</Col>
-
+			</div>
 			<Col sm={6} md={1}>
 				{props.content}
 			</Col>

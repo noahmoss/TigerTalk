@@ -17,7 +17,9 @@
     color: silver;
 }
 
-
+.col-xs-1-5 {
+  width: 0.6%;
+}
 .contain {
   width: 100%;
   margin: auto;
