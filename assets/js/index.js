@@ -60,15 +60,6 @@ class Chevron_down extends React.Component {
 	}
 }
 
-//class VotingBlock2 extends React.Component {
- //	render() {
- 	//	return (
-	//		<Chevron_up/>
-	//		<Chevron_down/>
-	//	);
-//	}
-//}
-
 // A single comment
 function Comment(props) {
 	return (
@@ -424,6 +415,9 @@ class NavBar extends React.Component {
 			    <Nav pullRight>
 					<NavItem eventKey={1} href="#">
 					  About
+					</NavItem>
+					<NavItem eventKey={1} href="#">
+					  My Account
 					</NavItem>
 					<NavItem eventKey={2} href="#">
 					  Feedback
