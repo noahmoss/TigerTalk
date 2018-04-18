@@ -261,7 +261,7 @@ function Post(props)  {
   		   		{props.content}
 			</Col>
 
-		   <div class="col-xs-1 col-xs-1-5">
+		   <div class="col-xs-9 col-xs-9-5">
 		     <ButtonToolbar>
     		<DropdownButton
       		bsSize="small"
