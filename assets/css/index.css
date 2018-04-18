@@ -18,17 +18,17 @@
 }
 
 .col-xs-1-5 {
-  width: 0.5%;
+  width: 6%;
 }
 
 .col-xs-9-5 {
-  width: 80%;
+  width: 0.8%;
 }
 .contain {
   width: 100%;
   margin: auto;
-  padding-top: 5px;
-  padding-bottom: 5px;
+  padding-top: 10px;
+  padding-bottom: 10px;
   background-color: #cfd8dc;
   font-family: Quicksand, serif;
 }
@@ -271,4 +271,9 @@ body {
 .arrow-down:after{
   top:-7px;/*adjust thickness*/
   border-top-color:#cfd8dc;/*Match background colour*/
+}
+
+.toolbar {
+  background-color: #323d49;
+  border: solid;
 }

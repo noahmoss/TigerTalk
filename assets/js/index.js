@@ -2,6 +2,7 @@ var React = require('react')
 var ReactDOM = require('react-dom')
 import { Grid, Row, Col } from 'react-bootstrap'
 import { Navbar, Nav, NavItem } from 'react-bootstrap';
+import { ButtonToolbar, DropdownButton, MenuItem } from 'react-bootstrap';
 import { FormGroup, ControlLabel, FormControl, Button } from 'react-bootstrap';
 
 
@@ -27,17 +28,46 @@ class SortBar extends React.Component {
     }
 }
 
-class VotingBlock extends React.Component {
+//class VotingBlock extends React.Component {
+// 	render() {
+// 		return (
+ //			<div className="voting-block">
+ //				<div className="arrow-up" />
+ //				<br/>
+ //				<div className="arrow-down" />
+ //			</div>
+ //		);
+ //	}
+//}
+
+class Chevron_up extends React.Component {
  	render() {
  		return (
- 			<div className="voting-block">
- 				<div className="arrow-up" />
- 				<br/>
- 				<div className="arrow-down" />
- 			</div>
- 		);
- 	}
+ 			<button type="button" class="btn btn-default" aria-label="Left Align">
+			  	<span class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span>
+			</button>
+		);
+	}
 }
+
+class Chevron_down extends React.Component {
+ 	render() {
+ 		return (
+ 			<button type="button" class="btn btn-default" aria-label="Left Align">
+			  	<span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
+			</button>
+		);
+	}
+}
+
+//class VotingBlock2 extends React.Component {
+ //	render() {
+ 	//	return (
+	//		<Chevron_up/>
+	//		<Chevron_down/>
+	//	);
+//	}
+//}
 
 // A single comment
 function Comment(props) {
@@ -188,7 +218,7 @@ class PostEntryForm extends React.Component {
 			<form onSubmit={this.handleSubmit}>
 			<div class="col-md-20">
 				  <FormControl componentClass="textarea"
-				  				className="posting"
+				  			className="posting"
 							  name="entry"
 							  id="maintext"
 							  value={this.state.value}
@@ -223,15 +253,28 @@ function Post(props)  {
 		<Row className="show-grid" style={{ height: 60 }}>
 
 			<div class="col-xs-1 col-xs-1-5">
-				<VotingBlock/>
+				{<Chevron_up/>}
+				{<Chevron_down/>}
 			</div>
-			<Col sm={6} md={1}>
-				{props.content}
+
+			<Col sm={12} md={6}>
+  		   		{props.content}
 			</Col>
 
-			<Col sm={1} md={1}>
-				<br />
-			</Col>
+		   <div class="col-xs-9 col-xs-9-5">
+		     <ButtonToolbar>
+    		<DropdownButton
+      		bsSize="small"
+      		title=""
+     		id="dropdown-size-small"
+    		>
+      		<MenuItem eventKey="1">Report</MenuItem>
+      		<MenuItem eventKey="2">Track</MenuItem>
+      		<MenuItem divider />
+      		<MenuItem eventKey="3">Delete</MenuItem>
+    		</DropdownButton>
+  			</ButtonToolbar>    	
+		   </div>
 		</Row>
 	</Grid>
 	</div>
