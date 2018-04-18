@@ -227,7 +227,7 @@ function Post(props)  {
 				<VotingBlock/>
 			</div>
 
-			<Col sm={6} md={1}>
+			<Col sm={12} md={6}>
   		   		{props.content}
 			</Col>
 

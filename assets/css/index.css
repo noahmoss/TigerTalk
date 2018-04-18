@@ -273,3 +273,8 @@ body {
   border-top-color:#cfd8dc;/*Match background colour*/
 }
 
+.toolbar {
+  background-color: #323d49;
+  border: solid;
+}
+
