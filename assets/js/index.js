@@ -4,7 +4,7 @@ import { Grid, Row, Col } from 'react-bootstrap'
 import { Navbar, Nav, NavItem } from 'react-bootstrap';
 import { ButtonToolbar, DropdownButton, MenuItem } from 'react-bootstrap';
 import { FormGroup, ControlLabel, FormControl, Button } from 'react-bootstrap';
-
+import { Media } from 'react-bootstrap';
 
 // TODO: Add proper onclick event
 function SortButton(props) {
@@ -230,6 +230,7 @@ class PostEntryForm extends React.Component {
 					</Button>
 			</div>
 			</form>
+			<br />
 			</div>
 		);
 	}
@@ -238,40 +239,68 @@ class PostEntryForm extends React.Component {
 // A single post
 function Post(props)  {
 	return (
-	<div className="wrap" onClick={props.onClick}>
-	<div className="contain">
-	<Grid>
-		<Row className="show-grid" style={{ height: 60 }}>
-
-			<div className="col-xs-1 col-xs-1-5">
-				{<Chevron_up/>}
-				{<Chevron_down/>}
-			</div>
-
-			<Col sm={12} md={6}>
-  		   		{props.content}
-			</Col>
-
-		   <div className="col-xs-9 col-xs-9-5">
-		     <ButtonToolbar>
-    		<DropdownButton
-      		bsSize="small"
-      		title=""
-     		id="dropdown-size-small"
-    		>
-      		<MenuItem eventKey="1">Report</MenuItem>
-      		<MenuItem eventKey="2">Track</MenuItem>
-      		<MenuItem divider />
-      		<MenuItem eventKey="3">Delete</MenuItem>
-    		</DropdownButton>
-  			</ButtonToolbar>
-		   </div>
-		</Row>
-	</Grid>
-	</div>
-	</div>
+		<div className="post">
+		  <Media>
+		    <Media.Left>
+		      <Chevron_up />
+			  <Chevron_down />
+		    </Media.Left>
+		    <Media.Body onClick={props.onClick}>
+				{props.content}
+		    </Media.Body>
+			<Media.Right>
+				<ButtonToolbar>
+			   <DropdownButton
+			   bsSize="small"
+			   title=""
+			   id="dropdown-size-small"
+			   >
+			   <MenuItem eventKey="1">Report</MenuItem>
+			   <MenuItem eventKey="2">Track</MenuItem>
+			   <MenuItem divider />
+			   <MenuItem eventKey="3">Delete</MenuItem>
+			   </DropdownButton>
+			   </ButtonToolbar>
+		   </Media.Right>
+		  </Media>
+	  </div>
 	);
 }
+	// return (
+	// <div className="wrap" onClick={props.onClick}>
+	// <div className="contain">
+	// <Grid>
+	// 	<Row className="show-grid" style={{ height: 60 }}>
+	//
+	// 		<div className="col-xs-1 col-xs-1-5">
+	// 			{<Chevron_up/>}
+	// 			{<Chevron_down/>}
+	// 		</div>
+	//
+	// 		<Col sm={12} md={6}>
+  	// 	   		{props.content}
+	// 		</Col>
+	//
+	// 	   <div className="col-xs-9 col-xs-9-5">
+		    //  <ButtonToolbar>
+    		// <DropdownButton
+      		// bsSize="small"
+      		// title=""
+     		// id="dropdown-size-small"
+    		// >
+      		// <MenuItem eventKey="1">Report</MenuItem>
+      		// <MenuItem eventKey="2">Track</MenuItem>
+      		// <MenuItem divider />
+      		// <MenuItem eventKey="3">Delete</MenuItem>
+    		// </DropdownButton>
+  			// </ButtonToolbar>
+	// 	   </div>
+	// 	</Row>
+	// </Grid>
+	// </div>
+	// </div>
+	// );
+
 
 // A post and its associated comments
 class PostCommentBlock extends React.Component {
@@ -412,15 +441,17 @@ class NavBar extends React.Component {
 			    <Navbar.Toggle />
 			  </Navbar.Header>
 			  <Navbar.Collapse>
-			    <Nav pullRight>
+			  	<Nav pullLeft>
 					<NavItem eventKey={1} href="#">
 					  About
 					</NavItem>
-					<NavItem eventKey={1} href="#">
-					  My Account
-					</NavItem>
 					<NavItem eventKey={2} href="#">
 					  Feedback
+					</NavItem>
+				</Nav>
+			    <Nav pullRight>
+					<NavItem eventKey={1} href="#">
+					  My Account
 					</NavItem>
 					<NavItem eventKey={3} href="/accounts/logout">
 					  Logout
