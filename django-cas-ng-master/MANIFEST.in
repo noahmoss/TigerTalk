@@ -1,3 +1,0 @@
-include Makefile *.txt
-include README.rst
-include *.po *.mo

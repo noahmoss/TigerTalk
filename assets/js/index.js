@@ -217,13 +217,13 @@ class PostEntryForm extends React.Component {
 // A single post
 function Post(props)  {
 	return (
-	<div class="wrap">
+	<div class="wrap" onClick={props.onClick}>
 	<div class="contain">
 	<Grid>
 		<Row className="show-grid" style={{ height: 60 }}>
-			
+
 			<div class="col-xs-1 col-xs-1-5">
-				{<VotingBlock/>}
+				<VotingBlock/>
 			</div>
 			<Col sm={6} md={1}>
 				{props.content}
@@ -237,7 +237,7 @@ function Post(props)  {
 	</div>
 	</div>
 	);
-} 
+}
 
 // A post and its associated comments
 class PostCommentBlock extends React.Component {
