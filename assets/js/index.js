@@ -224,9 +224,9 @@ function Post(props)  {
 	<div class="wrap">
 	<div class="contain">
 	<Grid>
-		<Row className="show-grid">
+		<Row className="show-grid" style={{ height: 30 }}>
 			
-			<div class="col-xs-1 col-xs-1-5">
+			<div class="col-xs-0 col-xs-1-5">
 				<br />
 			</div>
 			<Col sm={6} md={1}>
