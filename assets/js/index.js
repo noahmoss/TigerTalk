@@ -248,8 +248,7 @@ function Post(props)  {
 		    <Media.Body onClick={props.onClick}>
 				{props.content}
 		    </Media.Body>
-			<Media.Right>
-				<ButtonToolbar>
+			<Media.Right className="dropdown-container">
 			   <DropdownButton
 			   bsSize="small"
 			   title=""
@@ -260,7 +259,6 @@ function Post(props)  {
 			   <MenuItem divider />
 			   <MenuItem eventKey="3">Delete</MenuItem>
 			   </DropdownButton>
-			   </ButtonToolbar>
 		   </Media.Right>
 		  </Media>
 	  </div>
