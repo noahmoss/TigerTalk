@@ -231,16 +231,9 @@ body {
 
 /* end loading icon */
 
-.votecount {
-  width: 100%;
+.arrowBox {
+  padding-left: 10px;
+  padding-right: 10px;
   text-align: center;
-}
-
-.arrowContainer {
-  width: 100%;
-}
-
-.arrow {
-  width: 40%;
   margin: auto;
 }

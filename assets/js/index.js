@@ -43,7 +43,7 @@ class SortBar extends React.Component {
 class Chevron_up extends React.Component {
  	render() {
  		return (
-			  	<div className="arrowContainer"><div className="arrow"><span className="glyphicon glyphicon-chevron-up" aria-hidden="true"></span></div></div>
+			  	<span className="glyphicon glyphicon-chevron-up" aria-hidden="true"></span>
 		);
 	}
 }
@@ -238,9 +238,11 @@ function Post(props)  {
 		<div className="post">
 		  <Media>
 		    <Media.Left>
+		      <div className="arrowBox">
 		      <Chevron_up />
-		      <div className="voteContainer"><div className="votecount">0</div></div>
+		      10
 			  <Chevron_down />
+			  </div>
 		    </Media.Left>
 		    <Media.Body onClick={props.onClick}>
 				{props.content}
