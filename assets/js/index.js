@@ -61,6 +61,16 @@ function Comment(props) {
 	return (
 		<div className="reply">
         	<Media>
+	        	 <Media.Left>
+			      <div className="empty">
+			      10
+				  </div>
+				</Media.Left>
+			 	<Media.Left>
+			      <div className="empty">
+			      10
+				  </div>
+				</Media.Left>
 			    <Media.Left>
 			      <div className="arrowBox">
 			      <Chevron_up />
