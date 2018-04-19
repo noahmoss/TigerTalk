@@ -43,9 +43,9 @@
 
 div.post {
     /* padding-left:70px;
-    padding-right:70px;
-    padding-bottom:25px;
-    padding-top:5px; */
+    padding-right:70px; */
+    padding-bottom:5px;
+    padding-top:5px;
     font-family: Quicksand, serif;
     background-color: #cfd8dc;
     border-right: 0.2rem solid #cfd8dc;
@@ -276,7 +276,7 @@ body {
   border-top-color:#cfd8dc;/*Match background colour*/
 }
 
-.toolbar {
-  background-color: #323d49;
-  border: solid;
+.votecount {
+  width: 20%;
+  margin: auto;
 }

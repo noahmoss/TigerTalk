@@ -243,6 +243,7 @@ function Post(props)  {
 		  <Media>
 		    <Media.Left>
 		      <Chevron_up />
+		      <div><div className="votecount">0</div></div>
 			  <Chevron_down />
 		    </Media.Left>
 		    <Media.Body onClick={props.onClick}>
