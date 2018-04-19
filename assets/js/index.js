@@ -93,7 +93,7 @@ class CommentEntryForm extends React.Component {
 
 	render() {
 		return (
-			<div>
+			<div className="rip">
 			<form className="replying" onSubmit={this.handleSubmit}>
 				<div>
 					<textarea
@@ -106,13 +106,11 @@ class CommentEntryForm extends React.Component {
 						autoComplete="off"
 						placeholder="Reply"
 					/>
-				</div>
-				<div>
+					<br />
 					<button
 						type="submit"
 						id="mainpost"
-						onClick={() => this.props.onClick(this.state.value)}
-					>
+						onClick={() => this.props.onClick(this.state.value)}>
 						Post
 					</button>
 				</div>
@@ -215,10 +213,7 @@ class PostEntryForm extends React.Component {
 							  autoComplete="off"
 							  maxLength="1000"
 							  placeholder="What do you want to talk about?"/>
-			</div>
-			<div className="col-md-20">
 					<Button
-						className="pull-right"
 						type="submit"
 						id="mainpost"
 						onClick={() => this.props.onClick(this.state.value)}>
