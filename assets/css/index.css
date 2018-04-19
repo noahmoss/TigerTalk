@@ -235,7 +235,6 @@ body {
   height: 10px;
   border: none;
   font-family: 'Glyphicons Halflings';
-  position: relative;
 }
 
 .caret:before {
