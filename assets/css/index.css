@@ -60,7 +60,7 @@ div.post {
     /*text-align: left; */
 }
 div.reply {
-    padding-left:70px;
+   /* padding-left:70px;
     padding-bottom:25px;
     padding-top: 7px;
     /*margin-left: 145px; */
@@ -76,9 +76,9 @@ div.reply {
     border-bottom: 0.1rem solid  ##cfd8dc;
     margin: auto;
     position: relative;
-    left: 35px;
+    left: 35px; */
 
-<<<<<<< HEAD
+
 /* NEW REPLY SETTINGS */
     padding-left:70px;
 `   padding-bottom:5px;
@@ -97,9 +97,8 @@ div.reply {
     white-space: pre-wrap;
     max-width: 720px;
     width: 90%;
-=======
     /*padding: 0 30px 0 10px; */
->>>>>>> parent of 942a0b80... media box changes
+
 
 
 }
