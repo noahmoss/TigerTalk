@@ -231,51 +231,6 @@ body {
 
 /* end loading icon */
 
-.arrow-up {
-  position:relative;
-  display:block;
-  height:24px;/*height should be double border*/
-}
-.arrow-up:before,
-.arrow-up:after{
-  position:absolute;
-  display:block;
-  content:"";
-  border:12px solid transparent;/*adjust size*/
-}
-/*Change four 'top' values below to rotate (top/right/bottom/left)*/
-.arrow-up:before{
-  bottom:0;
-  border-bottom-color: #000000;/*Chevron Color*/
-}
-.arrow-up:after{
-  bottom:-7px;/*adjust thickness*/
-  border-bottom-color:#cfd8dc;/*Match background colour*/
-}
-
-
-.arrow-down {
-  position:relative;
-  display:block;
-  height:24px;/*height should be double border*/
-}
-.arrow-down:before,
-.arrow-down:after{
-  position:absolute;
-  display:block;
-  content:"";
-  border:12px solid transparent;/*adjust size*/
-}
-/*Change four 'top' values below to rotate (top/right/bottom/left)*/
-.arrow-down:before{
-  top:0;
-  border-top-color: #000000;/*Chevron Color*/
-}
-.arrow-down:after{
-  top:-7px;/*adjust thickness*/
-  border-top-color:#cfd8dc;/*Match background colour*/
-}
-
 .votecount {
   width: 20%;
   margin: auto;
