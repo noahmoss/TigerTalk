@@ -230,7 +230,16 @@ body {
 }
 
 /* end loading icon */
+.caret {
+  width: 10px;
+  height: 10px;
+  border: none;
+  font-family: 'Glyphicons Halflings';
+}
 
+.caret:before {
+  content:"\e234";
+}
 .votecount {
   width: 10%;
   margin: auto;
