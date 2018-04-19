@@ -43,9 +43,7 @@ class SortBar extends React.Component {
 class Chevron_up extends React.Component {
  	render() {
  		return (
- 			<button type="button" className="btn btn-default" aria-label="Left Align">
-			  	<span className="glyphicon glyphicon-chevron-up" aria-hidden="true"></span>
-			</button>
+			  	<div><div className="arrow"><span className="glyphicon glyphicon-chevron-up" aria-hidden="true"></span></div></div>
 		);
 	}
 }
@@ -53,9 +51,7 @@ class Chevron_up extends React.Component {
 class Chevron_down extends React.Component {
  	render() {
  		return (
- 			<button type="button" className="btn btn-default" aria-label="Left Align">
-			  	<span className="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
-			</button>
+			<div><div className="arrow"><span className="glyphicon glyphicon-chevron-down" aria-hidden="true"></span></div></div>
 		);
 	}
 }
@@ -243,7 +239,7 @@ function Post(props)  {
 		  <Media>
 		    <Media.Left>
 		      <Chevron_up />
-		      <div><div className="votecount">0</div></div>
+		      <div><div className="votecount">350</div></div>
 			  <Chevron_down />
 		    </Media.Left>
 		    <Media.Body onClick={props.onClick}>
