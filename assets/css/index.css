@@ -132,7 +132,6 @@ form.posting {
   margin-right: 100px; */
   width: 90%;
   font-family: Quicksand;
-
 }
 
 form.replying {
@@ -148,15 +147,17 @@ form.replying {
     position: relative;
     border-radius: 5px;
     background-color: #cfd8dc;
-    font-family: Quicksand;
+    transform: rotate(360deg);
 }
 
 button {
+  position: relative;
   border-radius: 5px;
   background-color: #cfd8dc;
   font-family: Quicksand;
-  position:relative;
 }
+
+
 button:focus {
     outline: none;
 }
@@ -222,7 +223,6 @@ body {
     transform: rotate(360deg);
   }
 }
-/* loading ring */
 .lds-dual-ring {
   margin: auto;
   position: relative;
@@ -247,7 +247,7 @@ body {
 }
 
 /* end loading icon */
-.caret { /* THIS OVERRIDES THE DROP DOWN ARROW GLYPHICON */
+.caret {
   width: 10px;
   height: 10px;
   border: none;
@@ -255,18 +255,21 @@ body {
 }
 
 .caret:before {
-  content:"\e234"; /* "..." glyphicon */
+  content:"\e234";
 }
 
-.dropdown.open { /* trying to play around with position of drop down menu */
+.dropdown.open {
 position:relative;
 z-index:5000;
-
 }
 
 .arrowBox {
   padding-left: 10px;
   padding-right: 10px;
   text-align: center;
+  margin: auto;
+}
+
+.col-md-20 {
   margin: auto;
 }
