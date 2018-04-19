@@ -59,17 +59,42 @@ class Chevron_down extends React.Component {
 // A single comment
 function Comment(props) {
 	return (
-		<div className="comments">
-        <div className="media mt-1">
-        <div className="media-body">
-            <div className="reply">
-				{props.content}
-			</div>
-        </div>
-        </div>
+		<div className="reply">
+        	<Media>
+			    <Media.Left>
+			      <div className="arrowBox">
+			      <Chevron_up />
+			      10
+				  <Chevron_down />
+				  </div>
+			    </Media.Left>
+			    <Media.Body onClick={props.onClick}>
+					{props.content}
+			    </Media.Body>
+				<Media.Right className="dropdown-container">
+				   <DropdownButton
+				   bsSize="small"
+				   title=""
+				   id="dropdown-size-small"
+				   >
+				   <MenuItem eventKey="1">Report</MenuItem>
+				   <MenuItem eventKey="2">Track</MenuItem>
+				   <MenuItem divider />
+				   <MenuItem eventKey="3">Delete</MenuItem>
+				   </DropdownButton>
+			   	</Media.Right>
+		    </Media>
         </div>
 	);
 }
+
+ //<div className="media mt-1">
+        //<div className="media-body">
+          //  <div className="reply">
+			//	{props.content}
+			//</div>
+        //</div>
+        //</div>
 
 // The textarea and reply button underneath every group of comments
 class CommentEntryForm extends React.Component {
