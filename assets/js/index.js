@@ -73,16 +73,15 @@ function Comment(props) {
 					{props.content}
 			    </Media.Body>
 				<Media.Right className="dropdown-container">
-				   <DropdownButton
+				<DropdownButton pullRight
 				   bsSize="small"
 				   title=""
 				   id="dropdown-size-small"
 				   >
 				   <MenuItem eventKey="1">Report</MenuItem>
-				   <MenuItem eventKey="2">Track</MenuItem>
 				   <MenuItem divider />
 				   <MenuItem eventKey="3">Delete</MenuItem>
-				   </DropdownButton>
+				</DropdownButton>
 			    </Media.Right>
 			</Media>
         	</div>

@@ -2,5 +2,4 @@
 .env*
 *.pyc
 node_modules/
-assets/bundles/
 webpack-stats.json*
