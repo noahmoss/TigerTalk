@@ -4,5 +4,3 @@
 node_modules/
 assets/bundles/
 webpack-stats.json*
-package.json*
-package-lock.json*
