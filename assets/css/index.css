@@ -230,6 +230,23 @@ body {
 }
 
 /* end loading icon */
+.caret {
+  width: 10px;
+  height: 10px;
+  border: none;
+  font-family: 'Glyphicons Halflings';
+  position: relative;
+}
+
+.caret:before {
+  content:"\e234";
+}
+
+.dropdown.open {
+position:relative;
+z-index:5000;
+
+}
 
 .arrowBox {
   padding-left: 10px;
