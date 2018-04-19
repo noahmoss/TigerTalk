@@ -42,8 +42,6 @@
 }
 
 div.post {
-    /* padding-left:70px;
-    padding-right:70px; */
     padding-bottom:5px;
     padding-top:5px;
     font-family: Quicksand, serif;
@@ -57,8 +55,16 @@ div.post {
     white-space: pre-wrap;
     max-width: 768px;
     width: 90%;
-    /*text-align: left; */
 }
+
+div.media {
+    z-index: 1;
+    overflow: visible;
+}
+#dropdown-size-small {
+    z-index: 100;
+}
+
 div.reply {
 
 /* NEW REPLY SETTINGS */
@@ -238,11 +244,6 @@ body {
 
 .caret:before {
   content:"\e234";
-}
-
-.dropdown.open {
-position:relative;
-z-index:5000;
 }
 
 .arrowBox {
