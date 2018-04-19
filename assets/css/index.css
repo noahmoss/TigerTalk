@@ -277,6 +277,15 @@ body {
 }
 
 .votecount {
-  width: 20%;
+  width: 10%;
   margin: auto;
+}
+
+.arrow {
+  width: 40%;
+  margin: auto;
+}
+
+.voteBox {
+  padding: 2px;
 }
