@@ -260,3 +260,9 @@ body {
 .col-md-20 {
   margin: auto;
 }
+
+#dropdown-size-small {
+  margin: auto;
+  vertical-align: top;
+  border-color: #cfd8dc;
+}
