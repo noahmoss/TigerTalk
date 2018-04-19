@@ -35,6 +35,6 @@
     "react-timestamp": "^4.4.0"
     },
   "scripts": {
-      "heroku-postbuild": "webpack -p --config ./webpack.prod.config.js --progress"
+      "postinstall": "node_modules/.bin/webpack --config webpack.config.js"
   }
 }
