@@ -277,15 +277,15 @@ body {
 }
 
 .votecount {
-  width: 10%;
-  margin: auto;
+  width: 100%;
+  text-align: center;
+}
+
+.arrowContainer {
+  width: 100%;
 }
 
 .arrow {
   width: 40%;
   margin: auto;
-}
-
-.voteBox {
-  padding: 2px;
 }
