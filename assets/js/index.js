@@ -179,6 +179,7 @@ class CommentBlock extends React.Component {
 }
 
 // The textarea and reply button for creating new posts
+// THIS POST BUTTON WAS BIRTHED BY SATAN
 class PostEntryForm extends React.Component {
 	constructor(props) {
 		super(props);
@@ -232,7 +233,7 @@ class PostEntryForm extends React.Component {
 	}
 }
 
-// A single post
+
 function Post(props)  {
 	return (
 		<div className="post">
@@ -263,7 +264,7 @@ function Post(props)  {
 	  </div>
 	);
 }
-	// return (
+	// return(
 	// <div className="wrap" onClick={props.onClick}>
 	// <div className="contain">
 	// <Grid>

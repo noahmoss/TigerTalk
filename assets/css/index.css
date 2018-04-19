@@ -128,7 +128,7 @@ form.replying {
   margin: auto;
 }
 
-.btn {
+.btn { /*what is this can someone explain this to me? */
     position: relative;
     border-radius: 5px;
     background-color: #cfd8dc;
@@ -206,6 +206,7 @@ body {
     transform: rotate(360deg);
   }
 }
+/* loading ring */
 .lds-dual-ring {
   margin: auto;
   position: relative;
@@ -230,7 +231,7 @@ body {
 }
 
 /* end loading icon */
-.caret {
+.caret { /* THIS OVERRIDES THE DROP DOWN ARROW GLYPHICON */
   width: 10px;
   height: 10px;
   border: none;
@@ -238,10 +239,10 @@ body {
 }
 
 .caret:before {
-  content:"\e234";
+  content:"\e234"; /* "..." glyphicon */
 }
 
-.dropdown.open {
+.dropdown.open { /* trying to play around with position of drop down menu */
 position:relative;
 z-index:5000;
 
