@@ -201,8 +201,7 @@ class PostEntryForm extends React.Component {
 	render() {
 		return (
 			<div className="container-fluid">
-			<form onSubmit={this.handleSubmit}>
-			<div className="col-md-20">
+			<form className="posting" onSubmit={this.handleSubmit}>
 				  <FormControl componentClass="textarea"
 				  			className="posting"
 							  name="entry"
@@ -214,13 +213,11 @@ class PostEntryForm extends React.Component {
 							  autoComplete="off"
 							  maxLength="1000"
 							  placeholder="What do you want to talk about?"/>
-					<Button
-						type="submit"
+					<Button type="submit"
 						id="mainpost"
 						onClick={() => this.props.onClick(this.state.value)}>
 					Post
 					</Button>
-			</div>
 			</form>
 			<br />
 			</div>

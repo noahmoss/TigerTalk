@@ -112,21 +112,6 @@ textarea.form-control {
     background-color: #f3f3f3;
 }
 
-form.posting {
-  /*margin-left: 180px;
-  margin-right: 100px; */
-  width: 90%;
-  font-family: Quicksand;
-}
-
-form.replying {
-  padding-top: 3px;
-  padding-left: 38px;
-  margin-bottom: 3px;
-  width: 80%;
-  margin: auto;
-}
-
 .btn { /*what is this can someone explain this to me? */
     position: relative;
     border-radius: 5px;
@@ -141,6 +126,21 @@ button {
   font-family: Quicksand;
 }
 
+
+form.posting {
+  /*margin-left: 180px;
+  margin-right: 100px; */
+  margin: auto;
+  font-family: Quicksand;
+}
+
+form.replying {
+  padding-top: 3px;
+  padding-left: 38px;
+  margin-bottom: 3px;
+  width: 80%;
+  margin: auto;
+}
 
 button:focus {
     outline: none;
@@ -256,4 +256,13 @@ z-index:5000;
 
 .col-md-20 {
   margin: auto;
+  border: solid;
+}
+
+#mainpost {
+  margin-left: auto;
+}
+
+.store {
+  border: solid;
 }
