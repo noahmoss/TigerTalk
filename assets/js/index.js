@@ -59,8 +59,9 @@ class Chevron_down extends React.Component {
 // A single comment
 function Comment(props) {
 	return (
-		<div className="reply">
-        	<Media>
+			<div className="replyContainer">
+			<div className="reply">
+			<Media>
 			    <Media.Left>
 			      <div className="arrowBox">
 			      <Chevron_up />
@@ -83,8 +84,9 @@ function Comment(props) {
 				   <MenuItem eventKey="3">Delete</MenuItem>
 				   </DropdownButton>
 			    </Media.Right>
-		  	</Media>
-        </div>
+			</Media>
+        	</div>
+        	</div>
 	);
 }
 
