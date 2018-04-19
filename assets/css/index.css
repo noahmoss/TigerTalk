@@ -89,12 +89,16 @@ div.reply {
     border-left: 0.2rem solid #cfd8dc;
     border-top: 0.1rem solid #cfd8dc;
     border-bottom: 0.1rem solid #cfd8dc;
-    margin:auto;
+    /*margin:auto;*/
+    margin-right: 50%;
+    margin-left: 26.2%;
     margin-bottom: 10px;
     white-space: pre-wrap;
-    max-width: 768px;
-    width: 60%;
-    /*left:80%;*/
+    max-width: 720px;
+    width: 90%;
+
+    
+
 }
 
 .chunk{
