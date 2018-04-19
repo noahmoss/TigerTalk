@@ -262,7 +262,7 @@ function Post(props)  {
 				{props.content}
 		    </Media.Body>
 			<Media.Right className="dropdown-container">
-				<DropdownButton pullRight
+				<DropdownButton 
 				   bsSize="small"
 				   title=""
 				   id="dropdown-size-small"
