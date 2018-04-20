@@ -1,176 +1,48 @@
-.navbar-default {
-    background-color: #323d49;
-}
-.navbar .nav > li > a {
-    color: silver;
-}
-.navbar .nav > li > a:hover {
-    color: silver;
-}
-.navbar .nav > li > a:visited {
-    color: silver;
-}
-.navbar .nav > li > a:active {
-    color: silver;
-}
-.navbar .nav > li > a:focus {
-    color: silver;
-}
-
-.col-xs-1-5 {
-  width: 6%;
-}
-
-.col-xs-9-5 {
-  width: 8%;
-}
-.contain {
-  width: 100%;
-  margin: auto;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  background-color: #cfd8dc;
-  font-family: Quicksand, serif;
-}
-
-.wrap {
-  width: 60%;
-  margin: auto;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  font-family: Quicksand, serif;
-}
-
-div.post {
-    padding-bottom:5px;
-    padding-top:5px;
-    font-family: Quicksand, serif;
-    background-color: #cfd8dc;
-    border-right: 0.2rem solid #cfd8dc;
-    border-left: 0.2rem solid #cfd8dc;
-    border-top: 0.1rem solid #cfd8dc;
-    border-bottom: 0.1rem solid #cfd8dc;
-    margin: auto;
-    margin-bottom: 10px;
-    white-space: pre-wrap;
-    max-width: 768px;
-    width: 90%;
-}
-
-div.media {
-    z-index: 1;
-    overflow: visible;
-}
-#dropdown-size-small {
-    z-index: 100;
-}
-
-.replyContainer {
-  max-width: 768px;
-  width: 90%;
-  margin: auto;
-
-}
-
-.reply {
-      /* padding-left:70px;
-    padding-right:70px; */
-    padding-bottom:5px;
-    padding-top:5px;
-    font-family: Quicksand, serif;
-    background-color: #cfd8dc;
-    border-right: 0.2rem solid #cfd8dc;
-    border-left: 0.2rem solid #cfd8dc;
-    border-top: 0.1rem solid #cfd8dc;
-    border-bottom: 0.1rem solid #cfd8dc;
-    margin: auto;
-    margin-bottom: 10px;
-    float: right;
-    white-space: pre-wrap;
-    max-width: 728px;
-    width: 93%;
-}
-.chunk{
-  margin-bottom: 5px;
-}
-
-
-h3 {
-  margin-top: 100px;
-  /* margin-left: 534px; */
-  font-size: 36px;
-  font-weight: 100px;
-  font-family: Quicksand;
-  text-align: center;
-}
-
-textarea.form-control {
-    resize: vertical;
-    border: 0.1rem solid #676767;
-    /* border-radius: 5px; */
-    background-color: #f3f3f3;
-    margin: auto;
-    min-height: 50px;
-    max-width: 768px;
-}
-
-.textarea {
-    border: 0.1rem solid #676767;
-    border-radius: 5px;
-    background-color: #f3f3f3;
-}
-
-form.posting {
-  /*margin-left: 180px;
-  margin-right: 100px; */
-  width: 90%;
-  font-family: Quicksand;
-}
-
-form.replying {
-  padding-top: 3px;
-  padding-left: 38px;
-  margin-bottom: 3px;
-  width: 80%;
-  margin: auto;
-}
-
-.btn { /*what is this can someone explain this to me? */
-    position: relative;
-    border-radius: 5px;
-    background-color: #cfd8dc;
-    transform: rotate(360deg);
-}
-
-button {
-  position: relative;
-  border-radius: 5px;
-  background-color: #cfd8dc;
-  font-family: Quicksand;
-}
-
-
-button:focus {
-    outline: none;
+/* Document-wide style */
+:root {
+  --main-bg-color: #f3f3f3;
+  --post-bg-color: #cfd8dc;
+  --nav-bg-color: #323d49;
+  --form-border: #676767;
 }
 
 body {
-  background-color: #f3f3f3;
+  background-color: var(--main-bg-color);
 }
 
+/*-------------------------------------------------*/
+
+/* Navbar background and link colors */
+.navbar-default {
+    background-color: var(--nav-bg-color);
+}
+.navbar .nav > li > a {
+    color: var(--main-bg-color);
+}
+.navbar .nav > li > a:hover {
+    color: var(--main-bg-color);
+}
+.navbar .nav > li > a:visited {
+    color: var(--main-bg-color);
+}
+.navbar .nav > li > a:active {
+    color: var(--main-bg-color);
+}
+.navbar .nav > li > a:focus {
+    color: var(--main-bg-color);
+}
+
+/* Sort bar -- TODO: redo with react-bootstrap buttons*/
 #sortbar {
-  text-align: center;
-  list-style-type: none;
-  margin: auto;
-  padding: 5px;
-  overflow: hidden;
+    text-align: center;
+    margin: auto;
+    padding: 5px;
+    overflow: hidden;
 }
-
 #sortbar li {
   float: center;
   display: inline-block;
 }
-
 #sortbar li button {
   text-align: center;
   align-content: center;
@@ -179,10 +51,117 @@ body {
   padding:5px;
   outline: none
 }
-
 #sortbar li button:hover {
   cursor:pointer;
 }
+button {
+  position: relative;
+  border-radius: 5px;
+  background-color: var(--post-bg-color);
+  font-family: Quicksand;
+}
+button:focus {
+    outline: none;
+}
+
+
+/* Main header (TigerTalk) */
+h3 {
+  margin-top: 100px;
+  font-size: 36px;
+  font-weight: 100px;
+  font-family: Quicksand;
+  text-align: center;
+}
+
+/* Post form */
+div.container-fluid {
+    margin-bottom: 15px;
+}
+div.post-container {
+    margin: auto;
+    max-width: 768px;
+    margin-bottom: 15px;
+}
+textarea.form-control {
+    resize: vertical;
+    border: 0.1rem solid var(--form-border);
+    background-color: var(--main-bg-color);
+    margin: auto;
+    min-height: 50px;
+    border-radius: 5px;
+    font-family: Quicksand;
+}
+
+/* react-bootstrap buttons */
+.btn {
+    border-radius: 5px;
+    background-color: var(--post-bg-color);
+    float: right;
+}
+
+/* Post components */
+div.post {
+    padding-bottom:5px;
+    padding-top:5px;
+    font-family: Quicksand;
+    background-color: var(--post-bg-color);
+    border-right: 0.2rem solid var(--post-bg-color);
+    border-left: 0.2rem solid var(--post-bg-color);
+    border-top: 0.1rem solid var(--post-bg-color);
+    border-bottom: 0.1rem solid var(--post-bg-color);
+    margin: auto;
+    margin-bottom: 10px;
+    white-space: pre-wrap;
+    max-width: 768px;
+    width: 90%;
+}
+div.media {
+    z-index: 1;
+    overflow: visible;
+}
+#dropdown-size-small {
+    z-index: 100;
+    margin: auto;
+    vertical-align: top;
+    border-color: var(--post-bg-color);
+}
+
+/* Comment components -- TODO: fix comment css */
+.replyContainer {
+  max-width: 768px;
+  width: 90%;
+  margin: auto;
+}
+.reply {
+      /* padding-left:70px;
+    padding-right:70px; */
+    padding-bottom:5px;
+    padding-top:5px;
+    font-family: Quicksand, serif;
+    background-color: var(--post-bg-color);
+    border-right: 0.2rem solid var(--post-bg-color);
+    border-left: 0.2rem solid var(--post-bg-color);
+    border-top: 0.1rem solid var(--post-bg-color);
+    border-bottom: 0.1rem solid var(--post-bg-color);
+    margin: auto;
+    margin-bottom: 10px;
+    float: right;
+    white-space: pre-wrap;
+    max-width: 768px;
+    width: 93%;
+}
+.chunk{
+  margin-bottom: 5px;
+}
+form.replying {
+  padding-top: 3px;
+  padding-left: 38px;
+  margin-bottom: 3px;
+  width: 80%;
+  margin: auto;
+}
+
 
 .row {
   margin-left: 0px;
@@ -194,7 +173,7 @@ body {
     display: block;
 }
 .empty {
-  background-color: #f3f3f3;
+  background-color: var(--main-bg-color);
 
 }
 
@@ -231,7 +210,7 @@ body {
   left: 50px;
   border-radius: 50%;
   border: 8px solid #000;
-  border-color: #cfd8dc transparent #cfd8dc transparent;
+  border-color: var(--post-bg-color) transparent var(--post-bg-color) transparent;
   -webkit-animation: lds-dual-ring 1s linear infinite;
   animation: lds-dual-ring 1s linear infinite;
 }
@@ -242,14 +221,13 @@ body {
   transform: translate(-100px, -100px) scale(1) translate(100px, 100px);
 }
 
-/* end loading icon */
+/* Icons */
 .caret {
   width: 10px;
   height: 10px;
   border: none;
   font-family: 'Glyphicons Halflings';
 }
-
 .caret:before {
   content:"\e234";
 }
@@ -259,14 +237,4 @@ body {
   padding-right: 10px;
   text-align: center;
   margin: auto;
-}
-
-.col-md-20 {
-  margin: auto;
-}
-
-#dropdown-size-small {
-  margin: auto;
-  vertical-align: top;
-  border-color: #cfd8dc;
 }

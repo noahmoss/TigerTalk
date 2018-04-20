@@ -218,9 +218,9 @@ class PostEntryForm extends React.Component {
 
 	render() {
 		return (
-			<div className="container-fluid">
+			<div className="container-fluid" id="postContainer">
 			<form onSubmit={this.handleSubmit}>
-			<div className="col-md-20">
+			<div className="post-container">
 				  <FormControl componentClass="textarea"
 				  			className="posting"
 							  name="entry"
@@ -234,13 +234,12 @@ class PostEntryForm extends React.Component {
 							  placeholder="What do you want to talk about?"/>
 					<Button
 						type="submit"
-						id="mainpost"
+						id="post"
 						onClick={() => this.props.onClick(this.state.value)}>
 					Post
 					</Button>
 			</div>
 			</form>
-			<br />
 			</div>
 		);
 	}
@@ -262,13 +261,13 @@ function Post(props)  {
 				{props.content}
 		    </Media.Body>
 			<Media.Right className="dropdown-container">
-				<DropdownButton 
+				<DropdownButton pullRight
 				   bsSize="small"
 				   title=""
 				   id="dropdown-size-small"
 				   >
 				   <MenuItem eventKey="1">Report</MenuItem>
-				   <MenuItem eventKey="2">Track</MenuItem>
+				   <MenuItem eventKey="2">Follow</MenuItem>
 				   <MenuItem divider />
 				   <MenuItem eventKey="3">Delete</MenuItem>
 				</DropdownButton>
@@ -277,41 +276,6 @@ function Post(props)  {
 	  </div>
 	);
 }
-	// return(
-	// <div className="wrap" onClick={props.onClick}>
-	// <div className="contain">
-	// <Grid>
-	// 	<Row className="show-grid" style={{ height: 60 }}>
-	//
-	// 		<div className="col-xs-1 col-xs-1-5">
-	// 			{<Chevron_up/>}
-	// 			{<Chevron_down/>}
-	// 		</div>
-	//
-	// 		<Col sm={12} md={6}>
-  	// 	   		{props.content}
-	// 		</Col>
-	//
-	// 	   <div className="col-xs-9 col-xs-9-5">
-		    //  <ButtonToolbar>
-    		// <DropdownButton
-      		// bsSize="small"
-      		// title=""
-     		// id="dropdown-size-small"
-    		// >
-      		// <MenuItem eventKey="1">Report</MenuItem>
-      		// <MenuItem eventKey="2">Track</MenuItem>
-      		// <MenuItem divider />
-      		// <MenuItem eventKey="3">Delete</MenuItem>
-    		// </DropdownButton>
-  			// </ButtonToolbar>
-	// 	   </div>
-	// 	</Row>
-	// </Grid>
-	// </div>
-	// </div>
-	// );
-
 
 // A post and its associated comments
 class PostCommentBlock extends React.Component {
@@ -462,7 +426,7 @@ class NavBar extends React.Component {
 				</Nav>
 			    <Nav pullRight>
 					<NavItem eventKey={1} href="#">
-					  My Account
+					  Account ({netid})
 					</NavItem>
 					<NavItem eventKey={3} href="/accounts/logout">
 					  Logout
