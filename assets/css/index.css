@@ -131,6 +131,9 @@ div.media {
 .btn-group {
     padding-right: 5px;
 }
+.dropdown-menu {
+    margin-right: 5px;
+}
 
 /* Comment components -- TODO: fix comment css */
 .replyContainer {
