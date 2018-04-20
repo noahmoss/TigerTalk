@@ -64,7 +64,6 @@ button:focus {
     outline: none;
 }
 
-
 /* Main header (TigerTalk) */
 h3 {
   margin-top: 100px;
@@ -81,13 +80,13 @@ div.container-fluid {
 div.post-container {
     margin: auto;
     max-width: 768px;
-    margin-bottom: 15px;
+    width: 90%;
 }
 textarea.form-control {
+    margin: auto;
     resize: vertical;
     border: 0.1rem solid var(--form-border);
     background-color: var(--main-bg-color);
-    margin: auto;
     min-height: 50px;
     border-radius: 5px;
     font-family: Quicksand;
@@ -134,8 +133,6 @@ div.media {
   margin: auto;
 }
 .reply {
-      /* padding-left:70px;
-    padding-right:70px; */
     padding-bottom:5px;
     padding-top:5px;
     font-family: Quicksand, serif;
