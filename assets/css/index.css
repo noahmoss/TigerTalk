@@ -32,6 +32,15 @@ body {
     color: var(--main-bg-color);
 }
 
+/* Main header (TigerTalk) */
+h3 {
+  margin-top: 150px;
+  font-size: 36px;
+  font-weight: 100px;
+  font-family: Quicksand;
+  text-align: center;
+}
+
 /* Sort bar -- TODO: redo with react-bootstrap buttons*/
 #sortbar {
     text-align: center;
@@ -64,16 +73,6 @@ button:focus {
     outline: none;
 }
 
-
-/* Main header (TigerTalk) */
-h3 {
-  margin-top: 100px;
-  font-size: 36px;
-  font-weight: 100px;
-  font-family: Quicksand;
-  text-align: center;
-}
-
 /* Post form */
 div.container-fluid {
     margin-bottom: 15px;
@@ -81,13 +80,13 @@ div.container-fluid {
 div.post-container {
     margin: auto;
     max-width: 768px;
-    margin-bottom: 15px;
+    width: 90%;
 }
 textarea.form-control {
+    margin: auto;
     resize: vertical;
     border: 0.1rem solid var(--form-border);
     background-color: var(--main-bg-color);
-    margin: auto;
     min-height: 50px;
     border-radius: 5px;
     font-family: Quicksand;
@@ -103,8 +102,6 @@ textarea.form-control {
 
 /* Post components */
 div.post {
-    padding-bottom:5px;
-    padding-top:5px;
     font-family: Quicksand;
     background-color: var(--post-bg-color);
     border-right: 0.2rem solid var(--post-bg-color);
@@ -120,12 +117,19 @@ div.post {
 div.media {
     z-index: 1;
     overflow: visible;
+    padding-bottom:5px;
+    padding-top:5px;
 }
 #dropdown-size-small {
     z-index: 100;
     margin: auto;
     vertical-align: top;
     border-color: var(--post-bg-color);
+    padding-top: 0px;
+    padding-right: 12px;
+}
+.btn-group {
+    padding-right: 5px;
 }
 
 /* Comment components -- TODO: fix comment css */
@@ -135,8 +139,6 @@ div.media {
   margin: auto;
 }
 .reply {
-      /* padding-left:70px;
-    padding-right:70px; */
     padding-bottom:5px;
     padding-top:5px;
     font-family: Quicksand, serif;
