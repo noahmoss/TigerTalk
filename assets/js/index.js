@@ -161,7 +161,7 @@ class CommentBlock extends React.Component {
 	// add a new comment
 	handleComment(text) {
 		if (text.trim() != ''){
-			fetch("https://tigertalkapi.herokuapp.com/comments/", {
+			fetch("api/comments/", {
 					method: 'POST',
 					headers : new Headers(),
 					headers: {
@@ -344,7 +344,7 @@ class PostList extends React.Component {
 
 	// fetch current posts and comments upon page load
 	componentDidMount() {
-		fetch("https://tigertalkapi.herokuapp.com/posts/")
+		fetch("api/posts/")
 		.then(res => res.json())
 		.then(
 			(result) => {
@@ -365,7 +365,7 @@ class PostList extends React.Component {
 	// add a new post
 	handlePost(text) {
 		if (text.trim() != ''){
-			fetch("https://tigertalkapi.herokuapp.com/posts/", {
+			fetch("api/posts/", {
 					method: 'POST',
 					headers : new Headers(),
 					headers: {
