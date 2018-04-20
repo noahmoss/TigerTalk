@@ -398,11 +398,7 @@ class PostList extends React.Component {
 class MainTitle extends React.Component {
 	render() {
 		return (
-			<div className="container-fluid">
-				<br />
-				<br />
 				<h3 className="header">TigerTalk</h3>
-			</div>
 		);
 	}
 }
