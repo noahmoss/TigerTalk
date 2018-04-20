@@ -56,6 +56,15 @@ class Chevron_down extends React.Component {
 	}
 }
 
+class Speech_bubble extends React.Component {
+ 	render() {
+ 		return (
+			  	<span className="glyphicon glyphicon-comment" aria-hidden="true"></span>
+		);
+	}
+}
+
+
 // A single comment
 function Comment(props) {
 	return (
@@ -259,6 +268,11 @@ function Post(props)  {
 		    </Media.Left>
 		    <Media.Body onClick={props.onClick}>
 				{props.content}
+				<Media.Left>
+			      <div className="comment_img">
+			      <Speech_bubble />
+				  </div>
+			    </Media.Left>
 		    </Media.Body>
 			<Media.Right className="dropdown-container">
 				<DropdownButton pullRight
