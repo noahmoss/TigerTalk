@@ -102,8 +102,6 @@ textarea.form-control {
 
 /* Post components */
 div.post {
-    padding-bottom:5px;
-    padding-top:5px;
     font-family: Quicksand;
     background-color: var(--post-bg-color);
     border-right: 0.2rem solid var(--post-bg-color);
@@ -119,12 +117,19 @@ div.post {
 div.media {
     z-index: 1;
     overflow: visible;
+    padding-bottom:5px;
+    padding-top:5px;
 }
 #dropdown-size-small {
     z-index: 100;
     margin: auto;
     vertical-align: top;
     border-color: var(--post-bg-color);
+    padding-top: 0px;
+    padding-right: 12px;
+}
+.btn-group {
+    padding-right: 5px;
 }
 
 /* Comment components -- TODO: fix comment css */
