@@ -91,6 +91,7 @@ textarea.form-control {
     min-height: 50px;
     border-radius: 5px;
     font-family: Quicksand;
+    margin-bottom: 1%;
 }
 
 /* react-bootstrap buttons */
