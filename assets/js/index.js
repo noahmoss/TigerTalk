@@ -2,7 +2,7 @@ var React = require('react')
 var ReactDOM = require('react-dom')
 import { Grid, Row, Col } from 'react-bootstrap'
 import { Navbar, Nav, NavItem } from 'react-bootstrap';
-import { ButtonToolbar, DropdownButton, MenuItem } from 'react-bootstrap';
+import { ButtonToolbar, DropdownButton, MenuItem, SplitButton } from 'react-bootstrap';
 import { FormGroup, ControlLabel, FormControl, Button } from 'react-bootstrap';
 import { Media } from 'react-bootstrap';
 
@@ -59,18 +59,9 @@ class Chevron_down extends React.Component {
 // A single comment
 function Comment(props) {
 	return (
-		<div className="reply">
-        	<Media>
-	        	 <Media.Left>
-			      <div className="empty">
-			      10
-				  </div>
-				</Media.Left>
-			 	<Media.Left>
-			      <div className="empty">
-			      10
-				  </div>
-				</Media.Left>
+			<div className="replyContainer">
+			<div className="reply">
+			<Media>
 			    <Media.Left>
 			      <div className="arrowBox">
 			      <Chevron_up />
@@ -82,19 +73,19 @@ function Comment(props) {
 					{props.content}
 			    </Media.Body>
 				<Media.Right className="dropdown-container">
-				   <DropdownButton
+				<DropdownButton pullRight
 				   bsSize="small"
 				   title=""
 				   id="dropdown-size-small"
 				   >
 				   <MenuItem eventKey="1">Report</MenuItem>
-				   <MenuItem eventKey="2">Track</MenuItem>
 				   <MenuItem divider />
 				   <MenuItem eventKey="3">Delete</MenuItem>
-				   </DropdownButton>
+				</DropdownButton>
 			    </Media.Right>
-		  	</Media>
-        </div>
+			</Media>
+        	</div>
+        	</div>
 	);
 }
 
@@ -271,17 +262,17 @@ function Post(props)  {
 				{props.content}
 		    </Media.Body>
 			<Media.Right className="dropdown-container">
-			   <DropdownButton
-			   bsSize="small"
-			   title=""
-			   id="dropdown-size-small"
-			   >
-			   <MenuItem eventKey="1">Report</MenuItem>
-			   <MenuItem eventKey="2">Track</MenuItem>
-			   <MenuItem divider />
-			   <MenuItem eventKey="3">Delete</MenuItem>
-			   </DropdownButton>
-		   </Media.Right>
+				<DropdownButton 
+				   bsSize="small"
+				   title=""
+				   id="dropdown-size-small"
+				   >
+				   <MenuItem eventKey="1">Report</MenuItem>
+				   <MenuItem eventKey="2">Track</MenuItem>
+				   <MenuItem divider />
+				   <MenuItem eventKey="3">Delete</MenuItem>
+				</DropdownButton>
+			   </Media.Right>
 		  </Media>
 	  </div>
 	);
