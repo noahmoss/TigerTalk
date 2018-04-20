@@ -161,7 +161,7 @@ class CommentBlock extends React.Component {
 	// add a new comment
 	handleComment(text) {
 		if (text.trim() != ''){
-			fetch("api/comments/", {
+			fetch("https://princetontigetalk.herokuapp.com/api/comments/", {
 					method: 'POST',
 					headers : new Headers(),
 					headers: {
@@ -344,13 +344,13 @@ class PostList extends React.Component {
 
 	// fetch current posts and comments upon page load
 	componentDidMount() {
-		fetch("api/posts/")
+		fetch("https://princetontigertalk.herokuapp.com/api/posts/")
 		.then(res => res.json())
 		.then(
 			(result) => {
 				this.setState({
 					isLoaded: true,
-					posts: result.reverse(),
+					posts: result,
 				});
 			},
 			(error) => {
@@ -365,7 +365,7 @@ class PostList extends React.Component {
 	// add a new post
 	handlePost(text) {
 		if (text.trim() != ''){
-			fetch("api/posts/", {
+			fetch("https://princetontigertalk.herokuapp.com/api/posts/", {
 					method: 'POST',
 					headers : new Headers(),
 					headers: {
