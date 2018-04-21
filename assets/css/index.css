@@ -118,7 +118,6 @@ div.post {
 div.mainBody {
     z-index: 1;
     overflow: visible;
-    padding-bottom:5px;
     padding-top:5px;
 }
 #dropdown-size-small {
@@ -273,14 +272,12 @@ form.replying {
   width: 90%;
   margin: auto;
 }
-
 .replying {
     padding-bottom:5px;
     padding-top:5px;
     float: right;
     white-space: pre-wrap;
 }
-
 .rip {
-  border: solid;
+  margin-top: 0;
 }
