@@ -59,7 +59,15 @@ class Chevron_down extends React.Component {
 class Speech_bubble extends React.Component {
  	render() {
  		return (
-			  	<span className="glyphicon glyphicon-comment" aria-hidden="true"></span>
+ 				<span className="glyphicon glyphicon-comment" aria-hidden="true"></span>
+		);
+	}
+}
+
+class Share_icon extends React.Component {
+ 	render() {
+ 		return (
+ 				<span className="glyphicon glyphicon-send" aria-hidden="true"></span>
 		);
 	}
 }
@@ -120,28 +128,25 @@ class CommentEntryForm extends React.Component {
 
 	render() {
 		return (
-			<div className="rip">
+			<div className="container-fluid" id="commentContainer">
 			<form className="replying" onSubmit={this.handleSubmit}>
-				<div>
-					<textarea
-						name="entry"
-						id="maintext"
-						value={this.state.value}
-						onChange={this.handleChange}
-						cols="100"
-						rows="2"
-						autoComplete="off"
-						placeholder="Reply"
-					/>
-					<br />
-					<button
+				  <FormControl componentClass="textarea"
+				  			  className="replyBox"
+							  name="reply"
+							  id="maintext"
+							  value={this.state.value}
+							  onChange={this.handleChange}
+							  cols="109"
+							  rows="2"
+							  autoComplete="off"
+							  maxLength="1000"
+							  placeholder="Reply"/>
+					<Button
 						type="submit"
-						id="mainpost"
+						id="post"
 						onClick={() => this.props.onClick(this.state.value)}>
-						Post
-					</button>
-				</div>
-				<br />
+					Post
+					</Button>
 			</form>
 			</div>
 		);
@@ -161,7 +166,7 @@ class CommentBlock extends React.Component {
 	// add a new comment
 	handleComment(text) {
 		if (text.trim() != ''){
-			fetch("https://princetontigertalk.herokuapp.com/api/comments/", {
+			fetch("https://tigertalkapi.herokuapp.com/comments/", {
 					method: 'POST',
 					headers : new Headers(),
 					headers: {
@@ -269,10 +274,13 @@ function Post(props)  {
 		    <Media.Body onClick={props.onClick}>
 				{props.content}
 				<Media.Left>
-			      <div className="comment_img">
+			      <div className="icons">
 			      <Speech_bubble />
 				  </div>
 			    </Media.Left>
+			    <Media.Right>
+			    	<Share_icon />
+			    </Media.Right>
 		    </Media.Body>
 			<Media.Right className="dropdown-container">
 				<DropdownButton pullRight
@@ -344,13 +352,13 @@ class PostList extends React.Component {
 
 	// fetch current posts and comments upon page load
 	componentDidMount() {
-		fetch("https://princetontigertalk.herokuapp.com/api/posts/")
+		fetch("https://tigertalkapi.herokuapp.com/posts/")
 		.then(res => res.json())
 		.then(
 			(result) => {
 				this.setState({
 					isLoaded: true,
-					posts: result,
+					posts: result.reverse(),
 				});
 			},
 			(error) => {
@@ -365,7 +373,7 @@ class PostList extends React.Component {
 	// add a new post
 	handlePost(text) {
 		if (text.trim() != ''){
-			fetch("https://princetontigertalk.herokuapp.com/api/posts/", {
+			fetch("https://tigertalkapi.herokuapp.com/posts/", {
 					method: 'POST',
 					headers : new Headers(),
 					headers: {
