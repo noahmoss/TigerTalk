@@ -43,7 +43,17 @@ class SortBar extends React.Component {
 class Chevron_up extends React.Component {
  	render() {
  		return (
-			  	<span className="glyphicon glyphicon-chevron-up" aria-hidden="true"></span>
+			  	<span className="glyphicon glyphicon-chevron-up" aria-hidden="true" onClick = {this.onClick}></span>
+		);
+	}
+}
+
+class Chevron_up_clicked extends React.Component {
+
+ 	render() {
+ 		console.log("wehere");
+ 		return (
+			  	<span className="glyphicon glyphicon-chevron-up" aria-hidden="true" ></span>
 		);
 	}
 }
@@ -260,49 +270,68 @@ class PostEntryForm extends React.Component {
 }
 
 
-function Post(props)  {
-	return (
-		<div className="post">
-		  <Media className="mainBody">
-		    <Media.Left>
-		      <div className="arrowBox">
-		      <Chevron_up />
-		      10
-			  <Chevron_down />
-			  </div>
-		    </Media.Left>
-		    <Media.Body onClick={props.onClick}>
-				{props.content}
-		    </Media.Body>
-			<Media.Right className="dropdown-container">
-				<DropdownButton pullRight
-				   bsSize="small"
-				   title=""
-				   id="dropdown-size-small"
-				   >
-				   <MenuItem eventKey="1">Report</MenuItem>
-				   <MenuItem eventKey="2">Follow</MenuItem>
-				   <MenuItem divider />
-				   <MenuItem eventKey="3">Delete</MenuItem>
-				</DropdownButton>
-			   </Media.Right>
-		  </Media>
-		  <Media className="rip">
-		    <Media.Left>
-		      <div className="iconFirstColumn">
-			  </div>
-		    </Media.Left>
-		    <Media.Body onClick={props.onClick}>
-				<Media.Left>
-			      <Speech_bubble />
+class Post extends React.Component{
+	constructor(props) {
+		super(props);
+		this.handleUpvoteClick = this.handleUpvoteClick.bind(this);
+		this.state = {upVote: false};
+	}
+	handleUpvoteClick() {
+		this.setState({upVote : !this.state.upVote});
+	}
+
+	handleUpvoteUnclick() {
+		this.setState({upVote : !this.state.upVote});
+	}
+
+	render () {
+		return (
+			<div className="post">
+			  <Media className="mainBody">
+			    <Media.Left>
+			    	<div className="arrowBox">
+						{
+							this.state.upVote
+							? <Chevron_up_clicked onClick={this.handleUpvoteClick}/>
+							: <Chevron_up onClick={this.handleUpvoteUnclick}/>
+						}
+			    	10
+					<Chevron_down />
+				 	 </div>
 			    </Media.Left>
-			    <Media.Right>
-			    	<Share_icon />
-			    </Media.Right>
-		    </Media.Body>
-		  </Media>
-	  </div>
-	);
+			    <Media.Body onClick={this.props.onClick}>
+					{this.props.content}
+			    </Media.Body>
+				<Media.Right className="dropdown-container">
+					<DropdownButton pullRight
+					   bsSize="small"
+					   title=""
+					   id="dropdown-size-small"
+					   >
+					   <MenuItem eventKey="1">Report</MenuItem>
+					   <MenuItem eventKey="2">Follow</MenuItem>
+					   <MenuItem divider />
+					   <MenuItem eventKey="3">Delete</MenuItem>
+					</DropdownButton>
+				   </Media.Right>
+			  </Media>
+			  <Media className="rip">
+			    <Media.Left>
+			      <div className="iconFirstColumn">
+				  </div>
+			    </Media.Left>
+			    <Media.Body onClick={this.props.onClick}>
+					<Media.Left>
+				      <Speech_bubble />
+				    </Media.Left>
+				    <Media.Right>
+				    	<Share_icon />
+				    </Media.Right>
+			    </Media.Body>
+			  </Media>
+		  </div>
+		);
+	}
 }
 
 // A post and its associated comments
