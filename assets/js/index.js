@@ -59,7 +59,7 @@ class Chevron_down extends React.Component {
 class Speech_bubble extends React.Component {
  	render() {
  		return (
- 				<span className="glyphicon glyphicon-comment" aria-hidden="true"></span> 
+ 				<span className="glyphicon glyphicon-comment" aria-hidden="true"></span>
 		);
 	}
 }
@@ -67,7 +67,7 @@ class Speech_bubble extends React.Component {
 class Share_icon extends React.Component {
  	render() {
  		return (
- 				<span className="glyphicon glyphicon-send" aria-hidden="true"></span> 
+ 				<span className="glyphicon glyphicon-send" aria-hidden="true"></span>
 		);
 	}
 }
