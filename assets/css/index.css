@@ -115,7 +115,7 @@ div.post {
     max-width: 768px;
     width: 90%;
 }
-div.media {
+div.mainBody {
     z-index: 1;
     overflow: visible;
     padding-bottom:5px;
@@ -247,6 +247,13 @@ form.replying {
   margin: auto;
 }
 
+.iconFirstColumn {
+  padding-left: 17px;
+  padding-right: 17px;
+  text-align: center;
+  margin: auto;
+}
+
 .glyphicon-comment {
     color:#cfd8dc;
     text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
@@ -272,4 +279,8 @@ form.replying {
     padding-top:5px;
     float: right;
     white-space: pre-wrap;
+}
+
+.rip {
+  border: solid;
 }

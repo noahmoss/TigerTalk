@@ -80,7 +80,7 @@ function Comment(props) {
 			<div className="reply">
 			<Media>
 			    <Media.Left>
-			      <div className="arrowBox">
+			      <div>
 			      <Chevron_up />
 			      10
 				  <Chevron_down />
@@ -263,7 +263,7 @@ class PostEntryForm extends React.Component {
 function Post(props)  {
 	return (
 		<div className="post">
-		  <Media>
+		  <Media className="mainBody">
 		    <Media.Left>
 		      <div className="arrowBox">
 		      <Chevron_up />
@@ -273,14 +273,6 @@ function Post(props)  {
 		    </Media.Left>
 		    <Media.Body onClick={props.onClick}>
 				{props.content}
-				<Media.Left>
-			      <div className="icons">
-			      <Speech_bubble />
-				  </div>
-			    </Media.Left>
-			    <Media.Right>
-			    	<Share_icon />
-			    </Media.Right>
 		    </Media.Body>
 			<Media.Right className="dropdown-container">
 				<DropdownButton pullRight
@@ -294,6 +286,20 @@ function Post(props)  {
 				   <MenuItem eventKey="3">Delete</MenuItem>
 				</DropdownButton>
 			   </Media.Right>
+		  </Media>
+		  <Media className="rip">
+		    <Media.Left>
+		      <div className="iconFirstColumn">
+			  </div>
+		    </Media.Left>
+		    <Media.Body onClick={props.onClick}>
+				<Media.Left>
+			      <Speech_bubble />
+			    </Media.Left>
+			    <Media.Right>
+			    	<Share_icon />
+			    </Media.Right>
+		    </Media.Body>
 		  </Media>
 	  </div>
 	);
