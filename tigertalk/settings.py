@@ -103,6 +103,7 @@ WSGI_APPLICATION = 'tigertalk.wsgi.application'
 #     }
 # }
 
+
 import dj_database_url
 db_config = dj_database_url.config(conn_max_age=600)
 if db_config:
