@@ -358,13 +358,13 @@ class PostList extends React.Component {
 
 	// fetch current posts and comments upon page load
 	componentDidMount() {
-		fetch("https://tigertalkapi.herokuapp.com/api/posts/")
+		fetch("/api/posts/")
 		.then(res => res.json())
 		.then(
 			(result) => {
 				this.setState({
 					isLoaded: true,
-					posts: result.reverse(),
+					posts: result,
 				});
 			},
 			(error) => {
