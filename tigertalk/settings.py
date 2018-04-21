@@ -30,7 +30,6 @@ ALLOWED_HOSTS = ['0.0.0.0', 'localhost', '127.0.0.1', 'tigertalkapi.herokuapp.co
 DEBUG = True
 
 # Application definition
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -44,7 +43,7 @@ INSTALLED_APPS = [
     'django_extensions',
     'webpack_loader',
     'django_cas_ng',
-    'api.apps.ApiConfig',
+    'api',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -108,6 +107,8 @@ DATABASES = {
 # db_config = dj_database_url.config(conn_max_age=600)
 # if db_config:
 #     DATABASES = {'default' : db_config}
+
+AUTH_USER_MODEL = 'api.User'
 
 # Password validation
 # https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators

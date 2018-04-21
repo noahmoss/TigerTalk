@@ -1,8 +1,10 @@
 from api.models import Post, Comment
 from api.serializers import PostSerializer, CommentSerializer, UserSerializer
 from api.permissions import IsAuthorOrReadOnly, IsUser
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from rest_framework import generics, permissions
+
+User = get_user_model()
 
 # list of all posts
 # methods: GET, POST
@@ -47,11 +49,12 @@ class CommentList(generics.ListCreateAPIView):
         serializer.save(author=self.request.user)
 
 # detail for a single comment
-# methods: GET, DELETE
-class CommentDetail(generics.RetrieveDestroyAPIView):
+# use PUT to overwrite comment rather than deleting
+# methods: GET, PUT
+class CommentDetail(generics.RetrieveUpdateAPIView):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    permission_classes = (permissions.IsAuthenticated,)
 
 # list of all users (only available to admins; for debugging purposes)
 # TODO: remove in production
@@ -61,17 +64,7 @@ class UserList(generics.ListAPIView):
     permission_classes = (permissions.IsAdminUser,)
 
 # details of single user
-class UserDetail(generics.RetrieveAPIView):
+class UserDetail(generics.RetrieveUpdateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_classes = (permissions.IsAuthenticated, IsUser,)
-
-# list of posts from a single user
-# class UserPostList(generics.ListAPIView):
-#         queryset = Post.objects.all()
-#         serializer_class = PostSerializer
-#         permission_classes = (permissions.IsAuthenticated, IsUser,)
-#
-#         def get_queryset(self):
-#             queryset = super(UserPostList, self).get_queryset()
-#             return queryset.filter(author=self.kwargs.get('pk'))
