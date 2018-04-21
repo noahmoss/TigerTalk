@@ -358,7 +358,7 @@ class PostList extends React.Component {
 
 	// fetch current posts and comments upon page load
 	componentDidMount() {
-		fetch("/api/posts/")
+		fetch("https://tigertalkapi.herokuapp.com/api/posts/")
 		.then(res => res.json())
 		.then(
 			(result) => {
