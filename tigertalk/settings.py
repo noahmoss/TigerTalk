@@ -44,7 +44,7 @@ INSTALLED_APPS = [
     'django_extensions',
     'webpack_loader',
     'django_cas_ng',
-    'posts.apps.PostsConfig',
+    'api.apps.ApiConfig',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -96,12 +96,12 @@ WSGI_APPLICATION = 'tigertalk.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
-
+#
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.postgresql_psycopg2',
 #         'NAME': 'tigertalk_db',
-#         'USER': 'tigertalk',
+#         'USER': 'noahbmoss',
 #         'PASSWORD': 'tigertalk333',
 #         'HOST': 'localhost',
 #         'PORT': '',
@@ -166,8 +166,12 @@ WEBPACK_LOADER = {
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ],
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.AllowAny',
+        'rest_framework.permissions.IsAuthenticated',
     ]
 }
 
