@@ -10,7 +10,7 @@ class Post(models.Model):
 
     readonly_fields=('author', 'date_created')
 
-    def total_votes(self):
+    def net_votes(self):
         return self.users_upvoted.count() - self.users_downvoted.count()
 
     def __str__(self):
@@ -28,7 +28,7 @@ class Comment(models.Model):
 
     readonly_fields=('author', 'date_created', 'post')
 
-    def total_votes(self):
+    def net_votes(self):
         return self.users_upvoted.count() - self.users_downvoted.count()
 
     def __str__(self):

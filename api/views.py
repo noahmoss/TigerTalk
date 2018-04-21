@@ -3,7 +3,7 @@ from api.serializers import PostSerializer, CommentSerializer, UserSerializer
 from api.permissions import IsAuthorOrReadOnly, IsUser
 from django.contrib.auth import get_user_model
 from rest_framework import generics, permissions
-
+from rest_framework.response import Response
 User = get_user_model()
 
 # list of all posts
@@ -55,6 +55,80 @@ class CommentDetail(generics.RetrieveUpdateAPIView):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
     permission_classes = (permissions.IsAuthenticated,)
+
+# upvote a post based on pk
+# methods: GET
+class PostUpvote(generics.ListAPIView):
+    queryset = Post.objects.all()
+    serializer_class = PostSerializer
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def list(self, request, pk):
+        user = request.user
+        post = Post.objects.get(id=self.kwargs.get('pk'))
+        user.posts_upvoted.add(post)
+        user.posts_downvoted.remove(post)
+        return Response({"net_votes" : post.net_votes()})
+
+class PostDownvote(generics.ListAPIView):
+    queryset = Post.objects.all()
+    serializer_class = PostSerializer
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def list(self, request, pk):
+        user = request.user
+        post = Post.objects.get(id=self.kwargs.get('pk'))
+        user.posts_downvoted.add(post)
+        user.posts_upvoted.remove(post)
+        return Response({"net_votes" : post.net_votes()})
+
+class PostClearVote(generics.ListAPIView):
+        queryset = Post.objects.all()
+        serializer_class = PostSerializer
+        permission_classes = (permissions.IsAuthenticated,)
+
+        def list(self, request, pk):
+            user = request.user
+            post = Post.objects.get(id=self.kwargs.get('pk'))
+            user.posts_downvoted.remove(post)
+            user.posts_upvoted.remove(post)
+            return Response({"net_votes" : post.net_votes()})
+
+class CommentUpvote(generics.ListAPIView):
+    queryset = Comment.objects.all()
+    serializer_class = CommentSerializer
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def list(self, request, pk):
+        user = request.user
+        comment = Comment.objects.get(id=self.kwargs.get('pk'))
+        user.comments_upvoted.add(comment)
+        user.comments_downvoted.remove(comment)
+        return Response({"net_votes" : comment.net_votes()})
+
+class CommentDownvote(generics.ListAPIView):
+    queryset = Comment.objects.all()
+    serializer_class = CommentSerializer
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def list(self, request, pk):
+        user = request.user
+        comment = Comment.objects.get(id=self.kwargs.get('pk'))
+        user.comments_downvoted.add(comment)
+        user.comments_upvoted.remove(comment)
+        return Response({"net_votes" : comment.net_votes()})
+
+class CommentClearVote(generics.ListAPIView):
+    queryset = Comment.objects.all()
+    serializer_class = CommentSerializer
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def list(self, request, pk):
+        user = request.user
+        comment = Comment.objects.get(id=self.kwargs.get('pk'))
+        user.comments_downvoted.remove(comment)
+        user.comments_upvoted.remove(comment)
+        return Response({"net_votes" : comment.net_votes()})
 
 # list of all users (only available to admins; for debugging purposes)
 # TODO: remove in production
