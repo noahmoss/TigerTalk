@@ -26,9 +26,11 @@ class PostSerializer(serializers.ModelSerializer):
         )
 
 class UserSerializer(serializers.ModelSerializer):
+    posts = PostSerializer(many=True)
     class Meta:
         model = User
         fields = (
             'id',
             'username',
+            'posts',
         )

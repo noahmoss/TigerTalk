@@ -12,3 +12,10 @@ class IsAuthorOrReadOnly(permissions.BasePermission):
 
         # Write permissions are only allowed to the owner of the snippet.
         return obj.author == request.user
+
+class IsUser(permissions.BasePermission):
+    """
+    Custom permission to only allow a user to see their own user data.
+    """
+    def has_object_permission(self, request, view, obj):
+        return obj == request.user

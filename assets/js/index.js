@@ -161,7 +161,7 @@ class CommentBlock extends React.Component {
 	// add a new comment
 	handleComment(text) {
 		if (text.trim() != ''){
-			fetch("https://princetontigetalk.herokuapp.com/api/comments/", {
+			fetch("https://princetontigertalk.herokuapp.com/api/comments/", {
 					method: 'POST',
 					headers : new Headers(),
 					headers: {
