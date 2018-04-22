@@ -28,45 +28,44 @@ class SortBar extends React.Component {
     }
 }
 
-//class VotingBlock extends React.Component {
-// 	render() {
-// 		return (
- //			<div className="voting-block">
- //				<div className="arrow-up" />
- //				<br/>
- //				<div className="arrow-down" />
- //			</div>
- //		);
- //	}
-//}
-
 function Chevron_up(props) {
 	return (
-		<div className="upvote-arrow"
+		<span className="glyphicon glyphicon-chevron-up"
+			aria-hidden="true"
+			style={{"color":"black"}}
 			onClick = {props.onClick}>
-			  	<span className="glyphicon glyphicon-chevron-up"
-				aria-hidden="true">
-				</span>
-		</div>
+		</span>
 	);
 }
 
 function Chevron_up_clicked(props) {
 	return (
 		<span className="glyphicon glyphicon-chevron-up"
-		aria-hidden="true"
-		style={{"color":"orange"}}
-		onClick = {props.onClick}>
+			aria-hidden="true"
+			style={{"color":"orange"}}
+			onClick = {props.onClick}>
 		</span>
 	);
 }
 
-class Chevron_down extends React.Component {
- 	render() {
- 		return (
-			<div><div className="arrow"><span className="glyphicon glyphicon-chevron-down" aria-hidden="true"></span></div></div>
-		);
-	}
+function Chevron_down(props) {
+	return (
+		<span className="glyphicon glyphicon-chevron-down"
+			aria-hidden="true"
+			style={{"color":"black"}}
+			onClick = {props.onClick}>
+		</span>
+	)
+}
+
+function Chevron_down_clicked(props) {
+	return (
+		<span className="glyphicon glyphicon-chevron-down"
+			aria-hidden="true"
+			style={{"color":"orange"}}
+			onClick = {props.onClick}>
+		</span>
+	)
 }
 
 class Speech_bubble extends React.Component {
@@ -184,7 +183,7 @@ class CommentBlock extends React.Component {
 					credentials: "same-origin",
 					headers : new Headers(),
 					headers: {
-						 "X-CSRFToken": getCookie("csrftoken"),
+						 "X-CSRFToken": csrftoken,
 						 'Accept': 'application/json',
 						 'Content-Type': 'application/json',
 					},
@@ -279,51 +278,93 @@ class Post extends React.Component{
 		super(props);
 		this.handleUpvoteClick = this.handleUpvoteClick.bind(this);
 		this.handleUpvoteUnclick = this.handleUpvoteUnclick.bind(this);
+		this.handleDownvoteClick = this.handleDownvoteClick.bind(this);
+		this.handleDownvoteUnclick = this.handleDownvoteUnclick.bind(this);
 		this.state = {
-			upvoted: false,
-			downvoted: false,
+			upvoted: this.props.upvoted,
+			downvoted: this.props.downvoted,
 			votes: this.props.votes,
 		};
 	}
-	//
-	// method: 'POST',
-	// credentials: "same-origin",
-	// headers : new Headers(),
-	// headers: {
-	// 	 "X-CSRFToken": getCookie("csrftoken"),
-	// 	 'Accept': 'application/json',
-	// 	 'Content-Type': 'application/json',
-	// },
 
+	// TODO: think about error handling - i.e. behavior when no server connection
 	sendVoteToServer(tag) {
-		fetch("/api/posts/"+this.props.id+"/"+tag, {
+		fetch("/api/posts/"+this.props.id+"/"+tag+"/", {
 			method: 'GET',
 			credentials: "same-origin",
 			headers : new Headers(),
 			headers: {
-				 "X-CSRFToken": getCookie("csrftoken"),
+				 "X-CSRFToken": csrftoken,
 				 'Accept': 'application/json',
 				 'Content-Type': 'application/json',
 			},
 		})
-		.then(res => res.json())
-		.then(
-			(result) => {
-				this.setState({
-					votes: result.net_votes,
-				});
-			}
-		)
 	}
 
 	handleUpvoteClick() {
+		if (this.state.upvoted) {
+			return;
+		}
+		else if (this.state.downvoted) {
+			this.setState({
+				upvoted : true,
+				downvoted : false,
+				votes : this.state.votes + 2,
+			})
+		}
+		else {
+			this.setState({
+				upvoted : true,
+				votes : this.state.votes + 1
+			})
+		}
 		this.sendVoteToServer("u");
-		this.setState({upvoted : !this.state.upvoted});
 	}
 
 	handleUpvoteUnclick() {
+		if (!this.state.upvoted) {
+			return;
+		}
+		else {
+			this.setState({
+				upvoted : false,
+				votes : this.state.votes - 1,
+			})
+		}
 		this.sendVoteToServer("c");
-		this.setState({upvoted : !this.state.upvoted});
+	}
+
+	handleDownvoteClick() {
+		if (this.state.downvoted) {
+			return;
+		}
+		else if (this.state.upvoted) {
+			this.setState({
+				downvoted : true,
+				upvoted : false,
+				votes : this.state.votes - 2,
+			})
+		}
+		else {
+			this.setState({
+				downvoted : true,
+				votes : this.state.votes - 1
+			})
+		}
+		this.sendVoteToServer("d");
+	}
+
+	handleDownvoteUnclick() {
+		if (!this.state.downvoted) {
+			return;
+		}
+		else {
+			this.setState({
+				downvoted : false,
+				votes : this.state.votes + 1,
+			})
+		}
+		this.sendVoteToServer("c");
 	}
 
 	render () {
@@ -337,9 +378,12 @@ class Post extends React.Component{
 							? <Chevron_up_clicked onClick={this.handleUpvoteUnclick}/>
 							: <Chevron_up onClick={this.handleUpvoteClick}/>
 						}
-			    	{this.state.votes}
-					<Chevron_down />
-				 	 </div>
+			    			{this.state.votes}
+						{
+							this.state.downvoted
+							? <Chevron_down_clicked onClick={this.handleDownvoteUnclick}/>
+							: <Chevron_down onClick={this.handleDownvoteClick}/>
+						}				 	 </div>
 			    </Media.Left>
 			    <Media.Body onClick={this.props.onClick}>
 					{this.props.content}
@@ -389,7 +433,13 @@ class PostCommentBlock extends React.Component {
 	render() {
 		return (
 			<div>
-				<Post id={this.props.id} content={this.props.content} votes={this.props.votes} onClick={this.handleClick}/>
+				<Post id={this.props.id}
+					  content={this.props.content}
+					  votes={this.props.votes}
+					  upvoted={this.props.upvoted}
+					  downvoted={this.props.downvoted}
+					  isMine={this.props.isMine}
+					  onClick={this.handleClick}/>
 				{
 					this.state.showing
 					? <CommentBlock id={this.props.id} comments={this.props.comments} />
@@ -414,6 +464,7 @@ function Spinner() {
 	);
 }
 
+// function to get the csrf token, used in
 function getCookie(name) {
 	var cookieValue = null;
 	if (document.cookie && document.cookie !== '') {
@@ -428,6 +479,7 @@ function getCookie(name) {
 	}
 	return cookieValue;
 }
+var csrftoken = getCookie("csrftoken");
 
 // The main list of posts and associated post entry form (above it)
 // TODO: add error handling ('ie could not reach server notification')
@@ -437,15 +489,52 @@ class PostList extends React.Component {
 		this.state = {
 			error: null,
 			isLoaded: false,
-			posts: [],
+			posts: [], // all post objects
+			my_posts: [], // post ids of user's posts
+			my_upvoted: [], // post ids of user's upvoted posts
+			my_downvoted: [], // post ids of user's downvoted posts
 		};
 		this.handlePost = this.handlePost.bind(this);
 	}
 
 	// fetch current posts and comments upon page load
 	// TODO: change to local url for production
+
 	componentDidMount() {
-		fetch("https://tigertalkapi.herokuapp.com/api/posts/")
+
+		// Get user data on page load
+		fetch("/api/users/"+userid+"/", {
+			method: 'GET',
+			credentials: "same-origin",
+			headers : new Headers(),
+			headers: {
+				 "X-CSRFToken": csrftoken,
+				 'Accept': 'application/json',
+				 'Content-Type': 'application/json',
+		 	},
+		})
+		.then(res => res.json())
+		.then(
+			(result) => {
+					this.setState({
+						my_posts: result.posts,
+						my_upvoted: result.posts_upvoted,
+						my_downvoted: result.posts_downvoted,
+					});
+				}
+			)
+
+		// Get post data on page load
+		fetch("/api/posts/", {
+			method: 'GET',
+			credentials: "same-origin",
+			headers : new Headers(),
+			headers: {
+				 "X-CSRFToken": csrftoken,
+				 'Accept': 'application/json',
+				 'Content-Type': 'application/json',
+			},
+		})
 		.then(res => res.json())
 		.then(
 			(result) => {
@@ -471,7 +560,7 @@ class PostList extends React.Component {
 					credentials: "same-origin",
 					headers : new Headers(),
 					headers: {
-						 "X-CSRFToken": getCookie("csrftoken"),
+						 "X-CSRFToken": csrftoken,
 						 'Accept': 'application/json',
 						 'Content-Type': 'application/json',
 					},
@@ -504,7 +593,11 @@ class PostList extends React.Component {
 						id={post.id}
 	                	content={post.content}
 						votes={post.net_votes}
-						comments={post.comments} />)
+						comments={post.comments}
+						isMine={this.state.my_posts.includes(post.id)}
+						upvoted={this.state.my_upvoted.includes(post.id)}
+						downvoted={this.state.my_downvoted.includes(post.id)}
+						 />)
 
 				: <Spinner />
 	        }
