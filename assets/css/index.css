@@ -257,14 +257,16 @@ form.replying {
     color:#cfd8dc;
     text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
     margin-left: 4px;
-    margin-top: 22px;
+    top: -1px;
+    margin-bottom: 0px;
 }
 
 .glyphicon-send {
     color:#cfd8dc;
     text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
     margin-left: 4px;
-    margin-top: 22px;
+    top: -1px;
+     margin-bottom: 0px;
 }
 
 #commentContainer {
@@ -281,3 +283,8 @@ form.replying {
 .rip {
   margin-top: 0;
 }
+
+.Chevron_up_clicked  glyphicon-chevron-up {
+  color: #0000FF;
+}
+
