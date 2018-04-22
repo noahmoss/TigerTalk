@@ -40,22 +40,25 @@ class SortBar extends React.Component {
  //	}
 //}
 
-class Chevron_up extends React.Component {
- 	render() {
- 		return (
-			  	<span className="glyphicon glyphicon-chevron-up" aria-hidden="true" onClick = {this.onClick}></span>
-		);
-	}
+function Chevron_up(props) {
+	return (
+		<div className="upvote-arrow"
+			onClick = {props.onClick}>
+			  	<span className="glyphicon glyphicon-chevron-up"
+				aria-hidden="true">
+				</span>
+		</div>
+	);
 }
 
-class Chevron_up_clicked extends React.Component {
-
- 	render() {
- 		console.log("wehere");
- 		return (
-			  	<span className="glyphicon glyphicon-chevron-up" aria-hidden="true" ></span>
-		);
-	}
+function Chevron_up_clicked(props) {
+	return (
+		<span className="glyphicon glyphicon-chevron-up"
+		aria-hidden="true"
+		style={{"color":"orange"}}
+		onClick = {props.onClick}>
+		</span>
+	);
 }
 
 class Chevron_down extends React.Component {
@@ -275,14 +278,52 @@ class Post extends React.Component{
 	constructor(props) {
 		super(props);
 		this.handleUpvoteClick = this.handleUpvoteClick.bind(this);
-		this.state = {upVote: false};
+		this.handleUpvoteUnclick = this.handleUpvoteUnclick.bind(this);
+		this.state = {
+			upvoted: false,
+			downvoted: false,
+			votes: this.props.votes,
+		};
 	}
+	//
+	// method: 'POST',
+	// credentials: "same-origin",
+	// headers : new Headers(),
+	// headers: {
+	// 	 "X-CSRFToken": getCookie("csrftoken"),
+	// 	 'Accept': 'application/json',
+	// 	 'Content-Type': 'application/json',
+	// },
+
+	sendVoteToServer(tag) {
+		fetch("/api/posts/"+this.props.id+"/"+tag, {
+			method: 'GET',
+			credentials: "same-origin",
+			headers : new Headers(),
+			headers: {
+				 "X-CSRFToken": getCookie("csrftoken"),
+				 'Accept': 'application/json',
+				 'Content-Type': 'application/json',
+			},
+		})
+		.then(res => res.json())
+		.then(
+			(result) => {
+				this.setState({
+					votes: result.net_votes,
+				});
+			}
+		)
+	}
+
 	handleUpvoteClick() {
-		this.setState({upVote : !this.state.upVote});
+		this.sendVoteToServer("u");
+		this.setState({upvoted : !this.state.upvoted});
 	}
 
 	handleUpvoteUnclick() {
-		this.setState({upVote : !this.state.upVote});
+		this.sendVoteToServer("c");
+		this.setState({upvoted : !this.state.upvoted});
 	}
 
 	render () {
@@ -292,11 +333,11 @@ class Post extends React.Component{
 			    <Media.Left>
 			    	<div className="arrowBox">
 						{
-							this.state.upVote
-							? <Chevron_up_clicked onClick={this.handleUpvoteClick}/>
-							: <Chevron_up onClick={this.handleUpvoteUnclick}/>
+							this.state.upvoted
+							? <Chevron_up_clicked onClick={this.handleUpvoteUnclick}/>
+							: <Chevron_up onClick={this.handleUpvoteClick}/>
 						}
-			    	10
+			    	{this.state.votes}
 					<Chevron_down />
 				 	 </div>
 			    </Media.Left>
@@ -348,7 +389,7 @@ class PostCommentBlock extends React.Component {
 	render() {
 		return (
 			<div>
-				<Post content={this.props.content} onClick={this.handleClick}/>
+				<Post id={this.props.id} content={this.props.content} votes={this.props.votes} onClick={this.handleClick}/>
 				{
 					this.state.showing
 					? <CommentBlock id={this.props.id} comments={this.props.comments} />
@@ -402,6 +443,7 @@ class PostList extends React.Component {
 	}
 
 	// fetch current posts and comments upon page load
+	// TODO: change to local url for production
 	componentDidMount() {
 		fetch("https://tigertalkapi.herokuapp.com/api/posts/")
 		.then(res => res.json())
@@ -461,6 +503,7 @@ class PostList extends React.Component {
 			   			key={post.id}
 						id={post.id}
 	                	content={post.content}
+						votes={post.net_votes}
 						comments={post.comments} />)
 
 				: <Spinner />
