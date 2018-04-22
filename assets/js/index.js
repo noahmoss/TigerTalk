@@ -301,6 +301,7 @@ class Post extends React.Component{
 		})
 	}
 
+	// voting logic
 	handleUpvoteClick() {
 		if (this.state.upvoted) {
 			return;
@@ -320,7 +321,6 @@ class Post extends React.Component{
 		}
 		this.sendVoteToServer("u");
 	}
-
 	handleUpvoteUnclick() {
 		if (!this.state.upvoted) {
 			return;
@@ -333,7 +333,6 @@ class Post extends React.Component{
 		}
 		this.sendVoteToServer("c");
 	}
-
 	handleDownvoteClick() {
 		if (this.state.downvoted) {
 			return;
@@ -353,7 +352,6 @@ class Post extends React.Component{
 		}
 		this.sendVoteToServer("d");
 	}
-
 	handleDownvoteUnclick() {
 		if (!this.state.downvoted) {
 			return;
@@ -394,10 +392,11 @@ class Post extends React.Component{
 					   title=""
 					   id="dropdown-size-small"
 					   >
-					   <MenuItem eventKey="1">Report</MenuItem>
-					   <MenuItem eventKey="2">Follow</MenuItem>
-					   <MenuItem divider />
-					   <MenuItem eventKey="3">Delete</MenuItem>
+					   <MenuItem>Follow</MenuItem>
+					   { this.props.isMine
+					   		? <MenuItem onClick={this.props.handleDelete}>Delete</MenuItem>
+							: <MenuItem>Report</MenuItem>
+				   		}
 					</DropdownButton>
 				   </Media.Right>
 			  </Media>
@@ -425,10 +424,14 @@ class PostCommentBlock extends React.Component {
 	constructor(props) {
 		super(props);
 		this.handleClick = this.handleClick.bind(this);
+		this.handleDelete = this.handleDelete.bind(this);
 		this.state = {showing: false};
 	}
 	handleClick() {
 		this.setState({showing : !this.state.showing});
+	}
+	handleDelete() {
+		this.props.handleDelete(this.props.id);
 	}
 	render() {
 		return (
@@ -439,7 +442,9 @@ class PostCommentBlock extends React.Component {
 					  upvoted={this.props.upvoted}
 					  downvoted={this.props.downvoted}
 					  isMine={this.props.isMine}
-					  onClick={this.handleClick}/>
+					  onClick={this.handleClick}
+					  handleDelete={this.handleDelete}
+					  />
 				{
 					this.state.showing
 					? <CommentBlock id={this.props.id} comments={this.props.comments} />
@@ -464,7 +469,7 @@ function Spinner() {
 	);
 }
 
-// function to get the csrf token, used in
+// get csrf token from cookies
 function getCookie(name) {
 	var cookieValue = null;
 	if (document.cookie && document.cookie !== '') {
@@ -482,7 +487,7 @@ function getCookie(name) {
 var csrftoken = getCookie("csrftoken");
 
 // The main list of posts and associated post entry form (above it)
-// TODO: add error handling ('ie could not reach server notification')
+// TODO: add error handling ('could not reach server' notification)
 class PostList extends React.Component {
 	constructor(props) {
 		super(props);
@@ -495,13 +500,12 @@ class PostList extends React.Component {
 			my_downvoted: [], // post ids of user's downvoted posts
 		};
 		this.handlePost = this.handlePost.bind(this);
+		this.handleDelete = this.handleDelete.bind(this);
 	}
 
 	// fetch current posts and comments upon page load
 	// TODO: change to local url for production
-
 	componentDidMount() {
-
 		// Get user data on page load
 		fetch("/api/users/"+userid+"/", {
 			method: 'GET',
@@ -573,6 +577,7 @@ class PostList extends React.Component {
 				(result) => {
 					this.setState({
 						posts : [result].concat(this.state.posts),
+						my_posts : [result.id].concat(this.state.my_posts),
 					});
 				},
 				(error) => {
@@ -580,6 +585,31 @@ class PostList extends React.Component {
 				}
 			)
 		}
+	}
+
+	// delete a post by ID
+	handleDelete(id) {
+		fetch("/api/posts/"+id+"/", {
+				method: 'DELETE',
+				credentials: "same-origin",
+				headers : new Headers(),
+				headers: {
+					 "X-CSRFToken": csrftoken,
+					 'Accept': 'application/json',
+					 'Content-Type': 'application/json',
+				},
+			})
+			.then(
+				(result) => {
+					var newposts = this.state.posts.filter(
+						function(post) {
+							return post.id !== id;
+						});
+					this.setState({
+						posts : newposts
+					});
+				}
+			)
 	}
 
 	render() {
@@ -597,6 +627,7 @@ class PostList extends React.Component {
 						isMine={this.state.my_posts.includes(post.id)}
 						upvoted={this.state.my_upvoted.includes(post.id)}
 						downvoted={this.state.my_downvoted.includes(post.id)}
+						handleDelete={this.handleDelete}
 						 />)
 
 				: <Spinner />
@@ -616,7 +647,6 @@ class MainTitle extends React.Component {
 
 class NavBar extends React.Component {
 	render() {
-
 		return (
 			<Navbar fixedTop collapseOnSelect>
 			  <Navbar.Header>
