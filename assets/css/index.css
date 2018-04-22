@@ -286,5 +286,13 @@ form.replying {
 
 .Chevron_up_clicked  glyphicon-chevron-up {
   color: #0000FF;
+
 }
 
+.glyphicon-chevron-up {
+  cursor: pointer;
+}
+
+.glyphicon-chevron-down {
+  cursor: pointer;
+}
