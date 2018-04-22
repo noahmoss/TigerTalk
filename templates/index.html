@@ -17,6 +17,14 @@
 
 <body>
     <script> var netid = "{{ user.get_username }}";</script>
+
+    <!-- Get csrf token  -->
+    {% csrf_token %}
+    <script type="text/javascript">
+    // using jQuery
+    var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
+    </script>
+
     <div id="root">
         {% render_bundle 'main' %}
     </div>

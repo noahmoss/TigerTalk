@@ -166,16 +166,18 @@ class CommentBlock extends React.Component {
 	// add a new comment
 	handleComment(text) {
 		if (text.trim() != ''){
-			fetch("https://tigertalkapi.herokuapp.com/api/comments/", {
+			fetch("/api/comments/", {
 					method: 'POST',
+					credentials: "same-origin",
 					headers : new Headers(),
 					headers: {
+						 "X-CSRFToken": getCookie("csrftoken"),
 						 'Accept': 'application/json',
 						 'Content-Type': 'application/json',
 					},
 					body:JSON.stringify({
-						"post":this.props.id,
 						"content":text,
+						"post":this.props.id,
 					})
 				})
 			.then(res => res.json())
@@ -226,7 +228,6 @@ class PostEntryForm extends React.Component {
 
 	handleSubmit(event) {
 		this.setState({value:''});
-		console.log('test');
     	event.preventDefault();
 	}
 
@@ -343,6 +344,21 @@ function Spinner() {
 	);
 }
 
+function getCookie(name) {
+	var cookieValue = null;
+	if (document.cookie && document.cookie !== '') {
+		var cookies = document.cookie.split(';');
+		for (var i = 0; i < cookies.length; i++) {
+			var cookie = jQuery.trim(cookies[i]);
+			if (cookie.substring(0, name.length + 1) === (name + '=')) {
+				cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+				break;
+			}
+		}
+	}
+	return cookieValue;
+}
+
 // The main list of posts and associated post entry form (above it)
 // TODO: add error handling ('ie could not reach server notification')
 class PostList extends React.Component {
@@ -379,10 +395,12 @@ class PostList extends React.Component {
 	// add a new post
 	handlePost(text) {
 		if (text.trim() != ''){
-			fetch("https://tigertalkapi.herokuapp.com/api/posts/", {
+			fetch("/api/posts/", {
 					method: 'POST',
+					credentials: "same-origin",
 					headers : new Headers(),
 					headers: {
+						 "X-CSRFToken": getCookie("csrftoken"),
 						 'Accept': 'application/json',
 						 'Content-Type': 'application/json',
 					},

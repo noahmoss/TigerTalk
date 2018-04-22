@@ -1,9 +1,9 @@
 from rest_framework import serializers
-from api.models import Post, Comment, User
-# from django.contrib.auth.models import User
+from api.models import Post, Comment
+from django.contrib.auth import get_user_model
+User = get_user_model()
 
 class CommentSerializer(serializers.ModelSerializer):
-    # author = serializers.ReadOnlyField(source='author.username')
     class Meta:
         model = Comment
         fields = (
@@ -14,10 +14,10 @@ class CommentSerializer(serializers.ModelSerializer):
             'content',
             'net_votes',
         )
+        read_only_fields = ('id','author','date_created',)
 
 # TODO: figure out way to just pass # of comments
 class PostSerializer(serializers.ModelSerializer):
-    # author = serializers.ReadOnlyField(source='author.username')
     comments = CommentSerializer(many=True, read_only=True)
 
     class Meta:
