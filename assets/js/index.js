@@ -817,6 +817,7 @@ class InfiniteScroll extends React.Component {
 	  var VisibilitySensor = require('react-visibility-sensor');
 
 	  if (!this.state.morePosts) {
+		  if ()
 		  return(<div className="no-more-posts">No more posts!</div>);
 	  }
 
