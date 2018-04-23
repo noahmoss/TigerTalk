@@ -452,7 +452,7 @@ class PostCommentBlock extends React.Component {
 					this.setState({
 						isLoaded: true,
 						showing: true,
-						comments: result,
+						comments: result.results,
 					});
 				},
 				(error) => {
@@ -558,7 +558,9 @@ class PostList extends React.Component {
 		super(props);
 		this.state = {
 			error: null,
-			isLoaded: false,
+			isLoaded: false, // are any posts loaded?
+			nextPageLoaded: true, // is the next page loaded?
+			morePosts: true, // are there more posts to load?
 			posts: [], // all post objects
 			my_posts: [], // post ids of user's posts
 			my_upvoted: [], // post ids of user's upvoted posts
@@ -566,10 +568,11 @@ class PostList extends React.Component {
 		};
 		this.handlePost = this.handlePost.bind(this);
 		this.handleDelete = this.handleDelete.bind(this);
+		this.getFirstPage = this.getFirstPage.bind(this);
+		this.getNextPage = this.getNextPage.bind(this);
 	}
 
 	// fetch current posts and comments upon page load
-	// TODO: change to local url for production
 	componentDidMount() {
 		// Get user data on page load
 		fetch("/api/users/"+userid+"/", {
@@ -593,7 +596,7 @@ class PostList extends React.Component {
 				}
 			)
 
-		// Get post data on page load
+		// Get initial post data on page load
 		fetch("/api/posts/", {
 			method: 'GET',
 			credentials: "same-origin",
@@ -609,12 +612,97 @@ class PostList extends React.Component {
 			(result) => {
 				this.setState({
 					isLoaded: true,
-					posts: result,
+					morePosts: result.next !== null,
+					posts: result.results,
 				});
 			},
 			(error) => {
 				this.setState({
 					isLoaded: true,
+					error
+				});
+			}
+		)
+	}
+
+	// get first page of post results and update current post list
+	 getFirstPage() {
+		fetch("/api/posts/", {
+			method: 'GET',
+			credentials: "same-origin",
+			headers : new Headers(),
+			headers: {
+				 "X-CSRFToken": csrftoken,
+				 'Accept': 'application/json',
+				 'Content-Type': 'application/json',
+			},
+		})
+		.then(res => res.json())
+		.then(
+			(result) => {
+				// slice new posts and add to front of current post list
+				let loadedPosts = result.results;
+				for (let i = 0; i < loadedPosts.length; i++) {
+					if (loadedPosts[i].id === this.state.posts[0].id) {
+						var newPostsCount = i;
+						break;
+					}
+				}
+				let newPosts = loadedPosts.slice(0,newPostsCount);
+				this.setState({
+					posts : newPosts.concat(this.state.posts),
+				});
+			},
+			(error) => {
+				this.setState({
+					error
+				});
+			}
+		)
+	}
+
+	// load the next page of posts from server and add to current post list
+	getNextPage() {
+		// don't try to fetch posts if there are no more
+		if (this.state.morePosts === false) {
+			return;
+		}
+
+		// set state to trigger loading icon
+		this.setState({
+			nextPageLoaded : false,
+		})
+
+		let currentPostCount = this.state.posts.length;
+		fetch("/api/posts/?offset="+currentPostCount, {
+			method: 'GET',
+			credentials: "same-origin",
+			headers : new Headers(),
+			headers: {
+				 "X-CSRFToken": csrftoken,
+				 'Accept': 'application/json',
+				 'Content-Type': 'application/json',
+			},
+		})
+		.then(res => res.json())
+		.then(
+			(result) => {
+				var nextPage = result.results;
+				for (let i = 0; i < nextPage.length; i++) {
+					if (nextPage[i].id < this.state.posts[this.state.posts.length-1].id) {
+						var firstNewPostIndex = i;
+						break;
+					}
+				}
+				this.setState({
+					nextPageLoaded: true,
+					morePosts: result.next !== null,
+					posts: this.state.posts.concat(nextPage.slice(firstNewPostIndex)),
+				});
+			},
+			(error) => {
+				this.setState({
+					nextPageLoaded: true,
 					error
 				});
 			}
@@ -663,25 +751,27 @@ class PostList extends React.Component {
 					 'Accept': 'application/json',
 					 'Content-Type': 'application/json',
 				},
-			})
-			.then(
-				(result) => {
-					var newposts = this.state.posts.filter(
-						function(post) {
-							return post.id !== id;
-						});
-					this.setState({
-						posts : newposts
+			}
+		)
+		.then(
+			(result) => {
+				var newposts = this.state.posts.filter(
+					function(post) {
+						return post.id !== id;
 					});
-				}
-			)
+				this.setState({
+					posts : newposts
+				});
+			}
+		)
 	}
 
 	render() {
 		return (
 			<div>
 			<PostEntryForm onClick={this.handlePost}/>
-			{this.state.isLoaded
+			{
+				this.state.isLoaded
 				? this.state.posts.map((post) =>
 	          		<PostCommentBlock
 			   			key={post.id}
@@ -694,11 +784,41 @@ class PostList extends React.Component {
 						downvoted={this.state.my_downvoted.includes(post.id)}
 						handleDelete={this.handleDelete}
 						 />)
-
 				: <Spinner />
 	        }
+			{
+				this.state.isLoaded
+				? <InfiniteScroll
+					morePosts={this.state.morePosts}
+					getNextPage={this.getNextPage} />
+				: null
+			}
 			</div>
 		);
+	}
+}
+
+class InfiniteScroll extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			morePosts : this.props.morePosts,
+		}
+		this.onChange = this.onChange.bind(this);
+	}
+
+	onChange(isVisible) {
+		if (isVisible) {
+			this.props.getNextPage();
+		}
+	}
+
+	render () {
+		var VisibilitySensor = require('react-visibility-sensor');
+
+	  return (
+	    <VisibilitySensor onChange={this.onChange} />
+	  );
 	}
 }
 
