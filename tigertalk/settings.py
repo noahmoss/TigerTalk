@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = os.environ["DJANGO_SECRET_KEY"]
 
 ALLOWED_HOSTS = ['0.0.0.0', 'localhost', '127.0.0.1', 'tigertalkapi.herokuapp.com',
-                'princetontigertalk.herokuapp.com']
+                'princetontigertalk.herokuapp.com', 'tigertalk.io']
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
