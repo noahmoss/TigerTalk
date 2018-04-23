@@ -135,6 +135,12 @@ div.mainBody {
     margin-right: 5px;
 }
 
+div.no-more-posts {
+    font-family: Quicksand;
+    text-align: center;
+}
+
+
 /* Comment components -- TODO: fix comment css */
 .replyContainer {
   max-width: 768px;
@@ -213,7 +219,7 @@ form.replying {
   position: absolute;
   width: 100px;
   height: 100px;
-  top: 50px;
+  top: 20px;
   left: 50px;
   border-radius: 50%;
   border: 8px solid #000;

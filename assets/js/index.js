@@ -784,14 +784,14 @@ class PostList extends React.Component {
 						downvoted={this.state.my_downvoted.includes(post.id)}
 						handleDelete={this.handleDelete}
 						 />)
-				: <Spinner />
+				: null
 	        }
 			{
-				this.state.isLoaded
+				this.state.isLoaded && this.state.nextPageLoaded
 				? <InfiniteScroll
 					morePosts={this.state.morePosts}
 					getNextPage={this.getNextPage} />
-				: null
+				: <Spinner />
 			}
 			</div>
 		);
@@ -814,7 +814,11 @@ class InfiniteScroll extends React.Component {
 	}
 
 	render () {
-		var VisibilitySensor = require('react-visibility-sensor');
+	  var VisibilitySensor = require('react-visibility-sensor');
+
+	  if (!this.state.morePosts) {
+		  return(<div className="no-more-posts">No more posts!</div>);
+	  }
 
 	  return (
 	    <VisibilitySensor onChange={this.onChange} />
