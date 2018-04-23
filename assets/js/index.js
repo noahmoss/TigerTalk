@@ -42,7 +42,7 @@ function Chevron_up_clicked(props) {
 	return (
 		<span className="glyphicon glyphicon-chevron-up"
 			aria-hidden="true"
-			style={{"color":"orange"}}
+			style={{"color":"darkorange"}}
 			onClick = {props.onClick}>
 		</span>
 	);
@@ -62,7 +62,7 @@ function Chevron_down_clicked(props) {
 	return (
 		<span className="glyphicon glyphicon-chevron-down"
 			aria-hidden="true"
-			style={{"color":"orange"}}
+			style={{"color":"darkorange"}}
 			onClick = {props.onClick}>
 		</span>
 	)
@@ -377,6 +377,7 @@ class Post extends React.Component{
 							: <Chevron_up onClick={this.handleUpvoteClick}/>
 						}
 			    			{this.state.votes}
+
 						{
 							this.state.downvoted
 							? <Chevron_down_clicked onClick={this.handleDownvoteUnclick}/>
@@ -425,13 +426,64 @@ class PostCommentBlock extends React.Component {
 		super(props);
 		this.handleClick = this.handleClick.bind(this);
 		this.handleDelete = this.handleDelete.bind(this);
-		this.state = {showing: false};
+		this.state = {
+			showing: false, // are the comments showing?
+			isLoaded: true, // are the comments loaded?
+			comments: [], // current list of comments
+		};
 	}
+	// load comments from API when post is clicked
 	handleClick() {
-		this.setState({showing : !this.state.showing});
+		if(!this.state.showing) {
+			this.setState({showing: true, isLoaded: false});
+			fetch("/api/posts/"+this.props.id+"/comments/", {
+				method: 'GET',
+				credentials: "same-origin",
+				headers : new Headers(),
+				headers: {
+					 "X-CSRFToken": csrftoken,
+					 'Accept': 'application/json',
+					 'Content-Type': 'application/json',
+				},
+			})
+			.then(res => res.json())
+			.then(
+				(result) => {
+					this.setState({
+						isLoaded: true,
+						showing: true,
+						comments: result,
+					});
+				},
+				(error) => {
+					this.setState({
+						isLoaded: true,
+						error
+					});
+				}
+			)
+		}
+		else {
+			this.setState({
+				showing: false,
+			})
+		}
+
 	}
 	handleDelete() {
 		this.props.handleDelete(this.props.id);
+	}
+	renderComments() {
+		if (this.state.isLoaded) {
+			return (
+				<CommentBlock id={this.props.id}
+							comments={this.state.comments}
+							my_comments={this.props.my_comments} />
+			);
+		}
+		else {
+			return (<Spinner />);
+		}
 	}
 	render() {
 		return (
@@ -447,7 +499,7 @@ class PostCommentBlock extends React.Component {
 					  />
 				{
 					this.state.showing
-					? <CommentBlock id={this.props.id} comments={this.props.comments} />
+					? this.renderComments()
 					: null
 				}
 			</div>
