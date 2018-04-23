@@ -482,7 +482,7 @@ class PostCommentBlock extends React.Component {
 			);
 		}
 		else {
-			return (<Spinner />);
+			return (<LilSpinner />);
 		}
 	}
 	render() {
@@ -513,6 +513,19 @@ function Spinner() {
 		<div style={{}}>
 		<div className="lds-css ng-scope">
 		<div style={{width:"100%",height:"100%"}} className="lds-dual-ring">
+		<div>
+		</div>
+		</div>
+		</div>
+		</div>
+	);
+}
+
+function LilSpinner() {
+	return (
+		<div style={{}}>
+		<div className="lds-css ng-scope">
+		<div style={{width:"100%",height:"100%"}} className="lds-dual-ring2">
 		<div>
 		</div>
 		</div>
