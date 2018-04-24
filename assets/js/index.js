@@ -374,15 +374,17 @@ class Post extends React.Component{
 	render () {
 		var moment = require('moment');
 		var postDatetime = moment(this.props.date, moment.ISO_8601);
-		console.log(postDatetime);
 		var now = moment();
-		console.log(now);
 		var timeAgo = now.diff(postDatetime,'seconds');
+<<<<<<< HEAD
 		console.log(timeAgo);
 		/*if (now.isSame(postDatetime, 'day'))
 		{
 		  var timeUnit = 'day';
 		} */
+=======
+		
+>>>>>>> a2d930ecc1df5c4cdc2ce14980b0f73adfca7c4f
 		if (timeAgo == 0) {
 			var timeUnit = "just now";
 		}
