@@ -8,13 +8,38 @@ import { Media } from 'react-bootstrap';
 
 // Buttons for sorting posts by recent or popular
 class SortBar extends React.Component {
+	constructor(props, context) {
+		super(props, context);
+		this.state = {
+			value: "recent", // recent or popular
+		};
+		this.setRecent = this.setRecent.bind(this);
+		this.setPopular = this.setPopular.bind(this);
+	}
+
+	setRecent() {
+		console.log("recent")
+		this.setState({
+			value: "recent",
+		});
+		this.props.toggleSort("recent");
+	}
+
+	setPopular() {
+		this.setState({
+			value: "popular",
+		});
+		this.props.toggleSort("popular");
+	}
+
+
     render() {
 		return (
 			<div className="sortbar">
 				<ButtonToolbar>
-				  <ToggleButtonGroup type="radio" name="sortbar" defaultValue={1}>
-					<ToggleButton value={1} className="sort-button" onClick={this.props.toggleSort}>Recent</ToggleButton>
-					<ToggleButton value={2} className="sort-button" onClick={this.props.toggleSort}>Popular</ToggleButton>
+				  <ToggleButtonGroup defaultValue={"recent"} type="radio" name="sortbar" >
+					<ToggleButton value={"recent"} onClick={this.setRecent} className="sort-button">Recent</ToggleButton>
+					<ToggleButton value={"popular"} onClick={this.setPopular} className="sort-button">Popular</ToggleButton>
 				  </ToggleButtonGroup>
 				</ButtonToolbar>
 			</div>
@@ -376,15 +401,7 @@ class Post extends React.Component{
 		var postDatetime = moment(this.props.date, moment.ISO_8601);
 		var now = moment();
 		var timeAgo = now.diff(postDatetime,'seconds');
-<<<<<<< HEAD
-		console.log(timeAgo);
-		/*if (now.isSame(postDatetime, 'day'))
-		{
-		  var timeUnit = 'day';
-		} */
-=======
-		
->>>>>>> a2d930ecc1df5c4cdc2ce14980b0f73adfca7c4f
+
 		if (timeAgo == 0) {
 			var timeUnit = "just now";
 		}
@@ -630,6 +647,7 @@ class PostList extends React.Component {
 		super(props);
 		this.state = {
 			error: null,
+			sort: "recent",
 			isLoaded: false, // are any posts loaded?
 			nextPageLoaded: true, // is the next page loaded?
 			morePosts: true, // are there more posts to load?
@@ -642,6 +660,7 @@ class PostList extends React.Component {
 		this.handleDelete = this.handleDelete.bind(this);
 		this.getFirstPage = this.getFirstPage.bind(this);
 		this.getNextPage = this.getNextPage.bind(this);
+		this.reloadPosts = this.reloadPosts.bind(this);
 	}
 
 	// fetch current posts and comments upon page load
@@ -668,12 +687,22 @@ class PostList extends React.Component {
 				}
 			)
 
-		var url = this.props.sort === "popular"
-					? "/api/posts/popular/"
-					: "/api/posts/";
+		var url = "/api/posts/";
+		this.reloadPosts(url); // load posts
+	}
+
+	componentWillReceiveProps(nextProps) {
+		var url = "/api/posts/" + (nextProps.sort === "popular" ? "popular" : "");
+		this.reloadPosts(url);
+	}
+
+	reloadPosts(url) {
+		this.setState({
+			isLoaded: false,
+		})
 
 		// Get initial post data on page load
-		fetch("/api/posts", {
+		fetch(url, {
 			method: 'GET',
 			credentials: "same-origin",
 			headers : new Headers(),
@@ -701,14 +730,6 @@ class PostList extends React.Component {
 		)
 	}
 
-	componentWillUnmount() {
-		this.setState({
-			isLoaded: false,
-			nextPageLoaded: true,
-			morePosts: true,
-			posts: [],
-		})
-	}
 
 	// get first page of post results and update current post list
 	 getFirstPage() {
@@ -759,7 +780,8 @@ class PostList extends React.Component {
 		})
 
 		let currentPostCount = this.state.posts.length;
-		fetch("/api/posts/?offset="+currentPostCount, {
+		var url = "/api/posts/" + (this.props.sort === "popular" ? "popular" : "");
+		fetch(url +"?offset="+currentPostCount, {
 			method: 'GET',
 			credentials: "same-origin",
 			headers : new Headers(),
@@ -964,9 +986,9 @@ class App extends React.Component {
 		this.toggleSort = this.toggleSort.bind(this);
 	}
 
-	toggleSort() {
+	toggleSort(sort) {
 		this.setState({
-			recent : !this.state.recent,
+			recent : sort == "recent" ? true : false,
 		});
 	}
 
