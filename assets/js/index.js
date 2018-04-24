@@ -84,6 +84,15 @@ class Share_icon extends React.Component {
 	}
 }
 
+
+class Refresh_icon extends React.Component {
+ 	render() {
+ 		return (
+ 				<span className="glyphicon glyphicon-refresh" aria-hidden="true"></span>
+		);
+	}
+}
+
 // A single comment
 function Comment(props) {
 	return (
@@ -257,12 +266,18 @@ class PostEntryForm extends React.Component {
 							  autoComplete="off"
 							  maxLength="1000"
 							  placeholder="What do you want to talk about?"/>
-					<Button
-						type="submit"
-						id="post"
-						onClick={() => this.props.onClick(this.state.value)}>
-					Post
-					</Button>
+					<Media.Body className = "mb2">
+						<Refresh_icon/>
+					</Media.Body>
+					<Media.Body className = "mb">
+						<Button
+							type="submit"
+							id="post"
+							onClick={() => this.props.onClick(this.state.value)}>
+						Post
+						</Button>
+
+					</Media.Body>
 			</div>
 			</form>
 			</div>
