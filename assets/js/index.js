@@ -13,8 +13,8 @@ class SortBar extends React.Component {
 			<div className="sortbar">
 				<ButtonToolbar>
 				  <ToggleButtonGroup type="radio" name="sortbar" defaultValue={1}>
-					<ToggleButton value={1} className="sort-button">Recent</ToggleButton>
-					<ToggleButton value={2} className="sort-button">Popular</ToggleButton>
+					<ToggleButton value={1} className="sort-button" onClick={this.props.toggleSort}>Recent</ToggleButton>
+					<ToggleButton value={2} className="sort-button" onClick={this.props.toggleSort}>Popular</ToggleButton>
 				  </ToggleButtonGroup>
 				</ButtonToolbar>
 			</div>
@@ -270,7 +270,6 @@ class PostEntryForm extends React.Component {
 							onClick={() => this.props.onClick(this.state.value)}>
 						Post
 						</Button>
-
 					</Media.Body>
 			</div>
 			</form>
@@ -661,8 +660,12 @@ class PostList extends React.Component {
 				}
 			)
 
+		var url = this.props.sort === "popular"
+					? "/api/posts/popular/"
+					: "/api/posts/";
+
 		// Get initial post data on page load
-		fetch("/api/posts/", {
+		fetch("/api/posts", {
 			method: 'GET',
 			credentials: "same-origin",
 			headers : new Headers(),
@@ -688,6 +691,15 @@ class PostList extends React.Component {
 				});
 			}
 		)
+	}
+
+	componentWillUnmount() {
+		this.setState({
+			isLoaded: false,
+			nextPageLoaded: true,
+			morePosts: true,
+			posts: [],
+		})
 	}
 
 	// get first page of post results and update current post list
@@ -936,14 +948,18 @@ class NavBar extends React.Component {
 
 // Parent class which is rendered in the Django template
 class App extends React.Component {
-	constructor() {
+	constructor(props) {
+		super(props);
 		this.state = {
-			recent = true,
+			recent : true,
 		}
+		this.toggleSort = this.toggleSort.bind(this);
 	}
 
 	toggleSort() {
-		console.log('hi')
+		this.setState({
+			recent : !this.state.recent,
+		});
 	}
 
 	render() {
@@ -951,8 +967,12 @@ class App extends React.Component {
 			<div>
 				<NavBar />
 				<MainTitle />
-				<SortBar />
-				<PostList />
+				<SortBar toggleSort={this.toggleSort}/>
+				{
+					this.state.recent
+					? <PostList sort="recent" />
+					: <PostList sort="popular" />
+				}
 			</div>
 		);
 	}
