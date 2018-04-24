@@ -23,6 +23,7 @@ import django_cas_ng.views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('api.urls')),
+    # path('post/<int:pk>/', login_required(TemplateView.as_view(template_name='post.html'))),
     path('', login_required(TemplateView.as_view(template_name='index.html'))),
     path('accounts/login/', django_cas_ng.views.login, name='cas_ng_login'),
     path('accounts/logout/', django_cas_ng.views.logout, name='cas_ng_logout')

@@ -41,11 +41,6 @@ class Comment(models.Model):
     class Meta:
         ordering = ['date_created']
 
-# @receiver(post_save, sender=settings.AUTH_USER_MODEL)
-# def create_auth_token(sender, instance=None, created=False, **kwargs):
-#     if created:
-#         Token.objects.create(user=instance)
-
 class User(AbstractUser):
     posts_upvoted = models.ManyToManyField(Post, related_name='users_upvoted', default=None, blank=True)
     posts_downvoted = models.ManyToManyField(Post, related_name='users_downvoted', default=None, blank=True)

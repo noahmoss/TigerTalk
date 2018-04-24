@@ -1032,6 +1032,17 @@ class NavBar extends React.Component {
 	}
 }
 
+// class SinglePost extends React.Component {
+// 	render() {
+// 		return (
+// 			<div>
+// 				<NavBar />
+// 				<MainTitle />
+// 			</div>
+// 		)
+// 	}
+// }
+
 // Parent class which is rendered in the Django template
 class App extends React.Component {
 	constructor(props) {
@@ -1065,3 +1076,4 @@ class App extends React.Component {
 }
 
 ReactDOM.render(<App />, document.getElementById('root'))
+// ReactDOM.render(<SinglePost />, document.getElementById('root'))

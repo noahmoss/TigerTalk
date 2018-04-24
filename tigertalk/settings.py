@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = os.environ["DJANGO_SECRET_KEY"]
 
 ALLOWED_HOSTS = ['0.0.0.0', 'localhost', '127.0.0.1', 'tigertalkapi.herokuapp.com',
-                'princetontigertalk.herokuapp.com', 'tigertalk.io']
+                'princetontigertalk.herokuapp.com', 'www.tigertalk.io']
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -74,7 +74,8 @@ CAS_SERVER_URL= 'https://fed.princeton.edu/cas/'
 
 # CORS_ORIGIN_ALLOW_ALL = True
 
-CORS_ORIGIN_WHITELIST = ( 'localhost:5000', )
+CORS_ORIGIN_WHITELIST = ( 'localhost:5000', 'localhost:8000',
+                          'princetontigertalk.herokuapp.com' 'www.tigertalk.io', )
 
 
 
