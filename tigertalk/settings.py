@@ -104,7 +104,7 @@ WSGI_APPLICATION = 'tigertalk.wsgi.application'
 #     'default': {
 #         'ENGINE': 'django.db.backends.postgresql_psycopg2',
 #         'NAME': 'tigertalk_db',
-#         'USER': 'noahbmoss',
+#         'USER': 'tigertalk',
 #         'PASSWORD': 'tigertalk333',
 #         'HOST': 'localhost',
 #         'PORT': '',
