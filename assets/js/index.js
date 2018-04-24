@@ -424,6 +424,9 @@ class Post extends React.Component{
 					<Media.Left>
 				      <Speech_bubble />
 				    </Media.Left>
+				    <Media.Left className = "commentNum">
+				      10
+				    </Media.Left>
 				    <Media.Right>
 				    	<Share_icon />
 				    </Media.Right>

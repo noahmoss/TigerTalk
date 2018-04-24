@@ -111,7 +111,11 @@ div.mb2.media-body{
   width: 10500px
 }
 
-
+div.commentNum.media-left{
+    position: relative;
+    top: -3.6px;
+     margin-bottom: 0px;
+}
 
 /* Post components */
 div.post {
