@@ -101,6 +101,18 @@ textarea.form-control {
     float: right;
 }
 
+div.mb.media-body{
+  z-index: 3;
+   width: 9000px
+}
+
+div.mb2.media-body{
+  z-index: 4;
+  width: 10500px
+}
+
+
+
 /* Post components */
 div.post {
     font-family: Quicksand;
@@ -347,4 +359,13 @@ form.replying {
 
 .glyphicon-chevron-down {
   cursor: pointer;
+}
+
+.glyphicon-refresh {
+  float: right;
+  /*right: -1%; */ /* or right 50% */
+  font-size: 1.7em;
+  color: #AAB3B7; 
+  z-index: 1000;
+
 }
