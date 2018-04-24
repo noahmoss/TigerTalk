@@ -6,6 +6,7 @@ from rest_framework.authtoken import views as authviews
 
 urlpatterns = [
     path('posts/', views.PostList.as_view()),
+    path('posts/popular/', views.PostListByVotes.as_view()),
     path('posts/<int:pk>/', views.PostDetail.as_view()),
     path('posts/<int:pk>/comments/', views.PostCommentList.as_view()),
     path('posts/<int:pk>/u/', views.PostUpvote.as_view()),

@@ -4,6 +4,8 @@ from api.permissions import IsAuthorOrReadOnly, IsUser
 from django.contrib.auth import get_user_model
 from rest_framework import generics, permissions
 from rest_framework.response import Response
+from django.utils import timezone
+import datetime
 User = get_user_model()
 
 # list of all posts
@@ -15,6 +17,16 @@ class PostList(generics.ListCreateAPIView):
 
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
+
+class PostListByVotes(generics.ListAPIView):
+    serializer_class = PostSerializer
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def get_queryset(self):
+        now = timezone.now()
+        earliest_time = now - datetime.timedelta(hours=24)
+        return sorted(Post.objects.all().filter(date_created__range=[earliest_time, now]),
+                            key=lambda x: -x.net_votes())
 
 # detail for single post
 # methods: GET, DELETE
@@ -34,7 +46,6 @@ class PostCommentList(generics.ListCreateAPIView):
         queryset = super(PostCommentList, self).get_queryset()
         return queryset.filter(post=self.kwargs.get('pk'))
 
-    #TODO: automatically fill 'post' field based on url?
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
 
