@@ -231,7 +231,6 @@ class CommentBlock extends React.Component {
 }
 
 // The textarea and reply button for creating new posts
-// THIS POST BUTTON WAS BIRTHED BY SATAN
 class PostEntryForm extends React.Component {
 	constructor(props) {
 		super(props);
@@ -267,7 +266,7 @@ class PostEntryForm extends React.Component {
 							  autoComplete="off"
 							  maxLength="1000"
 							  placeholder="What do you want to talk about?"/>
-					<Media.Body className = "mb2"> 
+					<Media.Body className = "mb2">
 						<Refresh_icon/>
 					</Media.Body>
 					<Media.Body className = "mb">
@@ -787,6 +786,7 @@ class PostList extends React.Component {
 		return (
 			<div>
 			<PostEntryForm onClick={this.handlePost}/>
+			<div onClick={this.getFirstPage} style={{"text-align":"center"}}>Refresh</div>
 			{
 				this.state.isLoaded
 				? this.state.posts.map((post) =>
@@ -834,7 +834,11 @@ class InfiniteScroll extends React.Component {
 	  var VisibilitySensor = require('react-visibility-sensor');
 
 	  if (!this.state.morePosts) {
-		  return(<div className="no-more-posts">No more posts!</div>);
+		  return(
+			  <div className="no-more-posts">
+		  			No more posts!
+				</div>
+			);
 	  }
 
 	  return (
