@@ -16,23 +16,22 @@ class SortBar extends React.Component {
 		this.setRecent = this.setRecent.bind(this);
 		this.setPopular = this.setPopular.bind(this);
 	}
-
 	setRecent() {
-		console.log("recent")
-		this.setState({
-			value: "recent",
-		});
-		this.props.toggleSort("recent");
+		if (this.state.value !== "recent") {
+			this.setState({
+				value: "recent",
+			});
+			this.props.toggleSort("recent");
+		}
 	}
-
 	setPopular() {
-		this.setState({
-			value: "popular",
-		});
-		this.props.toggleSort("popular");
+		if (this.state.value !== "popular") {
+			this.setState({
+				value: "popular",
+			});
+			this.props.toggleSort("popular");
+		}
 	}
-
-
     render() {
 		return (
 			<div className="sortbar">
@@ -339,9 +338,6 @@ class PostEntryForm extends React.Component {
 							  autoComplete="off"
 							  maxLength="1000"
 							  placeholder="What do you want to talk about?"/>
-					<Media.Body className = "mb2">
-						<Refresh_icon/>
-					</Media.Body>
 					<Media.Body className = "mb">
 						<Button
 							type="submit"
@@ -715,11 +711,25 @@ class PostList extends React.Component {
 		this.getFirstPage = this.getFirstPage.bind(this);
 		this.getNextPage = this.getNextPage.bind(this);
 		this.reloadPosts = this.reloadPosts.bind(this);
+		this.getUserData = this.getUserData.bind(this);
 	}
 
 	// fetch current posts and comments upon page load
 	componentDidMount() {
-		// Get user data on page load
+		this.getUserData(); // get current data for user
+
+		var url = "/api/posts/";
+		this.reloadPosts(url); // load posts
+	}
+
+	componentWillReceiveProps(nextProps) {
+		this.getUserData();
+
+		var url = "/api/posts/" + (nextProps.sort === "popular" ? "popular" : "");
+		this.reloadPosts(url);
+	}
+
+	getUserData() {
 		fetch("/api/users/"+userid+"/", {
 			method: 'GET',
 			credentials: "same-origin",
@@ -728,7 +738,7 @@ class PostList extends React.Component {
 				 "X-CSRFToken": csrftoken,
 				 'Accept': 'application/json',
 				 'Content-Type': 'application/json',
-		 	},
+			},
 		})
 		.then(res => res.json())
 		.then(
@@ -740,14 +750,6 @@ class PostList extends React.Component {
 					});
 				}
 			)
-
-		var url = "/api/posts/";
-		this.reloadPosts(url); // load posts
-	}
-
-	componentWillReceiveProps(nextProps) {
-		var url = "/api/posts/" + (nextProps.sort === "popular" ? "popular" : "");
-		this.reloadPosts(url);
 	}
 
 	reloadPosts(url) {
