@@ -100,21 +100,21 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'tigertalk.wsgi.application'
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'tigertalk_db',
-        'USER': 'tigertalk',
-        'PASSWORD': 'tigertalk333',
-        'HOST': 'localhost',
-        'PORT': '',
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'tigertalk_db',
+#         'USER': 'tigertalk',
+#         'PASSWORD': 'tigertalk333',
+#         'HOST': 'localhost',
+#         'PORT': '',
+#     }
+# }
 
-# import dj_database_url
-# db_config = dj_database_url.config(conn_max_age=600)
-# if db_config:
-#     DATABASES = {'default' : db_config}
+import dj_database_url
+db_config = dj_database_url.config(conn_max_age=600)
+if db_config:
+    DATABASES = {'default' : db_config}
 
 AUTH_USER_MODEL = 'api.User'
 

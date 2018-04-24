@@ -379,7 +379,7 @@ class Post extends React.Component{
 		console.log(now);
 		var timeAgo = now.diff(postDatetime,'seconds');
 		console.log(timeAgo);
-		/*if (now.isSame(postDatetime, 'day')) 
+		/*if (now.isSame(postDatetime, 'day'))
 		{
 		  var timeUnit = 'day';
 		} */
@@ -418,12 +418,12 @@ class Post extends React.Component{
 			timeAgo = 1;
 			var timeUnit = "day ago"
 		}
-		
+
 		else {
 			timeAgo = now.diff(postDatetime,'days');
 			var timeUnit = "days ago"
 		}
-		
+
 		let date_string = `${timeAgo} ${timeUnit}`;
 		if (timeUnit == "just now") {
 			date_string = `${timeUnit}`;
