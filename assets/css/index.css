@@ -107,9 +107,17 @@ div.mb2.media-body{
 div.commentNum.media-left{
     position: relative;
     top: -3.6px;
-     margin-bottom: 0px;
+    margin-bottom: 0px;
 }
-
+div.dateString.media-right{
+    position: relative;
+    top: -3.6px;
+    margin-bottom: 0px;
+    width:8000px;
+    text-align: right;
+    position: relative;
+    right: 10px;
+}
 /* Post components */
 div.post {
     font-family: Quicksand;

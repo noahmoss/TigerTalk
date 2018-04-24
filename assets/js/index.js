@@ -372,6 +372,63 @@ class Post extends React.Component{
 	}
 
 	render () {
+		var moment = require('moment');
+		var postDatetime = moment(this.props.date, moment.ISO_8601);
+		console.log(postDatetime);
+		var now = moment();
+		console.log(now);
+		var timeAgo = now.diff(postDatetime,'seconds');
+		console.log(timeAgo);
+		/*if (now.isSame(postDatetime, 'day')) 
+		{
+		  var timeUnit = 'day';
+		} */
+		if (timeAgo == 0) {
+			var timeUnit = "just now";
+		}
+
+		else if (timeAgo == 1) {
+			var timeUnit = "second ago";
+		}
+		else if (timeAgo < 60) {
+			var timeUnit = "seconds ago"
+		}
+
+		else if (timeAgo < 120) {
+			timeAgo = 1;
+			var timeUnit = "minute ago"
+		}
+
+		else if (timeAgo < 3600) {
+			timeAgo = now.diff(postDatetime,'minutes');
+			var timeUnit = "minutes ago"
+		}
+
+		else if (timeAgo < 7200) {
+			timeAgo = 1;
+			var timeUnit = "hour ago"
+		}
+
+		else if (timeAgo < 86400) {
+			timeAgo = now.diff(postDatetime,'hours');
+			var timeUnit = "hours ago"
+		}
+
+		else if (timeAgo < 172800) {
+			timeAgo = 1;
+			var timeUnit = "day ago"
+		}
+		
+		else {
+			timeAgo = now.diff(postDatetime,'days');
+			var timeUnit = "days ago"
+		}
+		
+		let date_string = `${timeAgo} ${timeUnit}`;
+		if (timeUnit == "just now") {
+			date_string = `${timeUnit}`;
+		}
+
 		return (
 			<div className="post">
 			  <Media className="mainBody">
@@ -423,6 +480,9 @@ class Post extends React.Component{
 				    	<Share_icon />
 				    </Media.Right>
 			    </Media.Body>
+			    <Media.Right className = "dateString">
+			    	{date_string}
+			    </Media.Right>
 			  </Media>
 		  </div>
 		);
@@ -502,6 +562,7 @@ class PostCommentBlock extends React.Component {
 					  votes={this.props.votes}
 					  upvoted={this.props.upvoted}
 					  downvoted={this.props.downvoted}
+					  date={this.props.date}
 					  isMine={this.props.isMine}
 					  onClick={this.handleClick}
 					  handleDelete={this.handleDelete}
@@ -801,6 +862,7 @@ class PostList extends React.Component {
 	                	content={post.content}
 						votes={post.net_votes}
 						comments={post.comments}
+						date={post.date_created}
 						isMine={this.state.my_posts.includes(post.id)}
 						upvoted={this.state.my_upvoted.includes(post.id)}
 						downvoted={this.state.my_downvoted.includes(post.id)}
