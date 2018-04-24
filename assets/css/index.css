@@ -375,5 +375,6 @@ form.replying {
   font-size: 1.7em;
   color: #AAB3B7;
   z-index: 1000;
+  cursor: pointer;
 
 }
