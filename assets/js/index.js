@@ -2,29 +2,23 @@ var React = require('react')
 var ReactDOM = require('react-dom')
 import { Grid, Row, Col } from 'react-bootstrap'
 import { Navbar, Nav, NavItem } from 'react-bootstrap';
-import { ButtonToolbar, DropdownButton, MenuItem, SplitButton } from 'react-bootstrap';
+import { ToggleButton, ButtonToolbar, ToggleButtonGroup, DropdownButton, MenuItem, SplitButton } from 'react-bootstrap';
 import { FormGroup, ControlLabel, FormControl, Button } from 'react-bootstrap';
 import { Media } from 'react-bootstrap';
-
-// TODO: Add proper onclick event
-function SortButton(props) {
-	function hello(){console.log('Hello!')};
-	return (
-		<button type="button" onClick={hello}>
-			{props.value}
-		</button>
-	);
-}
 
 // Buttons for sorting posts by recent or popular
 class SortBar extends React.Component {
     render() {
-        return (
-			<ul id="sortbar">
-			  <li><SortButton value='Recent' /></li>
-			  <li><SortButton value='Popular' /></li>
-			</ul>
-        );
+		return (
+			<div className="sortbar">
+				<ButtonToolbar>
+				  <ToggleButtonGroup type="radio" name="sortbar" defaultValue={1}>
+					<ToggleButton value={1} className="sort-button">Recent</ToggleButton>
+					<ToggleButton value={2} className="sort-button">Popular</ToggleButton>
+				  </ToggleButtonGroup>
+				</ButtonToolbar>
+			</div>
+		);
     }
 }
 
@@ -948,6 +942,16 @@ class NavBar extends React.Component {
 
 // Parent class which is rendered in the Django template
 class App extends React.Component {
+	constructor() {
+		this.state = {
+			recent = true,
+		}
+	}
+
+	toggleSort() {
+		console.log('hi')
+	}
+
 	render() {
 		return (
 			<div>

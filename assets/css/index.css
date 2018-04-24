@@ -43,28 +43,22 @@ h3 {
 }
 
 /* Sort bar -- TODO: redo with react-bootstrap buttons*/
-#sortbar {
-    text-align: center;
-    margin: auto;
-    padding: 5px;
+div.sortbar {
+    display: flex;
+    justify-content: center;
+    padding: 15px;
     overflow: hidden;
 }
-#sortbar li {
-  float: center;
-  display: inline-block;
-}
-#sortbar li button {
+.sort-button {
   text-align: center;
   align-content: center;
   border:none;
-  margin:8px;
-  padding:5px;
+  /* margin:8px; */
+  /* padding:5px; */
   outline: none
 }
-#sortbar li button:hover {
-  cursor:pointer;
-}
-button {
+
+/* button {
   position: relative;
   border-radius: 5px;
   background-color: var(--post-bg-color);
@@ -72,7 +66,7 @@ button {
 }
 button:focus {
     outline: none;
-}
+} */
 
 /* Post form */
 div.container-fluid {
@@ -381,7 +375,7 @@ form.replying {
   float: right;
   /*right: -1%; */ /* or right 50% */
   font-size: 1.7em;
-  color: #AAB3B7; 
+  color: #AAB3B7;
   z-index: 1000;
 
 }
