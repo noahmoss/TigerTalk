@@ -120,6 +120,60 @@ function Comment(props) {
 	);
 }
 
+function timestamp(st) {
+		var moment = require('moment');
+		var postDatetime = moment(st, moment.ISO_8601);
+		var now = moment();
+		var timeAgo = now.diff(postDatetime,'seconds');
+		
+		if (timeAgo == 0) {
+			var timeUnit = "just now";
+		}
+
+		else if (timeAgo == 1) {
+			var timeUnit = "second ago";
+		}
+		else if (timeAgo < 60) {
+			var timeUnit = "seconds ago"
+		}
+
+		else if (timeAgo < 120) {
+			timeAgo = 1;
+			var timeUnit = "minute ago"
+		}
+
+		else if (timeAgo < 3600) {
+			timeAgo = now.diff(postDatetime,'minutes');
+			var timeUnit = "minutes ago"
+		}
+
+		else if (timeAgo < 7200) {
+			timeAgo = 1;
+			var timeUnit = "hour ago"
+		}
+
+		else if (timeAgo < 86400) {
+			timeAgo = now.diff(postDatetime,'hours');
+			var timeUnit = "hours ago"
+		}
+
+		else if (timeAgo < 172800) {
+			timeAgo = 1;
+			var timeUnit = "day ago"
+		}
+		
+		else {
+			timeAgo = now.diff(postDatetime,'days');
+			var timeUnit = "days ago"
+		}
+		
+		let date_string = `${timeAgo} ${timeUnit}`;
+		if (timeUnit == "just now") {
+			date_string = `${timeUnit}`;
+		}
+	return(date_string);
+}
+
 // The textarea and reply button underneath every group of comments
 class CommentEntryForm extends React.Component {
 	constructor(props) {
@@ -372,57 +426,7 @@ class Post extends React.Component{
 	}
 
 	render () {
-		var moment = require('moment');
-		var postDatetime = moment(this.props.date, moment.ISO_8601);
-		var now = moment();
-		var timeAgo = now.diff(postDatetime,'seconds');
-		
-		if (timeAgo == 0) {
-			var timeUnit = "just now";
-		}
-
-		else if (timeAgo == 1) {
-			var timeUnit = "second ago";
-		}
-		else if (timeAgo < 60) {
-			var timeUnit = "seconds ago"
-		}
-
-		else if (timeAgo < 120) {
-			timeAgo = 1;
-			var timeUnit = "minute ago"
-		}
-
-		else if (timeAgo < 3600) {
-			timeAgo = now.diff(postDatetime,'minutes');
-			var timeUnit = "minutes ago"
-		}
-
-		else if (timeAgo < 7200) {
-			timeAgo = 1;
-			var timeUnit = "hour ago"
-		}
-
-		else if (timeAgo < 86400) {
-			timeAgo = now.diff(postDatetime,'hours');
-			var timeUnit = "hours ago"
-		}
-
-		else if (timeAgo < 172800) {
-			timeAgo = 1;
-			var timeUnit = "day ago"
-		}
-		
-		else {
-			timeAgo = now.diff(postDatetime,'days');
-			var timeUnit = "days ago"
-		}
-		
-		let date_string = `${timeAgo} ${timeUnit}`;
-		if (timeUnit == "just now") {
-			date_string = `${timeUnit}`;
-		}
-
+		let date_string = timestamp(this.props.date);
 		return (
 			<div className="post">
 			  <Media className="mainBody">
