@@ -662,6 +662,7 @@ class PostList extends React.Component {
 		super(props);
 		this.state = {
 			error: null,
+			sort : "recent",
 			isLoaded: false, // are any posts loaded?
 			nextPageLoaded: true, // is the next page loaded?
 			morePosts: true, // are there more posts to load?
@@ -682,18 +683,16 @@ class PostList extends React.Component {
 	// fetch current posts and comments upon page load
 	componentDidMount() {
 		this.getUserData(); // get current data for user
-
 		this.reloadPosts(this.state.posturl); // load posts
 	}
 
-	componentWillReceiveProps(nextProps) {
-		this.getUserData();
-
-		this.setState({
-			 posturl : "/api/posts" + (nextProps.sort === "popular" ? "/popular/" : "/"),
-		 });
-		this.reloadPosts();
+	componentDidUpdate(prevProps, prevState) {
+		if (prevProps.sort != this.props.sort) {
+		 	this.getUserData();
+		 	this.reloadPosts();
+	 	}
 	}
+
 
 	getUserData() {
 		fetch("/api/users/"+userid+"/", {
@@ -723,7 +722,9 @@ class PostList extends React.Component {
 			isLoaded: false,
 		})
 
-		let url = this.state.posturl;
+		let url = "/api/posts" + (this.props.sort === "popular" ? "/popular/" : "/");
+		let curr_sort = this.props.sort;
+
 		fetch(url, {
 			method: 'GET',
 			credentials: "same-origin",
@@ -737,10 +738,8 @@ class PostList extends React.Component {
 		.then(res => res.json())
 		.then(
 			(result) => {
-				let url_state = url.substr(url.slice(0,-1).lastIndexOf('/')).slice(1,-1);
-				if (url_state === "posts") { url_state = "recent"; }
-				if (url_state === this.props.sort) {
-					console.log('loaded');
+				if ((curr_sort === this.props.sort) && !this.state.isLoaded) {
+					console.log('hi');
 					this.setState({
 						isLoaded: true,
 						morePosts: result.next !== null,
@@ -748,7 +747,6 @@ class PostList extends React.Component {
 					});
 				} else {
 					if (!this.state.isLoaded) {
-						console.log('reloading');
 						this.reloadPosts();
 					}
 				};
