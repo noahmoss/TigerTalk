@@ -311,6 +311,7 @@ form.replying {
   padding-right: 10px;
   text-align: center;
   margin: auto;
+  /*position: relative;*/
 }
 
 .iconFirstColumn {

@@ -2,7 +2,7 @@ var React = require('react')
 var ReactDOM = require('react-dom')
 import { Grid, Row, Col } from 'react-bootstrap'
 import { Navbar, Nav, NavItem } from 'react-bootstrap';
-import { ToggleButton, ButtonToolbar, ToggleButtonGroup, DropdownButton, MenuItem, SplitButton } from 'react-bootstrap';
+import { OverlayTrigger, Tooltip, ToggleButton, ButtonToolbar, ToggleButtonGroup, DropdownButton, MenuItem, SplitButton } from 'react-bootstrap';
 import { FormGroup, ControlLabel, FormControl, Button } from 'react-bootstrap';
 import { Media } from 'react-bootstrap';
 
@@ -97,7 +97,14 @@ class Speech_bubble extends React.Component {
 class Share_icon extends React.Component {
  	render() {
  		return (
- 				<span className="glyphicon glyphicon-send" aria-hidden="true"></span>
+ 				<OverlayTrigger
+ 					overlay={<Tooltip id="tooltip-right">Copy link to post</Tooltip>}
+ 					placement="right"
+ 					delayShow={100}
+ 					delayHide={150}
+				>
+				<span className="glyphicon glyphicon-send" aria-hidden="true"></span>
+				</OverlayTrigger>
 		);
 	}
 }
@@ -515,12 +522,12 @@ class Post extends React.Component{
 							: <Chevron_up onClick={this.handleUpvoteClick}/>
 						}
 			    			{this.state.votes}
-
 						{
 							this.state.downvoted
 							? <Chevron_down_clicked onClick={this.handleDownvoteUnclick}/>
 							: <Chevron_down onClick={this.handleDownvoteClick}/>
-						}				 	 </div>
+						}
+					</div>
 			    </Media.Left>
 			    <Media.Body onClick={this.props.onClick}>
 					{this.props.content}
