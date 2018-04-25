@@ -116,7 +116,7 @@ function Comment(props) {
 	return (
 			<div className="replyContainer">
 			<div className="reply">
-			<Media>
+			<Media className="commentMedia">
 			    <Media.Left className="replyOffset">
 			    </Media.Left>
 			    <Media.Body className="commentBody">
@@ -504,6 +504,8 @@ class Post extends React.Component{
 			date_string = `${timeUnit}`;
 		}
 
+		console.log(this.state.votes.length);
+
 		return (
 			<div className="post">
 			  <Media className="mainBody">
@@ -514,13 +516,13 @@ class Post extends React.Component{
 							? <Chevron_up_clicked onClick={this.handleUpvoteUnclick}/>
 							: <Chevron_up onClick={this.handleUpvoteClick}/>
 						}
-			    			{this.state.votes}
-
+			    		{this.state.votes}
 						{
 							this.state.downvoted
 							? <Chevron_down_clicked onClick={this.handleDownvoteUnclick}/>
 							: <Chevron_down onClick={this.handleDownvoteClick}/>
-						}				 	 </div>
+						}
+					 </div>
 			    </Media.Left>
 			    <Media.Body onClick={this.props.onClick}>
 					{this.props.content}
