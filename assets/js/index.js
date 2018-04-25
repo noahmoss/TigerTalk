@@ -727,14 +727,13 @@ class PostList extends React.Component {
 		this.reloadPosts(this.state.posturl); // load posts
 	}
 
-	componentWillReceiveProps(nextProps) {
-		this.getUserData();
-		this.reloadPosts(nextProps.sort, "/api/posts" + (nextProps.sort === "popular" ? "/popular/" : "/"));
-		// this.setState({
-		// 	 posturl : "/api/posts" + (nextProps.sort === "popular" ? "/popular/" : "/"),
-		// 	 sort : nextProps.sort,
-		//  });
+	componentDidUpdate(prevProps, prevState) {
+		if (prevProps.sort != this.props.sort) {
+		 	this.getUserData();
+		 	this.reloadPosts();
+	 	}
 	}
+
 
 	getUserData() {
 		fetch("/api/users/"+userid+"/", {
@@ -764,10 +763,8 @@ class PostList extends React.Component {
 			isLoaded: false,
 		})
 
-		let url = this.state.posturl;
-
-		console.log(url);
-		console.log(this.state.sort);
+		let url = "/api/posts" + (this.props.sort === "popular" ? "/popular/" : "/");
+		let curr_sort = this.props.sort;
 
 		fetch(url, {
 			method: 'GET',
@@ -782,10 +779,8 @@ class PostList extends React.Component {
 		.then(res => res.json())
 		.then(
 			(result) => {
-				let url_state = url.substr(url.slice(0,-1).lastIndexOf('/')).slice(1,-1);
-				if (url_state === "posts") { url_state = "recent"; }
-				if (url_state === this.state.sort) {
-					console.log('loaded');
+				if ((curr_sort === this.props.sort) && !this.state.isLoaded) {
+					console.log('hi');
 					this.setState({
 						isLoaded: true,
 						morePosts: result.next !== null,
@@ -793,7 +788,6 @@ class PostList extends React.Component {
 					});
 				} else {
 					if (!this.state.isLoaded) {
-						console.log('reloading');
 						this.reloadPosts();
 					}
 				};

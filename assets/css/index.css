@@ -85,7 +85,7 @@ textarea.form-control {
     min-height: 50px;
     border-radius: 5px;
     font-family: Quicksand;
-    margin-bottom: 7px;
+    margin-bottom: 5px;
 }
 
 /* react-bootstrap buttons */
@@ -128,7 +128,7 @@ div.post {
     border-top: 0.1rem solid var(--post-bg-color);
     border-bottom: 0.1rem solid var(--post-bg-color);
     margin: auto;
-    margin-bottom: 10px;
+    margin-top: 10px;
     white-space: pre-wrap;
     max-width: 768px;
     width: 90%;
@@ -171,7 +171,6 @@ div.no-more-posts {
 }
 
 .reply {
-    padding-bottom:5px;
     padding-top:5px;
     font-family: Quicksand, serif;
     margin: auto;
@@ -186,9 +185,8 @@ div.no-more-posts {
 }
 
 form.replying {
-  padding-top: 3px;
+  padding-top: 5px;
   padding-left: 38px;
-  margin-bottom: 3px;
   margin: auto;
 }
 
@@ -280,7 +278,7 @@ form.replying {
   position: absolute;
   width: 60px;
   height: 60px;
-  top: 5px;
+  top: 20px;
   left: 70px;
   border-radius: 50%;
   border: 6px solid #000;
