@@ -69,8 +69,9 @@ button:focus {
 /* Post form */
 div.container-fluid {
     margin-bottom: 15px;
+    padding-left: 0px;
+    padding-right: 0px;
 }
-
 div.post-container {
     margin: auto;
     max-width: 768px;
