@@ -111,44 +111,6 @@ class Refresh_icon extends React.Component {
 	}
 }
 
-// A single comment
-function Comment(props) {
-	return (
-			<div className="replyContainer">
-			<div className="reply">
-			<Media>
-			    <Media.Left className="replyOffset">
-			    </Media.Left>
-			    <Media.Body className="commentBody">
-			    	<Media>
-			    		<Media.Left>
-			      		<div className="arrowBox">
-			      			<Chevron_up />
-			      				10
-				 		 	<Chevron_down />
-				  		</div>
-			   		 	</Media.Left>
-			   		 	<Media.Body onClick={props.onClick}>
-			   		 		{props.content}
-			   		 	</Media.Body>
-			   		 </Media>
-			   	</Media.Body>
-			   	<Media.Right className="dropdown-container" className="commentBody">
-						<DropdownButton pullRight
-				   			bsSize="small"
-				   			title=""
-				   			id="dropdown-size-small"
-				   		>
-				   			<MenuItem eventKey="1">Report</MenuItem>
-				   			<MenuItem divider />
-				   			<MenuItem eventKey="3">Delete</MenuItem>
-						</DropdownButton>
-			   	</Media.Right>
-			  </Media>
-        	</div>
-        	</div>
-	);
-}
 
 function timestamp(st) {
 		var moment = require('moment');
@@ -203,6 +165,51 @@ function timestamp(st) {
 		}
 	return(date_string);
 }
+
+// A single comment
+function Comment(props) {
+
+	let date_string = timestamp(props.date);
+	return (
+			<div className="replyContainer">
+			<div className="reply">
+			<Media>
+			    <Media.Left className="replyOffset">
+			    </Media.Left>
+			    <Media.Body className="commentBody">
+			    	<Media>
+			    		<Media.Left>
+			      		<div className="arrowBox">
+			      			<Chevron_up />
+			      				10
+				 		 	<Chevron_down />
+				  		</div>
+			   		 	</Media.Left>
+			   		 	<Media.Body onClick={props.onClick}>
+			   		 		{props.content}
+			   		 	</Media.Body>
+			   		 </Media>
+			   	</Media.Body>
+			   	<Media.Right className="dropdown-container" className="commentBody">
+						<DropdownButton pullRight
+				   			bsSize="small"
+				   			title=""
+				   			id="dropdown-size-small"
+				   		>
+				   			<MenuItem eventKey="1">Report</MenuItem>
+				   			<MenuItem divider />
+				   			<MenuItem eventKey="3">Delete</MenuItem>
+						</DropdownButton>
+						<Media.Right className = "commentdatestring">
+			    			{date_string}
+			    		</Media.Right>
+			   	</Media.Right>
+			</Media>
+        	</div>
+        	</div>
+	);
+}
+
 
 // The textarea and reply button underneath every group of comments
 class CommentEntryForm extends React.Component {
@@ -299,6 +306,7 @@ class CommentBlock extends React.Component {
 						<Comment
 							content={comment.content}
 							key={comment.id}
+							date={comment.date}
 						/>)
 					)
 				}
@@ -453,56 +461,7 @@ class Post extends React.Component{
 	}
 
 	render () {
-		var moment = require('moment');
-		var postDatetime = moment(this.props.date, moment.ISO_8601);
-		var now = moment();
-		var timeAgo = now.diff(postDatetime,'seconds');
-
-		if (timeAgo == 0) {
-			var timeUnit = "just now";
-		}
-
-		else if (timeAgo == 1) {
-			var timeUnit = "second ago";
-		}
-		else if (timeAgo < 60) {
-			var timeUnit = "seconds ago"
-		}
-
-		else if (timeAgo < 120) {
-			timeAgo = 1;
-			var timeUnit = "minute ago"
-		}
-
-		else if (timeAgo < 3600) {
-			timeAgo = now.diff(postDatetime,'minutes');
-			var timeUnit = "minutes ago"
-		}
-
-		else if (timeAgo < 7200) {
-			timeAgo = 1;
-			var timeUnit = "hour ago"
-		}
-
-		else if (timeAgo < 86400) {
-			timeAgo = now.diff(postDatetime,'hours');
-			var timeUnit = "hours ago"
-		}
-
-		else if (timeAgo < 172800) {
-			timeAgo = 1;
-			var timeUnit = "day ago"
-		}
-
-		else {
-			timeAgo = now.diff(postDatetime,'days');
-			var timeUnit = "days ago"
-		}
-
-		let date_string = `${timeAgo} ${timeUnit}`;
-		if (timeUnit == "just now") {
-			date_string = `${timeUnit}`;
-		}
+		let date_string = timestamp(this.props.date);
 
 		return (
 			<div className="post">

@@ -119,6 +119,16 @@ div.dateString.media-right{
     position: relative;
     right: 10px;
 }
+
+div.commentdatestring.media-right{
+    position: relative;
+    top: -3.6px;
+    margin-bottom: 0px;
+    width:10000px;
+    text-align: right;
+    position: relative;
+    right: 10px;
+}
 /* Post components */
 div.post {
     font-family: Quicksand;
