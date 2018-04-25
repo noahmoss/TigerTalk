@@ -173,11 +173,11 @@ class Comment extends React.Component{
 		// this.handleUpvoteUnclick = this.handleUpvoteUnclick.bind(this);
 		// this.handleDownvoteClick = this.handleDownvoteClick.bind(this);
 		// this.handleDownvoteUnclick = this.handleDownvoteUnclick.bind(this);
-		// this.state = {
-		// 	upvoted: this.props.upvoted,
-		// 	downvoted: this.props.downvoted,
-		// 	votes: this.props.votes,
-		// };
+		this.state = {
+			upvoted: this.props.upvoted,
+			downvoted: this.props.downvoted,
+			votes: this.props.votes,
+		};
 	}
 
 	// TODO: think about error handling - i.e. behavior when no server connection
@@ -295,6 +295,36 @@ class CommentBlock extends React.Component {
 		this.handleComment = this.handleComment.bind(this);
 	}
 
+	refreshComments() {
+		fetch("/api/posts/"+this.props.id+"/comments/", {
+			method: 'GET',
+			credentials: "same-origin",
+			headers : new Headers(),
+			headers: {
+				 "X-CSRFToken": csrftoken,
+				 'Accept': 'application/json',
+				 'Content-Type': 'application/json',
+			},
+		})
+		.then(res => res.json())
+		.then(
+			(result) => {
+				this.setState({
+					isLoaded: true,
+					showing: true,
+					comments: result,
+					comment_count: result.length,
+				});
+			},
+			(error) => {
+				this.setState({
+					isLoaded: true,
+					error
+				});
+			}
+		);
+	}
+
 	// add a new comment
 	handleComment(text) {
 		if (text.trim() != ''){
@@ -315,6 +345,7 @@ class CommentBlock extends React.Component {
 			.then(res => res.json())
 			.then(
 				(result) => {
+					this.props.handleComment();
 					this.setState({
 						comments: this.state.comments.concat([result]),
 					});
@@ -536,7 +567,7 @@ class Post extends React.Component{
 				      <Speech_bubble />
 				    </Media.Left>
 				    <Media.Left className = "commentNum">
-				      10
+				      {this.props.comment_count}
 				    </Media.Left>
 				    <Media.Right>
 				    	<Share_icon />
@@ -557,10 +588,13 @@ class PostCommentBlock extends React.Component {
 		super(props);
 		this.handleClick = this.handleClick.bind(this);
 		this.handleDelete = this.handleDelete.bind(this);
+		this.handleComment = this.handleComment.bind(this);
+		this.handleCommentDelete = this.handleCommentDelete.bind(this);
 		this.state = {
 			showing: false, // are the comments showing?
 			isLoaded: true, // are the comments loaded?
 			comments: [], // current list of comments
+			comment_count: this.props.comment_count,
 		};
 	}
 	// load comments from API when post is clicked
@@ -583,7 +617,8 @@ class PostCommentBlock extends React.Component {
 					this.setState({
 						isLoaded: true,
 						showing: true,
-						comments: result.results,
+						comments: result,
+						comment_count: result.length,
 					});
 				},
 				(error) => {
@@ -604,12 +639,23 @@ class PostCommentBlock extends React.Component {
 	handleDelete() {
 		this.props.handleDelete(this.props.id);
 	}
+	handleComment() {
+		this.setState({
+			comment_count: this.state.comment_count + 1,
+		})
+	}
+	handleCommentDelete() {
+		this.setState({
+			comment_count: this.state.comment_count - 1,
+		})
+	}
 	renderComments() {
 		if (this.state.isLoaded) {
 			return (
 				<CommentBlock id={this.props.id}
 							comments={this.state.comments}
-							my_comments={this.props.my_comments} />
+							my_comments={this.props.my_comments}
+							handleComment={this.handleComment} />
 			);
 		}
 		else {
@@ -624,6 +670,7 @@ class PostCommentBlock extends React.Component {
 					  votes={this.props.votes}
 					  upvoted={this.props.upvoted}
 					  downvoted={this.props.downvoted}
+					  comment_count={this.state.comment_count}
 					  date={this.props.date}
 					  isMine={this.props.isMine}
 					  onClick={this.handleClick}
@@ -722,7 +769,6 @@ class PostList extends React.Component {
 	 	}
 	}
 
-
 	getUserData() {
 		fetch("/api/users/"+userid+"/", {
 			method: 'GET',
@@ -737,13 +783,12 @@ class PostList extends React.Component {
 		.then(res => res.json())
 		.then(
 			(result) => {
-					this.setState({
-						my_posts: result.posts,
-						my_upvoted: result.posts_upvoted,
-						my_downvoted: result.posts_downvoted,
-					});
-				}
-			)
+				this.setState({
+					my_upvoted: result.posts_upvoted,
+					my_downvoted: result.posts_downvoted,
+				});
+			}
+		)
 	}
 
 	reloadPosts() {
@@ -787,7 +832,6 @@ class PostList extends React.Component {
 			}
 		)
 	}
-
 
 	// get first page of post results and update current post list
 	 getFirstPage() {
@@ -943,7 +987,7 @@ class PostList extends React.Component {
 						id={post.id}
 	                	content={post.content}
 						votes={post.net_votes}
-						comments={post.comments}
+						comment_count={post.comments.length}
 						date={post.date_created}
 						isMine={this.state.my_posts.includes(post.id)}
 						upvoted={this.state.my_upvoted.includes(post.id)}
@@ -1033,17 +1077,6 @@ class NavBar extends React.Component {
 		);
 	}
 }
-
-// class SinglePost extends React.Component {
-// 	render() {
-// 		return (
-// 			<div>
-// 				<NavBar />
-// 				<MainTitle />
-// 			</div>
-// 		)
-// 	}
-// }
 
 // Parent class which is rendered in the Django template
 class App extends React.Component {

@@ -41,6 +41,7 @@ class PostCommentList(generics.ListCreateAPIView):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
     permission_classes = (permissions.IsAuthenticated,)
+    pagination_class = None
 
     def get_queryset(self):
         queryset = super(PostCommentList, self).get_queryset()
