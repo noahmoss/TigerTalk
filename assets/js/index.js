@@ -509,12 +509,12 @@ class Post extends React.Component{
 							: <Chevron_up onClick={this.handleUpvoteClick}/>
 						}
 			    			{this.state.votes}
-
 						{
 							this.state.downvoted
 							? <Chevron_down_clicked onClick={this.handleDownvoteUnclick}/>
 							: <Chevron_down onClick={this.handleDownvoteClick}/>
-						}				 	 </div>
+						}
+					</div>
 			    </Media.Left>
 			    <Media.Body onClick={this.props.onClick}>
 					{this.props.content}
