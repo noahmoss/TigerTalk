@@ -2,7 +2,7 @@ var React = require('react')
 var ReactDOM = require('react-dom')
 import { Grid, Row, Col } from 'react-bootstrap'
 import { Navbar, Nav, NavItem } from 'react-bootstrap';
-import { ToggleButton, ButtonToolbar, ToggleButtonGroup, DropdownButton, MenuItem, SplitButton } from 'react-bootstrap';
+import { OverlayTrigger, Tooltip, ToggleButton, ButtonToolbar, ToggleButtonGroup, DropdownButton, MenuItem, SplitButton } from 'react-bootstrap';
 import { FormGroup, ControlLabel, FormControl, Button } from 'react-bootstrap';
 import { Media } from 'react-bootstrap';
 
@@ -48,7 +48,7 @@ class SortBar extends React.Component {
 
 function Chevron_up(props) {
 	return (
-		<span className="glyphicon glyphicon-chevron-up"
+		<span className="glyphicon glyphicon-menu-up"
 			aria-hidden="true"
 			style={{"color":"black"}}
 			onClick = {props.onClick}>
@@ -58,7 +58,7 @@ function Chevron_up(props) {
 
 function Chevron_up_clicked(props) {
 	return (
-		<span className="glyphicon glyphicon-chevron-up"
+		<span className="glyphicon glyphicon-menu-up"
 			aria-hidden="true"
 			style={{"color":"darkorange"}}
 			onClick = {props.onClick}>
@@ -68,7 +68,7 @@ function Chevron_up_clicked(props) {
 
 function Chevron_down(props) {
 	return (
-		<span className="glyphicon glyphicon-chevron-down"
+		<span className="glyphicon glyphicon-menu-down"
 			aria-hidden="true"
 			style={{"color":"black"}}
 			onClick = {props.onClick}>
@@ -78,7 +78,7 @@ function Chevron_down(props) {
 
 function Chevron_down_clicked(props) {
 	return (
-		<span className="glyphicon glyphicon-chevron-down"
+		<span className="glyphicon glyphicon-menu-down"
 			aria-hidden="true"
 			style={{"color":"darkorange"}}
 			onClick = {props.onClick}>
@@ -97,7 +97,14 @@ class Speech_bubble extends React.Component {
 class Share_icon extends React.Component {
  	render() {
  		return (
- 				<span className="glyphicon glyphicon-send" aria-hidden="true"></span>
+ 				<OverlayTrigger
+ 					overlay={<Tooltip id="tooltip-right">Copy link to post</Tooltip>}
+ 					placement="right"
+ 					delayShow={100}
+ 					delayHide={150}
+				>
+				<span className="glyphicon glyphicon-send" aria-hidden="true"></span>
+				</OverlayTrigger>
 		);
 	}
 }
@@ -117,28 +124,34 @@ function Comment(props) {
 			<div className="replyContainer">
 			<div className="reply">
 			<Media>
-			    <Media.Left>
-			      <div>
-			      <Chevron_up />
-			      10
-				  <Chevron_down />
-				  </div>
+			    <Media.Left className="replyOffset">
 			    </Media.Left>
-			    <Media.Body onClick={props.onClick}>
-					{props.content}
-			    </Media.Body>
-				<Media.Right className="dropdown-container">
-				<DropdownButton pullRight
-				   bsSize="small"
-				   title=""
-				   id="dropdown-size-small"
-				   >
-				   <MenuItem eventKey="1">Report</MenuItem>
-				   <MenuItem divider />
-				   <MenuItem eventKey="3">Delete</MenuItem>
-				</DropdownButton>
-			    </Media.Right>
-			</Media>
+			    <Media.Body className="commentBody">
+			    	<Media>
+			    		<Media.Left>
+			      		<div className="arrowBox">
+			      			<Chevron_up />
+			      				10
+				 		 	<Chevron_down />
+				  		</div>
+			   		 	</Media.Left>
+			   		 	<Media.Body onClick={props.onClick}>
+			   		 		{props.content}
+			   		 	</Media.Body>
+			   		 </Media>
+			   	</Media.Body>
+			   	<Media.Right className="dropdown-container" className="commentBody">
+						<DropdownButton pullRight
+				   			bsSize="small"
+				   			title=""
+				   			id="dropdown-size-small"
+				   		>
+				   			<MenuItem eventKey="1">Report</MenuItem>
+				   			<MenuItem divider />
+				   			<MenuItem eventKey="3">Delete</MenuItem>
+						</DropdownButton>
+			   	</Media.Right>
+			  </Media>
         	</div>
         	</div>
 	);
