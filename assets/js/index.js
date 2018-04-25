@@ -111,45 +111,6 @@ class Refresh_icon extends React.Component {
 	}
 }
 
-// A single comment
-function Comment(props) {
-	return (
-			<div className="replyContainer">
-			<div className="reply">
-			<Media className="commentMedia">
-			    <Media.Left className="replyOffset">
-			    </Media.Left>
-			    <Media.Body className="commentBody">
-			    	<Media>
-			    		<Media.Left>
-			      		<div className="arrowBox">
-			      			<Chevron_up />
-			      				10
-				 		 	<Chevron_down />
-				  		</div>
-			   		 	</Media.Left>
-			   		 	<Media.Body onClick={props.onClick}>
-			   		 		{props.content}
-			   		 	</Media.Body>
-			   		 </Media>
-			   	</Media.Body>
-			   	<Media.Right className="dropdown-container" className="commentBody">
-						<DropdownButton pullRight
-				   			bsSize="small"
-				   			title=""
-				   			id="dropdown-size-small"
-				   		>
-				   			<MenuItem eventKey="1">Report</MenuItem>
-				   			<MenuItem divider />
-				   			<MenuItem eventKey="3">Delete</MenuItem>
-						</DropdownButton>
-			   	</Media.Right>
-			  </Media>
-        	</div>
-        	</div>
-	);
-}
-
 function timestamp(st) {
 		var moment = require('moment');
 		var postDatetime = moment(st, moment.ISO_8601);
@@ -205,47 +166,75 @@ function timestamp(st) {
 }
 
 // A single comment
-function Comment(props) {
+class Comment extends React.Component{
+	constructor(props) {
+		super(props);
+		// this.handleUpvoteClick = this.handleUpvoteClick.bind(this);
+		// this.handleUpvoteUnclick = this.handleUpvoteUnclick.bind(this);
+		// this.handleDownvoteClick = this.handleDownvoteClick.bind(this);
+		// this.handleDownvoteUnclick = this.handleDownvoteUnclick.bind(this);
+		// this.state = {
+		// 	upvoted: this.props.upvoted,
+		// 	downvoted: this.props.downvoted,
+		// 	votes: this.props.votes,
+		// };
+	}
 
-	let date_string = timestamp(props.date);
-	return (
-			<div className="replyContainer">
-			<div className="reply">
-			<Media>
-			    <Media.Left className="replyOffset">
-			    </Media.Left>
-			    <Media.Body className="commentBody">
-			    	<Media>
-			    		<Media.Left>
-			      		<div className="arrowBox">
-			      			<Chevron_up />
-			      				10
-				 		 	<Chevron_down />
-				  		</div>
-			   		 	</Media.Left>
-			   		 	<Media.Body onClick={props.onClick}>
-			   		 		{props.content}
-			   		 	</Media.Body>
-			   		 </Media>
-			   	</Media.Body>
-			   	<Media.Right className="dropdown-container" className="commentBody">
-						<DropdownButton pullRight
-				   			bsSize="small"
-				   			title=""
-				   			id="dropdown-size-small"
-				   		>
-				   			<MenuItem eventKey="1">Report</MenuItem>
-				   			<MenuItem divider />
-				   			<MenuItem eventKey="3">Delete</MenuItem>
-						</DropdownButton>
-						<Media.Right className = "commentdatestring">
-			    			{date_string}
-			    		</Media.Right>
-			   	</Media.Right>
-			</Media>
-        	</div>
-        	</div>
-	);
+	// TODO: think about error handling - i.e. behavior when no server connection
+	sendVoteToServer(tag) {
+		fetch("/api/comments/"+this.props.id+"/"+tag+"/", {
+			method: 'GET',
+			credentials: "same-origin",
+			headers : new Headers(),
+			headers: {
+				 "X-CSRFToken": csrftoken,
+				 'Accept': 'application/json',
+				 'Content-Type': 'application/json',
+			},
+		})
+	}
+
+	render() {
+		let date_string = timestamp(this.props.date);
+		return (
+				<div className="replyContainer">
+				<div className="reply">
+				<Media>
+				    <Media.Left className="replyOffset">
+				    </Media.Left>
+				    <Media.Body className="commentBody">
+				    	<Media>
+				    		<Media.Left>
+				      		<div className="arrowBox">
+				      			<Chevron_up />
+				      				10
+					 		 	<Chevron_down />
+					  		</div>
+				   		 	</Media.Left>
+				   		 	<Media.Body onClick={this.props.onClick}>
+				   		 		{this.props.content}
+				   		 	</Media.Body>
+				   		 </Media>
+				   	</Media.Body>
+				   	<Media.Right className="dropdown-container" className="commentBody">
+							<DropdownButton pullRight
+					   			bsSize="small"
+					   			title=""
+					   			id="dropdown-size-small"
+					   		>
+					   			<MenuItem eventKey="1">Report</MenuItem>
+					   			<MenuItem divider />
+					   			<MenuItem eventKey="3">Delete</MenuItem>
+							</DropdownButton>
+							<Media.Right className = "commentdatestring">
+				    			{date_string}
+				    		</Media.Right>
+				   	</Media.Right>
+				</Media>
+	        	</div>
+	        	</div>
+		);
+	}
 }
 
 
@@ -344,7 +333,8 @@ class CommentBlock extends React.Component {
 						<Comment
 							content={comment.content}
 							key={comment.id}
-							date={comment.date}
+							id={comment.id}
+							date={comment.date_created}
 						/>)
 					)
 				}
@@ -500,8 +490,6 @@ class Post extends React.Component{
 
 	render () {
 		let date_string = timestamp(this.props.date);
-
-		console.log(this.state.votes.length);
 
 		return (
 			<div className="post">
@@ -665,6 +653,7 @@ function Spinner() {
 	);
 }
 
+// Spinner for loading comments
 function LilSpinner() {
 	return (
 		<div style={{}}>
@@ -779,7 +768,6 @@ class PostList extends React.Component {
 		.then(
 			(result) => {
 				if ((curr_sort === this.props.sort) && !this.state.isLoaded) {
-					console.log('hi');
 					this.setState({
 						isLoaded: true,
 						morePosts: result.next !== null,
@@ -1003,7 +991,7 @@ class InfiniteScroll extends React.Component {
 	  }
 
 	  return (
-	    <VisibilitySensor onChange={this.onChange} />
+	    <VisibilitySensor partialVisibility={true} onChange={this.onChange} />
 	  );
 	}
 }
