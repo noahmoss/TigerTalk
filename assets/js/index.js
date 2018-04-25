@@ -697,10 +697,10 @@ class PostList extends React.Component {
 		super(props);
 		this.state = {
 			error: null,
-			sort: "recent",
 			isLoaded: false, // are any posts loaded?
 			nextPageLoaded: true, // is the next page loaded?
 			morePosts: true, // are there more posts to load?
+			posturl: "/api/posts/",
 			posts: [], // all post objects
 			my_posts: [], // post ids of user's posts
 			my_upvoted: [], // post ids of user's upvoted posts
@@ -718,15 +718,16 @@ class PostList extends React.Component {
 	componentDidMount() {
 		this.getUserData(); // get current data for user
 
-		var url = "/api/posts/";
-		this.reloadPosts(url); // load posts
+		this.reloadPosts(this.state.posturl); // load posts
 	}
 
 	componentWillReceiveProps(nextProps) {
 		this.getUserData();
 
-		var url = "/api/posts/" + (nextProps.sort === "popular" ? "popular" : "");
-		this.reloadPosts(url);
+		this.setState({
+			 posturl : "/api/posts" + (nextProps.sort === "popular" ? "/popular/" : "/"),
+		 });
+		this.reloadPosts();
 	}
 
 	getUserData() {
@@ -752,12 +753,12 @@ class PostList extends React.Component {
 			)
 	}
 
-	reloadPosts(url) {
+	reloadPosts() {
 		this.setState({
 			isLoaded: false,
 		})
 
-		// Get initial post data on page load
+		let url = this.state.posturl;
 		fetch(url, {
 			method: 'GET',
 			credentials: "same-origin",
@@ -771,11 +772,21 @@ class PostList extends React.Component {
 		.then(res => res.json())
 		.then(
 			(result) => {
-				this.setState({
-					isLoaded: true,
-					morePosts: result.next !== null,
-					posts: result.results,
-				});
+				let url_state = url.substr(url.slice(0,-1).lastIndexOf('/')).slice(1,-1);
+				if (url_state === "posts") { url_state = "recent"; }
+				if (url_state === this.props.sort) {
+					console.log('loaded');
+					this.setState({
+						isLoaded: true,
+						morePosts: result.next !== null,
+						posts: result.results,
+					});
+				} else {
+					if (!this.state.isLoaded) {
+						console.log('reloading');
+						this.reloadPosts();
+					}
+				};
 			},
 			(error) => {
 				this.setState({
@@ -836,7 +847,7 @@ class PostList extends React.Component {
 		})
 
 		let currentPostCount = this.state.posts.length;
-		var url = "/api/posts/" + (this.props.sort === "popular" ? "popular" : "");
+		var url = "/api/posts" + (this.props.sort === "popular" ? "/popular/" : "/");
 		fetch(url +"?offset="+currentPostCount, {
 			method: 'GET',
 			credentials: "same-origin",
