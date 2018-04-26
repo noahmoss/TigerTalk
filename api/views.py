@@ -61,9 +61,9 @@ class CommentList(generics.ListCreateAPIView):
         serializer.save(author=self.request.user)
 
 # detail for a single comment
-# use PUT to overwrite comment rather than deleting
+# use PUT to overwrite comment rather than deleting (TODO)
 # methods: GET, PUT
-class CommentDetail(generics.RetrieveUpdateAPIView):
+class CommentDetail(generics.RetrieveDestroyAPIView):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
     permission_classes = (permissions.IsAuthenticated,)

@@ -471,7 +471,7 @@ class CommentBlock extends React.Component {
 
 	// delete a comment by ID
 	handleDelete(id) {
-		fetch("/api/posts/"+id+"/", {
+		fetch("/api/comments/"+id+"/", {
 				method: 'DELETE',
 				credentials: "same-origin",
 				headers : new Headers(),
@@ -491,6 +491,7 @@ class CommentBlock extends React.Component {
 				this.setState({
 					comments : newcomments
 				});
+				this.props.handleCommentDelete();
 			}
 		)
 	}
@@ -828,7 +829,8 @@ class PostCommentBlock extends React.Component {
 							my_comments={this.state.my_comments}
 							my_upvoted={this.state.my_upvoted}
 							my_downvoted={this.state.my_downvoted}
-							handleComment={this.handleComment} />
+							handleComment={this.handleComment}
+							handleCommentDelete={this.handleCommentDelete}/>
 			);
 		}
 		else {
