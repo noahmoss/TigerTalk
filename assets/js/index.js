@@ -304,7 +304,7 @@ class Comment extends React.Component{
 				</div>
 				<div className="replyIconLine">
 					<Media>
-			    	<Media.Left className="replyOffset">
+			    	<Media.Left className="iconReplyOffset">
 			   	 	</Media.Left>
 			    	<Media.Body className="commentBody" onClick={this.props.onClick}>
 			    	</Media.Body>

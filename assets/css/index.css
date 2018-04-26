@@ -201,6 +201,7 @@ div.no-more-posts {
     float: right;
     white-space: pre-wrap;
     max-width: 768px;
+    background-color: var(--comment-bg-color);;
 }
 
 .media {
@@ -421,4 +422,10 @@ form.replying {
     padding-bottom: 5px;
     background-color: var(--comment-bg-color);
     border: solid;
+}
+
+.iconReplyOffset {
+  padding-right: 23px;
+  padding-left: 23px;
+  background-color: var(--main-bg-color);
 }
