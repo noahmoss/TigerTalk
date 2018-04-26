@@ -1,0 +1,456 @@
+/* Document-wide style */
+:root {
+  --main-bg-color: #f3f3f3;
+  --post-bg-color: #cfd8dc;
+  --comment-bg-color: #cfd8dc;
+  --nav-bg-color: #323d49;
+  --form-border: #676767;
+}
+
+body {
+  background-color: var(--main-bg-color);
+}
+
+/*-------------------------------------------------*/
+
+/* Navbar background and link colors */
+.navbar-default {
+    background-color: var(--nav-bg-color);
+}
+.navbar .nav > li > a {
+    color: var(--main-bg-color);
+}
+.navbar .nav > li > a:hover {
+    color: var(--main-bg-color);
+}
+.navbar .nav > li > a:visited {
+    color: var(--main-bg-color);
+}
+.navbar .nav > li > a:active {
+    color: var(--main-bg-color);
+}
+.navbar .nav > li > a:focus {
+    color: var(--main-bg-color);
+}
+
+/* Main header (TigerTalk) */
+h3 {
+  margin-top: 150px;
+  font-size: 36px;
+  font-weight: 100px;
+  font-family: Quicksand;
+  text-align: center;
+}
+
+/* Sort bar -- TODO: redo with react-bootstrap buttons*/
+div.sortbar {
+    display: flex;
+    justify-content: center;
+    padding: 15px;
+    overflow: hidden;
+    margin: auto;
+    width: 200px;
+    right: -2px; /* change this when adding back refresh */
+    position: relative;
+}
+.sort-button {
+  text-align: center;
+  align-content: center;
+  border:none;
+  outline: none
+}
+
+div.btn-toolbar {
+    width: 150px;
+    float: right;
+    position: relative;
+}
+/* button {
+  position: relative;
+  border-radius: 5px;
+  background-color: var(--post-bg-color);
+  font-family: Quicksand;
+}
+button:focus {
+    outline: none;
+} */
+
+/* Post form */
+div.container-fluid {
+    margin-bottom: 15px;
+    padding-left: 0px;
+    padding-right: 0px;
+}
+div.post-container {
+    margin: auto;
+    max-width: 768px;
+    width: 90%;
+}
+textarea.form-control {
+    margin: auto;
+    resize: vertical;
+    border: 0.1rem solid var(--form-border);
+    background-color: var(--main-bg-color);
+    min-height: 50px;
+    border-radius: 5px;
+    font-family: Quicksand;
+    margin-bottom: 5px;
+}
+
+/* react-bootstrap buttons */
+.btn {
+    border-radius: 5px;
+    background-color: var(--post-bg-color);
+    float: right;
+}
+
+div.mb.media-body{
+   z-index: 3;
+   width: 9000px
+}
+
+div.mb2.media-body{
+  z-index: 4;
+  width: 10500px
+}
+
+div.commentNum.media-left{
+    position: relative;
+    top: -3.6px;
+    margin-bottom: 0px;
+}
+div.dateString.media-right{
+    position: relative;
+    top: -3.6px;
+    margin-bottom: 0px;
+    width:6000px;
+    text-align: right;
+    position: relative;
+    right: 10px;
+    background-color: var(--post-bg-color);
+}
+
+div.commentdatestring.media-right{
+    position: relative;
+    top: -3.6px;
+    margin-bottom: 0px;
+    width:10000px;
+    text-align: right;
+    position: relative;
+    right: 10px;
+}
+
+/* Post components */
+div.post {
+    font-family: Quicksand;
+    background-color: var(--post-bg-color);
+    border-right: 0.2rem solid var(--post-bg-color);
+    border-left: 0.2rem solid var(--post-bg-color);
+    border-top: 0.1rem solid var(--post-bg-color);
+    border-bottom: 0.1rem solid var(--post-bg-color);
+    margin: auto;
+    margin-top: 10px;
+    white-space: pre-wrap;
+    max-width: 768px;
+    width: 90%;
+}
+div.mainBody {
+    z-index: 1;
+    overflow: visible;
+    padding-top:5px;
+}
+#dropdown-size-small {
+    z-index: 100;
+    margin: auto;
+    vertical-align: top;
+    border-color: var(--post-bg-color);
+    padding-top: 0px;
+    padding-right: 12px;
+}
+
+.dropdown-menu {
+    margin-right: 5px;
+}
+
+div.no-more-posts {
+    font-family: Quicksand;
+    font-size: 16px;
+    text-align: center;
+    margin-top: 40px;
+    margin-bottom: 50px;
+}
+
+
+/* Comment components -- TODO: fix comment css */
+.replyContainer {
+  max-width: 768px;
+  width: 90%;
+  margin: auto;
+  background-color: var(--main-bg-color);
+}
+
+.commentMedia{
+    padding-top: 5px;
+}
+
+.reply {
+    padding-top:5px;
+    font-family: Quicksand, serif;
+    margin: auto;
+    margin-bottom: 0px;
+    float: right;
+    white-space: pre-wrap;
+    max-width: 768px;
+}
+
+.replyIconLine {
+    font-family: Quicksand, serif;
+    margin: auto;
+    margin-bottom: 0px;
+    float: right;
+    white-space: pre-wrap;
+    max-width: 768px;
+    width: 100%;
+    background-color: var(--comment-bg-color);;
+}
+
+.media {
+    overflow: visible;
+}
+
+.chunk{
+  margin-bottom: 5px;
+}
+
+form.replying {
+  padding-top: 5px;
+  padding-left: 38px;
+  margin: auto;
+}
+
+
+.row {
+  margin-left: 0px;
+}
+.comments {
+  margin-top: 0px;
+}
+.commentblock {
+    display: block;
+}
+.empty {
+  background-color: var(--main-bg-color);
+
+}
+
+/*  loading icon -- from https://loading.io/ */
+@keyframes lds-dual-ring {
+  0% {
+    -webkit-transform: rotate(0);
+    transform: rotate(0);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+@-webkit-keyframes lds-dual-ring {
+  0% {
+    -webkit-transform: rotate(0);
+    transform: rotate(0);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+.lds-dual-ring {
+  margin: auto;
+  position: relative;
+}
+.lds-dual-ring div {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  top: 20px;
+  left: 50px;
+  border-radius: 50%;
+  border: 8px solid #000;
+  border-color: var(--post-bg-color) transparent var(--post-bg-color) transparent;
+  -webkit-animation: lds-dual-ring 1s linear infinite;
+  animation: lds-dual-ring 1s linear infinite;
+}
+.lds-dual-ring {
+  width: 200px !important;
+  height: 200px !important;
+  -webkit-transform: translate(-100px, -100px) scale(1) translate(100px, 100px);
+  transform: translate(-100px, -100px) scale(1) translate(100px, 100px);
+}
+
+/* mini loding icon */
+@keyframes lds-dual-ring2 {
+  0% {
+    -webkit-transform: rotate(0);
+    transform: rotate(0);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+@-webkit-keyframes lds-dual-ring2 {
+  0% {
+    -webkit-transform: rotate(0);
+    transform: rotate(0);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+.lds-dual-ring2 {
+  margin: auto;
+  position: relative;
+}
+.lds-dual-ring2 div {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  top: 20px;
+  left: 70px;
+  border-radius: 50%;
+  border: 6px solid #000;
+  border-color: #cfd8dc transparent #cfd8dc transparent;
+  -webkit-animation: lds-dual-ring 0.7s linear infinite;
+  animation: lds-dual-ring 0.7s linear infinite;
+}
+.lds-dual-ring2 {
+  width: 200px !important;
+  height: 200px !important;
+  -webkit-transform: translate(-100px, -100px) scale(1) translate(100px, 100px);
+  transform: translate(-100px, -100px) scale(1) translate(100px, 100px);
+}
+
+/* Icons */
+.caret {
+  width: 10px;
+  height: 10px;
+  border: none;
+  font-family: 'Glyphicons Halflings';
+}
+.caret:before {
+  content:"\e234";
+}
+
+.arrowBox {
+  padding-left: 10px;
+  padding-right: 10px;
+  text-align: center;
+  margin: auto;
+  /*position: relative;*/
+}
+
+.iconFirstColumn {
+  padding-left: 17px;
+  padding-right: 17px;
+  text-align: center;
+  margin: auto;
+}
+
+.glyphicon-comment {
+    color:#cfd8dc;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+    margin-left: 4px;
+    top: -1px;
+    margin-bottom: 0px;
+    /* cursor: pointer; */
+}
+
+.glyphicon-send {
+    color:#cfd8dc;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+    margin-left: 4px;
+    top: -1px;
+    margin-bottom: 0px;
+    cursor: pointer;
+}
+
+#commentContainer {
+  max-width: 768px;
+  width: 90%;
+  margin: auto;
+}
+.replying {
+    padding-bottom:5px;
+    padding-top:5px;
+    width: 98.7%;
+    float: right;
+    white-space: pre-wrap;
+}
+.rip {
+  margin-top: 7px;
+}
+
+.Chevron_up_clicked  glyphicon-chevron-up {
+  color: #0000FF;
+
+}
+
+.glyphicon-chevron-up {
+  cursor: pointer;
+}
+
+.glyphicon-chevron-down {
+  cursor: pointer;
+}
+
+.glyphicon-refresh {
+  /*left: -605px;*/
+
+  /*right: -1%; */ /* or right 50% */
+  /*top: 19px;*/
+  font-size: 1.7em;
+  color: #AAB3B7;
+  z-index: 1000;
+  cursor: pointer;
+  margin: auto;
+
+
+}
+
+span.seemore {
+    cursor:pointer;
+    /* text-decoration:underline; */
+    color: #787878;
+}
+
+.replyOffset {
+  padding-right: 23px;
+  padding-left: 23px;
+}
+
+.commentBody {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    background-color: var(--comment-bg-color);
+}
+
+.commentStamp {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    background-color: var(--comment-bg-color);
+    border: solid;
+}
+
+.iconReplyOffset {
+  padding-right: 23px;
+  padding-left: 23px;
+  background-color: var(--main-bg-color);
+}
+
+.replyContainer {
+  max-width: 768px;
+  width: 90%;
+  margin: auto;
+  background-color: var(--main-bg-color);
+}

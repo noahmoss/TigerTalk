@@ -4,6 +4,8 @@ from api.permissions import IsAuthorOrReadOnly, IsUser
 from django.contrib.auth import get_user_model
 from rest_framework import generics, permissions
 from rest_framework.response import Response
+from django.shortcuts import render_to_response
+from django.template import RequestContext
 from django.utils import timezone
 import datetime
 User = get_user_model()
@@ -154,3 +156,10 @@ class UserDetail(generics.RetrieveAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_classes = (permissions.IsAuthenticated, IsUser,)
+
+# custom 404 handler
+# def handler404(request):
+#     response = render_to_response('404.html', {},
+#                                   context_instance=RequestContext(request))
+#     response.status_code = 404
+#     return response

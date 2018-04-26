@@ -22,13 +22,44 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ["DJANGO_SECRET_KEY"]
 
-ALLOWED_HOSTS = ['0.0.0.0', 'localhost', '127.0.0.1', 'tigertalkapi.herokuapp.com',
-                'princetontigertalk.herokuapp.com', 'www.tigertalk.io']
-
+# ALLOWED_HOSTS = ['0.0.0.0', 'localhost', 'localhost:5000', '127.0.0.1', 'tigertalkapi.herokuapp.com',
+#                 'princetontigertalk.herokuapp.com', 'www.tigertalk.io']
+ALLOWED_HOSTS = ['*']
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
+DEBUG = False
+# LOGGING = {
+#     'version': 1,
+#     'disable_existing_loggers': False,
+#     'formatters': {
+#         'verbose': {
+#             'format' : "[%(asctime)s] %(levelname)s [%(name)s:%(lineno)s] %(message)s",
+#             'datefmt' : "%d/%b/%Y %H:%M:%S"
+#         },
+#         'simple': {
+#             'format': '%(levelname)s %(message)s'
+#         },
+#     },
+#     'handlers': {
+#         'file': {
+#             'level': 'DEBUG',
+#             'class': 'logging.FileHandler',
+#             'filename': 'mysite.log',
+#             'formatter': 'verbose'
+#         },
+#     },
+#     'loggers': {
+#         'django': {
+#             'handlers':['file'],
+#             'propagate': True,
+#             'level':'DEBUG',
+#         },
+#         'MYAPP': {
+#             'handlers': ['file'],
+#             'level': 'DEBUG',
+#         },
+#     }
+# }
 # Application definition
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -157,11 +188,11 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-STATIC_URL = os.path.join(BASE_DIR, 'assets/')
+STATIC_URL = os.path.join(BASE_DIR, 'assets')
 STATICFILES_DIRS = (
     #This lets Django's collectstatic store our bundles
     os.path.join(BASE_DIR, 'assets'),
-    os.path.join(BASE_DIR, 'static'),
+    os.path.join(BASE_DIR, 'templates'),
 )
 
 WEBPACK_LOADER = {
