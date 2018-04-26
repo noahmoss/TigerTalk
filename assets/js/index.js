@@ -295,9 +295,10 @@ class Comment extends React.Component{
 					   			title=""
 					   			id="dropdown-size-small"
 					   		>
-					   			<MenuItem eventKey="1">Report</MenuItem>
-					   			<MenuItem divider />
-					   			<MenuItem eventKey="3">Delete</MenuItem>
+								{ this.props.isMine
+		 					   		? <MenuItem onClick={this.props.handleDelete}>Delete</MenuItem>
+		 							: <MenuItem>Report</MenuItem>
+		 				   		}
 							</DropdownButton>
 				   	</Media.Right>
 				</Media>
@@ -1204,11 +1205,8 @@ class NavBar extends React.Component {
 					</NavItem>
 				</Nav>
 			    <Nav pullRight>
-					<NavItem eventKey={1} href="#">
-					  Account ({netid})
-					</NavItem>
 					<NavItem eventKey={3} href="/accounts/logout">
-					  Logout
+					  Logout ({netid})
 					</NavItem>
 			    </Nav>
 			  </Navbar.Collapse>
