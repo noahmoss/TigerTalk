@@ -169,10 +169,10 @@ function timestamp(st) {
 class Comment extends React.Component{
 	constructor(props) {
 		super(props);
-		// this.handleUpvoteClick = this.handleUpvoteClick.bind(this);
-		// this.handleUpvoteUnclick = this.handleUpvoteUnclick.bind(this);
-		// this.handleDownvoteClick = this.handleDownvoteClick.bind(this);
-		// this.handleDownvoteUnclick = this.handleDownvoteUnclick.bind(this);
+		this.handleUpvoteClick = this.handleUpvoteClick.bind(this);
+		this.handleUpvoteUnclick = this.handleUpvoteUnclick.bind(this);
+		this.handleDownvoteClick = this.handleDownvoteClick.bind(this);
+		this.handleDownvoteUnclick = this.handleDownvoteUnclick.bind(this);
 		this.state = {
 			upvoted: this.props.upvoted,
 			downvoted: this.props.downvoted,
@@ -194,6 +194,71 @@ class Comment extends React.Component{
 		})
 	}
 
+	// voting logic
+	handleUpvoteClick() {
+		if (this.state.upvoted) {
+			return;
+		}
+		else if (this.state.downvoted) {
+			this.setState({
+				upvoted : true,
+				downvoted : false,
+				votes : this.state.votes + 2,
+			})
+		}
+		else {
+			this.setState({
+				upvoted : true,
+				votes : this.state.votes + 1
+			})
+		}
+		this.sendVoteToServer("u");
+	}
+	handleUpvoteUnclick() {
+		if (!this.state.upvoted) {
+			return;
+		}
+		else {
+			this.setState({
+				upvoted : false,
+				votes : this.state.votes - 1,
+			})
+		}
+		this.sendVoteToServer("c");
+	}
+	handleDownvoteClick() {
+		if (this.state.downvoted) {
+			return;
+		}
+		else if (this.state.upvoted) {
+			this.setState({
+				downvoted : true,
+				upvoted : false,
+				votes : this.state.votes - 2,
+			})
+		}
+		else {
+			this.setState({
+				downvoted : true,
+				votes : this.state.votes - 1
+			})
+		}
+		this.sendVoteToServer("d");
+	}
+	handleDownvoteUnclick() {
+		if (!this.state.downvoted) {
+			return;
+		}
+		else {
+			this.setState({
+				downvoted : false,
+				votes : this.state.votes + 1,
+			})
+		}
+		this.sendVoteToServer("c");
+	}
+
+
 	render() {
 		let date_string = timestamp(this.props.date);
 		return (
@@ -205,11 +270,19 @@ class Comment extends React.Component{
 				    <Media.Body className="commentBody">
 				    	<Media>
 				    		<Media.Left>
-				      		<div className="arrowBox">
-				      			<Chevron_up />
-				      				10
-					 		 	<Chevron_down />
-					  		</div>
+							<div className="arrowBox">
+								{
+									this.state.upvoted
+									? <Chevron_up_clicked onClick={this.handleUpvoteUnclick}/>
+									: <Chevron_up onClick={this.handleUpvoteClick}/>
+								}
+					    		{this.state.votes}
+								{
+									this.state.downvoted
+									? <Chevron_down_clicked onClick={this.handleDownvoteUnclick}/>
+									: <Chevron_down onClick={this.handleDownvoteClick}/>
+								}
+							 </div>
 				   		 	</Media.Left>
 				   		 	<Media.Body onClick={this.props.onClick}>
 				   		 		{this.props.content}
@@ -308,15 +381,6 @@ class CommentBlock extends React.Component {
 		this.getUserData = this.getUserData.bind(this);
 	}
 
-	// componentDidUpdate(prevProps, prevState) {
-	// 	this.setState({
-	// 		comments: this.props.comments,
-	// 		my_upvoted: this.props.my_upvoted,
-	// 		my_downvoted: this.props.my_downvoted,
-	// 		my_comments: this.props.my_comments,
-	// 	})
-	// }
-
 	refreshComments() {
 		this.getUserData();
 
@@ -406,6 +470,7 @@ class CommentBlock extends React.Component {
 							content={comment.content}
 							key={comment.id}
 							id={comment.id}
+							votes={comment.net_votes}
 							date={comment.date_created}
 							isMine={this.state.my_comments.includes(comment.id)}
 							upvoted={this.state.my_upvoted.includes(comment.id)}
