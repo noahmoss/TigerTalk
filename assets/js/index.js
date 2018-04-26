@@ -179,10 +179,12 @@ class Comment extends React.Component{
 		this.handleDownvoteClick = this.handleDownvoteClick.bind(this);
 		this.handleDownvoteUnclick = this.handleDownvoteUnclick.bind(this);
 		this.handleDelete = this.handleDelete.bind(this);
+		this.handleExpand = this.handleExpand.bind(this);
 		this.state = {
 			upvoted: this.props.upvoted,
 			downvoted: this.props.downvoted,
 			votes: this.props.votes,
+			expanded: this.props.content.length < 220
 		};
 	}
 
@@ -268,6 +270,29 @@ class Comment extends React.Component{
 		this.props.handleDelete(this.props.id);
 	}
 
+
+	handleExpand() {
+		this.setState({
+			expanded : true,
+		})
+	}
+	renderContent() {
+		if (this.state.expanded) {
+			return (
+				this.props.content
+			)
+		}
+		else {
+			return (
+				<div>
+				{this.props.content.slice(0,220) + " "}
+				<span className="seemore" onClick={this.handleExpand}>...see more</span>
+				</div>
+			)
+		}
+	}
+
+
 	render() {
 		let date_string = timestamp(this.props.date);
 		return (
@@ -294,7 +319,7 @@ class Comment extends React.Component{
 							 </div>
 				   		 	</Media.Left>
 				   		 	<Media.Body onClick={this.props.onClick}>
-				   		 		{this.props.content}
+								{this.renderContent()}
 				   		 	</Media.Body>
 				   		 </Media>
 				   	</Media.Body>
@@ -585,7 +610,7 @@ class Post extends React.Component{
 			upvoted: this.props.upvoted,
 			downvoted: this.props.downvoted,
 			votes: this.props.votes,
-			expanded: false,
+			expanded: this.props.content.length < 320
 		};
 	}
 
@@ -672,7 +697,6 @@ class Post extends React.Component{
 			expanded : true,
 		})
 	}
-
 	renderContent() {
 		if (this.state.expanded) {
 			return (
@@ -683,7 +707,7 @@ class Post extends React.Component{
 			console.log('test');
 			return (
 				<div>
-				{this.props.content.slice(0,280) + " "}
+				{this.props.content.slice(0,320) + " "}
 				<span className="seemore" onClick={this.handleExpand}>...see more</span>
 				</div>
 			)
@@ -720,7 +744,6 @@ class Post extends React.Component{
 					   title=""
 					   id="dropdown-size-small"
 					   >
-					   <MenuItem>Follow</MenuItem>
 					   { this.props.isMine
 					   		? <MenuItem onClick={this.props.handleDelete}>Delete</MenuItem>
 							: <MenuItem>Report</MenuItem>
@@ -741,7 +764,6 @@ class Post extends React.Component{
 				      {this.props.comment_count}
 				    </Media.Left>
 				    <Media.Right>
-				    	<Share_icon />
 				    </Media.Right>
 			    </Media.Body>
 			    <Media.Right className = "dateString">
@@ -986,6 +1008,7 @@ class PostList extends React.Component {
 		.then(
 			(result) => {
 				this.setState({
+					my_posts: result.posts,
 					my_upvoted: result.posts_upvoted,
 					my_downvoted: result.posts_downvoted,
 				});
@@ -1260,12 +1283,13 @@ class NavBar extends React.Component {
 			  <Navbar.Collapse>
 			  	<Nav pullLeft>
 					<NavItem eventKey={1} href="#">
-					  About
-					</NavItem>
-					<NavItem eventKey={2} href="#">
-					  Feedback
+						About
 					</NavItem>
 				</Nav>
+				<Navbar.Text>
+					<Navbar.Link href="https://docs.google.com/forms/d/e/1FAIpQLSeO1FP1ghYFiDi2AKrBsEOxu2b_NXowGbxCfrlHXFmm6b1Fug/viewform?usp=pp_url&entry.1782114317"
+					target="_blank" style={{ color: '#f3f3f3', textDecoration: 'none' }}>Feedback</Navbar.Link>
+				</Navbar.Text>
 			    <Nav pullRight>
 					<NavItem eventKey={3} href="/accounts/logout">
 					  Logout ({netid})

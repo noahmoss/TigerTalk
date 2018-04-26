@@ -363,7 +363,7 @@ form.replying {
     margin-left: 4px;
     top: -1px;
     margin-bottom: 0px;
-    cursor: pointer;
+    /* cursor: pointer; */
 }
 
 .glyphicon-send {
@@ -420,7 +420,7 @@ form.replying {
 
 span.seemore {
     cursor:pointer;
-    text-decoration:underline;
+    /* text-decoration:underline; */
     color: #787878;
 }
 
