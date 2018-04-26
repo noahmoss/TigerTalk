@@ -48,6 +48,10 @@ div.sortbar {
     justify-content: center;
     padding: 15px;
     overflow: hidden;
+    margin: auto;
+    width: 200px;
+    right: -17px;
+    position: relative;
 }
 .sort-button {
   text-align: center;
@@ -56,6 +60,11 @@ div.sortbar {
   outline: none
 }
 
+div.btn-toolbar {
+    width: 150px;
+    float: right;
+    position: relative;
+}
 /* button {
   position: relative;
   border-radius: 5px;
@@ -396,15 +405,19 @@ form.replying {
 
 .glyphicon-refresh {
   /*left: -605px;*/
-  position: relative;
+
   /*right: -1%; */ /* or right 50% */
   /*top: 19px;*/
   font-size: 1.7em;
   color: #AAB3B7;
   z-index: 1000;
   cursor: pointer;
+  margin: auto;
+
 
 }
+
+
 
 .replyOffset {
   padding-right: 23px;
