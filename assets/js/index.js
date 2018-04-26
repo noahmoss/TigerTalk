@@ -301,9 +301,7 @@ class Comment extends React.Component{
 							</DropdownButton>
 				   	</Media.Right>
 				</Media>
-				</div>
-				<div className="replyIconLine">
-					<Media>
+				<Media className="replyIconLine">
 			    	<Media.Left className="iconReplyOffset">
 			   	 	</Media.Left>
 			    	<Media.Body className="commentBody" onClick={this.props.onClick}>
@@ -311,8 +309,8 @@ class Comment extends React.Component{
 			    	<Media.Right className="dateString">
 			    		{date_string}
 			    	</Media.Right>
-			  		</Media>
-				</div>
+			  	</Media>
+			  	</div>
 	        	</div>
 		);
 	}
