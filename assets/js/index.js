@@ -43,11 +43,13 @@ class SortBar extends React.Component {
 						<ToggleButton value={"popular"} onClick={this.setPopular} className="sort-button">Popular</ToggleButton>
 					  </ToggleButtonGroup>
 					</ButtonToolbar>
-					<Refresh_icon onClick={this.props.handleRefresh}/>
 				</div>
 
 
 		);
+
+		//	<Refresh_icon onClick={this.props.handleRefresh}/>
+
     }
 }
 
@@ -578,10 +580,12 @@ class Post extends React.Component{
 		this.handleUpvoteUnclick = this.handleUpvoteUnclick.bind(this);
 		this.handleDownvoteClick = this.handleDownvoteClick.bind(this);
 		this.handleDownvoteUnclick = this.handleDownvoteUnclick.bind(this);
+		this.handleExpand = this.handleExpand.bind(this);
 		this.state = {
 			upvoted: this.props.upvoted,
 			downvoted: this.props.downvoted,
 			votes: this.props.votes,
+			expanded: false,
 		};
 	}
 
@@ -663,6 +667,29 @@ class Post extends React.Component{
 		this.sendVoteToServer("c");
 	}
 
+	handleExpand() {
+		this.setState({
+			expanded : true,
+		})
+	}
+
+	renderContent() {
+		if (this.state.expanded) {
+			return (
+				this.props.content
+			)
+		}
+		else {
+			console.log('test');
+			return (
+				<div>
+				{this.props.content.slice(0,280) + " "}
+				<span className="seemore" onClick={this.handleExpand}>...see more</span>
+				</div>
+			)
+		}
+	}
+
 	render () {
 		let date_string = timestamp(this.props.date);
 
@@ -685,7 +712,7 @@ class Post extends React.Component{
 					 </div>
 			    </Media.Left>
 			    <Media.Body onClick={this.props.onClick}>
-					{this.props.content}
+					{this.renderContent()}
 			    </Media.Body>
 				<Media.Right className="dropdown-container">
 					<DropdownButton pullRight
