@@ -34,14 +34,18 @@ class SortBar extends React.Component {
 	}
     render() {
 		return (
-			<div className="sortbar">
-				<ButtonToolbar>
-				  <ToggleButtonGroup defaultValue={"recent"} type="radio" name="sortbar" >
-					<ToggleButton value={"recent"} onClick={this.setRecent} className="sort-button">Recent</ToggleButton>
-					<ToggleButton value={"popular"} onClick={this.setPopular} className="sort-button">Popular</ToggleButton>
-				  </ToggleButtonGroup>
-				</ButtonToolbar>
-			</div>
+			
+				<div className="sortbar">
+					<ButtonToolbar>
+					  <ToggleButtonGroup defaultValue={"recent"} type="radio" name="sortbar" >
+						<ToggleButton value={"recent"} onClick={this.setRecent} className="sort-button">Recent</ToggleButton>
+						<ToggleButton value={"popular"} onClick={this.setPopular} className="sort-button">Popular</ToggleButton>
+					  </ToggleButtonGroup>
+					</ButtonToolbar>
+					<Refresh_icon/>
+				</div>
+			
+
 		);
     }
 }
