@@ -610,7 +610,7 @@ class Post extends React.Component{
 			upvoted: this.props.upvoted,
 			downvoted: this.props.downvoted,
 			votes: this.props.votes,
-			expanded: this.props.content.length < 320
+			expanded: this.props.content.length < 280
 		};
 	}
 
@@ -707,7 +707,7 @@ class Post extends React.Component{
 			console.log('test');
 			return (
 				<div>
-				{this.props.content.slice(0,320) + " "}
+				{this.props.content.slice(0,280) + " "}
 				<span className="seemore" onClick={this.handleExpand}>...see more</span>
 				</div>
 			)
