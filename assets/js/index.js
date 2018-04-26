@@ -12,6 +12,7 @@ class SortBar extends React.Component {
 		super(props, context);
 		this.state = {
 			value: "recent", // recent or popular
+			isLoaded : true,
 		};
 		this.setRecent = this.setRecent.bind(this);
 		this.setPopular = this.setPopular.bind(this);
@@ -34,7 +35,7 @@ class SortBar extends React.Component {
 	}
     render() {
 		return (
-			
+
 				<div className="sortbar">
 					<ButtonToolbar>
 					  <ToggleButtonGroup defaultValue={"recent"} type="radio" name="sortbar" >
@@ -42,9 +43,9 @@ class SortBar extends React.Component {
 						<ToggleButton value={"popular"} onClick={this.setPopular} className="sort-button">Popular</ToggleButton>
 					  </ToggleButtonGroup>
 					</ButtonToolbar>
-					<Refresh_icon/>
+					<Refresh_icon onClick={this.props.handleRefresh}/>
 				</div>
-			
+
 
 		);
     }
@@ -107,12 +108,10 @@ class Share_icon extends React.Component {
 }
 
 
-class Refresh_icon extends React.Component {
- 	render() {
- 		return (
- 				<span className="glyphicon glyphicon-refresh" aria-hidden="true"></span>
-		);
-	}
+function Refresh_icon(props) {
+	return (
+			<span className="glyphicon glyphicon-refresh" onClick={props.onClick} aria-hidden="true"></span>
+	);
 }
 
 function timestamp(st) {
@@ -177,6 +176,7 @@ class Comment extends React.Component{
 		this.handleUpvoteUnclick = this.handleUpvoteUnclick.bind(this);
 		this.handleDownvoteClick = this.handleDownvoteClick.bind(this);
 		this.handleDownvoteUnclick = this.handleDownvoteUnclick.bind(this);
+		this.handleDelete = this.handleDelete.bind(this);
 		this.state = {
 			upvoted: this.props.upvoted,
 			downvoted: this.props.downvoted,
@@ -262,6 +262,9 @@ class Comment extends React.Component{
 		this.sendVoteToServer("c");
 	}
 
+	handleDelete() {
+		this.props.handleDelete(this.props.id);
+	}
 
 	render() {
 		let date_string = timestamp(this.props.date);
@@ -300,7 +303,7 @@ class Comment extends React.Component{
 					   			id="dropdown-size-small"
 					   		>
 								{ this.props.isMine
-		 					   		? <MenuItem onClick={this.props.handleDelete}>Delete</MenuItem>
+		 					   		? <MenuItem onClick={this.handleDelete}>Delete</MenuItem>
 		 							: <MenuItem>Report</MenuItem>
 		 				   		}
 							</DropdownButton>
@@ -384,6 +387,7 @@ class CommentBlock extends React.Component {
 		this.refreshComments = this.refreshComments.bind(this);
 		this.handleComment = this.handleComment.bind(this);
 		this.getUserData = this.getUserData.bind(this);
+		this.handleDelete = this.handleDelete.bind(this);
 	}
 
 	refreshComments() {
@@ -467,6 +471,32 @@ class CommentBlock extends React.Component {
 		}
 	}
 
+	// delete a comment by ID
+	handleDelete(id) {
+		fetch("/api/posts/"+id+"/", {
+				method: 'DELETE',
+				credentials: "same-origin",
+				headers : new Headers(),
+				headers: {
+					 "X-CSRFToken": csrftoken,
+					 'Accept': 'application/json',
+					 'Content-Type': 'application/json',
+				},
+			}
+		)
+		.then(
+			(result) => {
+				var newcomments = this.state.comments.filter(
+					function(comment) {
+						return comment.id !== id;
+					});
+				this.setState({
+					comments : newcomments
+				});
+			}
+		)
+	}
+
 	render() {
 		return (
 			<div className='commentBlock'>
@@ -480,6 +510,7 @@ class CommentBlock extends React.Component {
 							isMine={this.state.my_comments.includes(comment.id)}
 							upvoted={this.state.my_upvoted.includes(comment.id)}
 							downvoted={this.state.my_downvoted.includes(comment.id)}
+							handleDelete={this.handleDelete}
 						/>)
 					)
 				}
@@ -1227,6 +1258,7 @@ class App extends React.Component {
 			recent : true,
 		}
 		this.toggleSort = this.toggleSort.bind(this);
+		// this.handleRefresh = this.handleRefresh.bind(this);
 	}
 
 	toggleSort(sort) {
@@ -1234,13 +1266,16 @@ class App extends React.Component {
 			recent : sort == "recent" ? true : false,
 		});
 	}
+	// handleRefresh() {
+	// 	let curr = this.state.recent;
+	// }
 
 	render() {
 		return (
 			<div>
 				<NavBar />
 				<MainTitle />
-				<SortBar toggleSort={this.toggleSort}/>
+				<SortBar toggleSort={this.toggleSort} handleRefresh={this.handleRefresh}/>
 				{
 					this.state.recent
 					? <PostList sort="recent" />
