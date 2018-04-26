@@ -118,6 +118,7 @@ div.dateString.media-right{
     text-align: right;
     position: relative;
     right: 10px;
+    background-color: var(--post-bg-color);
 }
 
 div.commentdatestring.media-right{
@@ -129,6 +130,7 @@ div.commentdatestring.media-right{
     position: relative;
     right: 10px;
 }
+
 /* Post components */
 div.post {
     font-family: Quicksand;
@@ -179,11 +181,22 @@ div.no-more-posts {
   margin: auto;
   background-color: var(--main-bg-color);
 }
+
 .commentMedia{
     padding-top: 5px;
 }
+
 .reply {
     padding-top:5px;
+    font-family: Quicksand, serif;
+    margin: auto;
+    margin-bottom: 0px;
+    float: right;
+    white-space: pre-wrap;
+    max-width: 768px;
+}
+
+.replyIconLine {
     font-family: Quicksand, serif;
     margin: auto;
     margin-bottom: 0px;
@@ -402,3 +415,11 @@ form.replying {
     padding-bottom: 5px;
     background-color: var(--comment-bg-color);
 }
+
+.commentStamp {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    background-color: var(--comment-bg-color);
+    border: solid;
+}
+

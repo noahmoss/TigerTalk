@@ -214,7 +214,7 @@ class Comment extends React.Component{
 				   		 	<Media.Body onClick={this.props.onClick}>
 				   		 		{this.props.content}
 				   		 	</Media.Body>
-				   		 </Media>
+				   		</Media>
 				   	</Media.Body>
 				   	<Media.Right className="dropdown-container" className="commentBody">
 							<DropdownButton pullRight
@@ -226,12 +226,18 @@ class Comment extends React.Component{
 					   			<MenuItem divider />
 					   			<MenuItem eventKey="3">Delete</MenuItem>
 							</DropdownButton>
-							<Media.Right className = "commentdatestring">
-				    			{date_string}
-				    		</Media.Right>
-				   	</Media.Right>
-				</Media>
-	        	</div>
+					</Media.Right>
+					</Media>
+					<Media>
+						<Media.Left className="replyOffset">
+						</Media.Left>
+						<Media.Body className="commentBody">
+						</Media.Body>
+						<Media.Right className="dateString">
+							{date_string}
+						</Media.Right>
+					</Media>
+			  	</div>
 	        	</div>
 		);
 	}
@@ -555,7 +561,7 @@ class Post extends React.Component{
 							: <MenuItem>Report</MenuItem>
 				   		}
 					</DropdownButton>
-				   </Media.Right>
+				</Media.Right>
 			  </Media>
 			  <Media className="rip">
 			    <Media.Left>
