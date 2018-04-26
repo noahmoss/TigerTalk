@@ -34,24 +34,13 @@ class SortBar extends React.Component {
 	}
     render() {
 		return (
-			<div>
-			<Media>
-				<Media.Left>
-				</Media.Left>
-				<Media.Body>
-					<div className="sortbar">
-						<ButtonToolbar>
-						  <ToggleButtonGroup defaultValue={"recent"} type="radio" name="sortbar" >
-							<ToggleButton value={"recent"} onClick={this.setRecent} className="sort-button">Recent</ToggleButton>
-							<ToggleButton value={"popular"} onClick={this.setPopular} className="sort-button">Popular</ToggleButton>
-						  </ToggleButtonGroup>
-						</ButtonToolbar>
-					</div>
-				</Media.Body>
-				<Media.Right>
-					<Refresh_icon/>
-				</Media.Right>
-			</Media>
+			<div className="sortbar">
+				<ButtonToolbar>
+				  <ToggleButtonGroup defaultValue={"recent"} type="radio" name="sortbar" >
+					<ToggleButton value={"recent"} onClick={this.setRecent} className="sort-button">Recent</ToggleButton>
+					<ToggleButton value={"popular"} onClick={this.setPopular} className="sort-button">Popular</ToggleButton>
+				  </ToggleButtonGroup>
+				</ButtonToolbar>
 			</div>
 		);
     }
@@ -225,7 +214,7 @@ class Comment extends React.Component{
 				   		 	<Media.Body onClick={this.props.onClick}>
 				   		 		{this.props.content}
 				   		 	</Media.Body>
-				   		</Media>
+				   		 </Media>
 				   	</Media.Body>
 				   	<Media.Right className="dropdown-container" className="commentBody">
 							<DropdownButton pullRight
@@ -237,18 +226,20 @@ class Comment extends React.Component{
 					   			<MenuItem divider />
 					   			<MenuItem eventKey="3">Delete</MenuItem>
 							</DropdownButton>
-					</Media.Right>
-					</Media>
+				   	</Media.Right>
+				</Media>
+				</div>
+				<div className="replyIconLine">
 					<Media>
-						<Media.Left className="replyOffset">
-						</Media.Left>
-						<Media.Body className="commentBody">
-						</Media.Body>
-						<Media.Right className="dateString">
-							{date_string}
-						</Media.Right>
-					</Media>
-			  	</div>
+			    	<Media.Left className="replyOffset">
+			   	 	</Media.Left>
+			    	<Media.Body className="commentBody" onClick={this.props.onClick}>
+			    	</Media.Body>
+			    	<Media.Right className="dateString">
+			    		{date_string}
+			    	</Media.Right>
+			  		</Media>
+				</div>
 	        	</div>
 		);
 	}
