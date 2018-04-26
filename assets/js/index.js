@@ -291,11 +291,27 @@ class CommentBlock extends React.Component {
 		super(props);
 		this.state = {
 			comments: this.props.comments,
+			my_upvoted: this.props.my_upvoted,
+			my_downvoted: this.props.my_downvoted,
+			my_comments: this.props.my_comments,
 		}
+		this.refreshComments = this.refreshComments.bind(this);
 		this.handleComment = this.handleComment.bind(this);
+		this.getUserData = this.getUserData.bind(this);
 	}
 
+	// componentDidUpdate(prevProps, prevState) {
+	// 	this.setState({
+	// 		comments: this.props.comments,
+	// 		my_upvoted: this.props.my_upvoted,
+	// 		my_downvoted: this.props.my_downvoted,
+	// 		my_comments: this.props.my_comments,
+	// 	})
+	// }
+
 	refreshComments() {
+		this.getUserData();
+
 		fetch("/api/posts/"+this.props.id+"/comments/", {
 			method: 'GET',
 			credentials: "same-origin",
@@ -310,23 +326,39 @@ class CommentBlock extends React.Component {
 		.then(
 			(result) => {
 				this.setState({
-					isLoaded: true,
-					showing: true,
 					comments: result,
 					comment_count: result.length,
 				});
 			},
-			(error) => {
+		);
+	}
+
+	getUserData() {
+		fetch("/api/users/"+userid+"/", {
+			method: 'GET',
+			credentials: "same-origin",
+			headers : new Headers(),
+			headers: {
+				 "X-CSRFToken": csrftoken,
+				 'Accept': 'application/json',
+				 'Content-Type': 'application/json',
+			},
+		})
+		.then(res => res.json())
+		.then(
+			(result) => {
 				this.setState({
-					isLoaded: true,
-					error
+					my_comments: results.comments,
+					my_upvoted: result.posts_upvoted,
+					my_downvoted: result.posts_downvoted,
 				});
 			}
-		);
+		)
 	}
 
 	// add a new comment
 	handleComment(text) {
+		this.refreshComments();
 		if (text.trim() != ''){
 			fetch("/api/comments/", {
 					method: 'POST',
@@ -348,6 +380,7 @@ class CommentBlock extends React.Component {
 					this.props.handleComment();
 					this.setState({
 						comments: this.state.comments.concat([result]),
+						my_comments: this.state.my_comments.concat(result.id),
 					});
 				},
 				(error) => {
@@ -366,6 +399,9 @@ class CommentBlock extends React.Component {
 							key={comment.id}
 							id={comment.id}
 							date={comment.date_created}
+							isMine={this.state.my_comments.includes(comment.id)}
+							upvoted={this.state.my_upvoted.includes(comment.id)}
+							downvoted={this.state.my_downvoted.includes(comment.id)}
 						/>)
 					)
 				}
@@ -595,11 +631,38 @@ class PostCommentBlock extends React.Component {
 			isLoaded: true, // are the comments loaded?
 			comments: [], // current list of comments
 			comment_count: this.props.comment_count,
+			my_comments: [],
+			my_upvoted: [],
+			my_downvoted: [],
 		};
 	}
-	// load comments from API when post is clicked
+
+	// load comments and user data from API when post is clicked
 	handleClick() {
 		if(!this.state.showing) {
+			// get user data about comments
+			fetch("/api/users/"+userid+"/", {
+				method: 'GET',
+				credentials: "same-origin",
+				headers : new Headers(),
+				headers: {
+					 "X-CSRFToken": csrftoken,
+					 'Accept': 'application/json',
+					 'Content-Type': 'application/json',
+				},
+			})
+			.then(res => res.json())
+			.then(
+				(result) => {
+					this.setState({
+						my_upvoted: result.comments_upvoted,
+						my_downvoted: result.comments_downvoted,
+						my_comments: result.comments,
+					});
+				}
+			)
+
+			// load comments
 			this.setState({showing: true, isLoaded: false});
 			fetch("/api/posts/"+this.props.id+"/comments/", {
 				method: 'GET',
@@ -628,6 +691,7 @@ class PostCommentBlock extends React.Component {
 					});
 				}
 			)
+
 		}
 		else {
 			this.setState({
@@ -654,7 +718,9 @@ class PostCommentBlock extends React.Component {
 			return (
 				<CommentBlock id={this.props.id}
 							comments={this.state.comments}
-							my_comments={this.props.my_comments}
+							my_comments={this.state.my_comments}
+							my_upvoted={this.state.my_upvoted}
+							my_downvoted={this.state.my_downvoted}
 							handleComment={this.handleComment} />
 			);
 		}
