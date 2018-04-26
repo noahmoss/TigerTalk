@@ -1197,12 +1197,13 @@ class NavBar extends React.Component {
 			  <Navbar.Collapse>
 			  	<Nav pullLeft>
 					<NavItem eventKey={1} href="#">
-					  About
-					</NavItem>
-					<NavItem eventKey={2} href="#">
-					  Feedback
+						About
 					</NavItem>
 				</Nav>
+				<Navbar.Text>
+					<Navbar.Link href="https://docs.google.com/forms/d/e/1FAIpQLSeO1FP1ghYFiDi2AKrBsEOxu2b_NXowGbxCfrlHXFmm6b1Fug/viewform?usp=pp_url&entry.1782114317"
+					target="_blank" style={{ color: '#f3f3f3', textDecoration: 'none' }}>Feedback</Navbar.Link>
+				</Navbar.Text>
 			    <Nav pullRight>
 					<NavItem eventKey={1} href="#">
 					  Account ({netid})
