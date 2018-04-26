@@ -122,7 +122,7 @@ function timestamp(st) {
 		var now = moment();
 		var timeAgo = now.diff(postDatetime,'seconds');
 
-		if (timeAgo == 0) {
+		if (timeAgo <= 0) {
 			var timeUnit = "just now";
 		}
 
@@ -454,7 +454,7 @@ class CommentBlock extends React.Component {
 		.then(
 			(result) => {
 				this.setState({
-					my_comments: results.comments,
+					my_comments: result.comments,
 					my_upvoted: result.posts_upvoted,
 					my_downvoted: result.posts_downvoted,
 				});
