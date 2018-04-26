@@ -383,8 +383,10 @@ form.replying {
 }
 
 .glyphicon-refresh {
-  float: right;
+  /*left: -605px;*/
+  position: relative;
   /*right: -1%; */ /* or right 50% */
+  /*top: 19px;*/
   font-size: 1.7em;
   color: #AAB3B7;
   z-index: 1000;
