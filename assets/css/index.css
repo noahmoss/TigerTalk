@@ -418,15 +418,12 @@ form.replying {
 
 }
 
-<<<<<<< HEAD
-=======
 span.seemore {
     cursor:pointer;
     /* text-decoration:underline; */
     color: #787878;
 }
 
->>>>>>> b70b2b6553452a56ef77a8188e75d85068e84b85
 .replyOffset {
   padding-right: 23px;
   padding-left: 23px;
