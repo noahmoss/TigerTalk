@@ -1,0 +1,58 @@
+[26/Apr/2018 13:47:36] ERROR [django.request:118] Internal Server Error: /
+Traceback (most recent call last):
+  File "/Users/noahbmoss/.local/share/virtualenvs/TigerTalk-VtTjOXik/lib/python3.6/site-packages/django/core/handlers/exception.py", line 35, in inner
+    response = get_response(request)
+  File "/Users/noahbmoss/.local/share/virtualenvs/TigerTalk-VtTjOXik/lib/python3.6/site-packages/django/core/handlers/base.py", line 158, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/Users/noahbmoss/.local/share/virtualenvs/TigerTalk-VtTjOXik/lib/python3.6/site-packages/django/core/handlers/base.py", line 156, in _get_response
+    response = response.render()
+  File "/Users/noahbmoss/.local/share/virtualenvs/TigerTalk-VtTjOXik/lib/python3.6/site-packages/django/template/response.py", line 106, in render
+    self.content = self.rendered_content
+  File "/Users/noahbmoss/.local/share/virtualenvs/TigerTalk-VtTjOXik/lib/python3.6/site-packages/django/template/response.py", line 83, in rendered_content
+    content = template.render(context, self._request)
+  File "/Users/noahbmoss/.local/share/virtualenvs/TigerTalk-VtTjOXik/lib/python3.6/site-packages/django/template/backends/django.py", line 61, in render
+    return self.template.render(context)
+  File "/Users/noahbmoss/.local/share/virtualenvs/TigerTalk-VtTjOXik/lib/python3.6/site-packages/django/template/base.py", line 175, in render
+    return self._render(context)
+  File "/Users/noahbmoss/.local/share/virtualenvs/TigerTalk-VtTjOXik/lib/python3.6/site-packages/django/template/base.py", line 167, in _render
+    return self.nodelist.render(context)
+  File "/Users/noahbmoss/.local/share/virtualenvs/TigerTalk-VtTjOXik/lib/python3.6/site-packages/django/template/base.py", line 943, in render
+    bit = node.render_annotated(context)
+  File "/Users/noahbmoss/.local/share/virtualenvs/TigerTalk-VtTjOXik/lib/python3.6/site-packages/django/template/base.py", line 910, in render_annotated
+    return self.render(context)
+  File "/Users/noahbmoss/.local/share/virtualenvs/TigerTalk-VtTjOXik/lib/python3.6/site-packages/django/templatetags/static.py", line 106, in render
+    url = self.url(context)
+  File "/Users/noahbmoss/.local/share/virtualenvs/TigerTalk-VtTjOXik/lib/python3.6/site-packages/django/templatetags/static.py", line 103, in url
+    return self.handle_simple(path)
+  File "/Users/noahbmoss/.local/share/virtualenvs/TigerTalk-VtTjOXik/lib/python3.6/site-packages/django/templatetags/static.py", line 118, in handle_simple
+    return staticfiles_storage.url(path)
+  File "/Users/noahbmoss/.local/share/virtualenvs/TigerTalk-VtTjOXik/lib/python3.6/site-packages/django/contrib/staticfiles/storage.py", line 155, in url
+    return self._url(self.stored_name, name, force)
+  File "/Users/noahbmoss/.local/share/virtualenvs/TigerTalk-VtTjOXik/lib/python3.6/site-packages/django/contrib/staticfiles/storage.py", line 134, in _url
+    hashed_name = hashed_name_func(*args)
+  File "/Users/noahbmoss/.local/share/virtualenvs/TigerTalk-VtTjOXik/lib/python3.6/site-packages/django/contrib/staticfiles/storage.py", line 422, in stored_name
+    raise ValueError("Missing staticfiles manifest entry for '%s'" % clean_name)
+ValueError: Missing staticfiles manifest entry for 'css/index.css'
+[26/Apr/2018 13:51:41] WARNING [django.request:93] Not Found: /asdf
+[26/Apr/2018 13:51:41] WARNING [django.request:93] Not Found: /tigger_upset.gif
+[26/Apr/2018 13:53:26] WARNING [django.request:93] Not Found: /asdf
+[26/Apr/2018 13:53:26] WARNING [django.request:93] Not Found: /tigger_upset.gif
+[26/Apr/2018 13:53:28] WARNING [django.request:93] Not Found: /asdf
+[26/Apr/2018 13:53:28] WARNING [django.request:93] Not Found: /tigger_upset.gif
+[26/Apr/2018 13:54:28] WARNING [django.request:93] Not Found: /asdf
+[26/Apr/2018 13:54:28] WARNING [django.request:93] Not Found: /tigger_upset.gif
+[26/Apr/2018 13:55:14] WARNING [django.request:93] Not Found: /asdf
+[26/Apr/2018 13:55:14] WARNING [django.request:93] Not Found: /staticfiles/tigger_upset.gif
+[26/Apr/2018 13:55:14] WARNING [django.request:93] Not Found: /asdf
+[26/Apr/2018 13:55:15] WARNING [django.request:93] Not Found: /staticfiles/tigger_upset.gif
+[26/Apr/2018 13:55:16] WARNING [django.request:93] Not Found: /asdf
+[26/Apr/2018 13:55:16] WARNING [django.request:93] Not Found: /staticfiles/tigger_upset.gif
+[26/Apr/2018 13:56:17] WARNING [django.request:93] Not Found: /asdf
+[26/Apr/2018 13:56:17] WARNING [django.request:93] Not Found: /staticfiles/tigger_upset.gif
+[26/Apr/2018 13:58:24] WARNING [django.request:93] Not Found: /asdf
+[26/Apr/2018 13:58:24] WARNING [django.request:93] Not Found: /assets/index.css
+[26/Apr/2018 13:58:24] WARNING [django.request:93] Not Found: /tigger_upset.gif
+[26/Apr/2018 13:59:44] WARNING [django.request:93] Not Found: /asdf
+[26/Apr/2018 14:00:00] WARNING [django.request:93] Not Found: /asdf
+[26/Apr/2018 14:00:14] WARNING [django.request:93] Not Found: /asdf
+[26/Apr/2018 14:00:21] WARNING [django.request:93] Not Found: /asdf

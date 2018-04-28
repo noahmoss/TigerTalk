@@ -50,7 +50,7 @@ div.sortbar {
     overflow: hidden;
     margin: auto;
     width: 200px;
-    right: -17px;
+    right: -2px; /* change this when adding back refresh */
     position: relative;
 }
 .sort-button {
@@ -363,7 +363,7 @@ form.replying {
     margin-left: 4px;
     top: -1px;
     margin-bottom: 0px;
-    cursor: pointer;
+    /* cursor: pointer; */
 }
 
 .glyphicon-send {
@@ -388,7 +388,7 @@ form.replying {
     white-space: pre-wrap;
 }
 .rip {
-  margin-top: 0;
+  margin-top: 7px;
 }
 
 .Chevron_up_clicked  glyphicon-chevron-up {
@@ -418,6 +418,15 @@ form.replying {
 
 }
 
+<<<<<<< HEAD
+=======
+span.seemore {
+    cursor:pointer;
+    /* text-decoration:underline; */
+    color: #787878;
+}
+
+>>>>>>> b70b2b6553452a56ef77a8188e75d85068e84b85
 .replyOffset {
   padding-right: 23px;
   padding-left: 23px;
