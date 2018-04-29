@@ -57,7 +57,7 @@ function Chevron_up(props) {
 	return (
 		<span className="glyphicon glyphicon-menu-up"
 			aria-hidden="true"
-			style={{"color":"black"}}
+			style={{"color":"black", "cursor": "pointer"}}
 			onClick = {props.onClick}>
 		</span>
 	);
@@ -67,7 +67,7 @@ function Chevron_up_clicked(props) {
 	return (
 		<span className="glyphicon glyphicon-menu-up"
 			aria-hidden="true"
-			style={{"color":"darkorange"}}
+			style={{"color":"darkorange", "cursor": "pointer"}}
 			onClick = {props.onClick}>
 		</span>
 	);
@@ -77,7 +77,7 @@ function Chevron_down(props) {
 	return (
 		<span className="glyphicon glyphicon-menu-down"
 			aria-hidden="true"
-			style={{"color":"black"}}
+			style={{"color":"black", "cursor": "pointer"}}
 			onClick = {props.onClick}>
 		</span>
 	)
@@ -87,7 +87,7 @@ function Chevron_down_clicked(props) {
 	return (
 		<span className="glyphicon glyphicon-menu-down"
 			aria-hidden="true"
-			style={{"color":"darkorange"}}
+			style={{"color":"darkorange", "cursor": "pointer"}}
 			onClick = {props.onClick}>
 		</span>
 	)
@@ -96,7 +96,7 @@ function Chevron_down_clicked(props) {
 class Speech_bubble extends React.Component {
  	render() {
  		return (
- 				<span className="glyphicon glyphicon-comment" aria-hidden="true"></span>
+ 				<span className="glyphicon glyphicon-comment" aria-hidden="true" style={{"cursor": "pointer"}}></span>
 		);
 	}
 }
@@ -735,7 +735,7 @@ class Post extends React.Component{
 						}
 					 </div>
 			    </Media.Left>
-			    <Media.Body onClick={this.props.onClick}>
+			    <Media.Body className="wrapText" onClick={this.props.onClick}>
 					{this.renderContent()}
 			    </Media.Body>
 				<Media.Right className="dropdown-container">

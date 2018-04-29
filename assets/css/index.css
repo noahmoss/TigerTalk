@@ -453,4 +453,10 @@ span.seemore {
   width: 90%;
   margin: auto;
   background-color: var(--main-bg-color);
+  word-wrap:break-word;
+}
+
+.wrapText {
+  max-width:675px;
+  word-wrap:break-word; 
 }
