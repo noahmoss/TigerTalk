@@ -318,7 +318,7 @@ class Comment extends React.Component{
 								}
 							 </div>
 				   		 	</Media.Left>
-				   		 	<Media.Body onClick={this.props.onClick}>
+				   		 	<Media.Body className="wrapTextComment" onClick={this.props.onClick}>
 								{this.renderContent()}
 				   		 	</Media.Body>
 				   		 </Media>

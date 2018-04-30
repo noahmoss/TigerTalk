@@ -460,3 +460,8 @@ span.seemore {
   max-width:675px;
   word-wrap:break-word; 
 }
+
+.wrapTextComment {
+  max-width:630px;
+  word-wrap:break-word; 
+}
