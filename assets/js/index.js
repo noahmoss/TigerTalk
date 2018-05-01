@@ -409,13 +409,13 @@ class CommentBlock extends React.Component {
 			my_downvoted: this.props.my_downvoted,
 			my_comments: this.props.my_comments,
 		}
-		this.refreshComments = this.refreshComments.bind(this);
+		this.silentRefreshComments = this.silentRefreshComments.bind(this);
 		this.handleComment = this.handleComment.bind(this);
 		this.getUserData = this.getUserData.bind(this);
 		this.handleDelete = this.handleDelete.bind(this);
 	}
 
-	refreshComments() {
+	silentRefreshComments() {
 		this.getUserData();
 
 		fetch("/api/posts/"+this.props.id+"/comments/", {
@@ -464,7 +464,7 @@ class CommentBlock extends React.Component {
 
 	// add a new comment
 	handleComment(text) {
-		this.refreshComments();
+		this.silentRefreshComments();
 		if (text.trim() != ''){
 			fetch("/api/comments/", {
 					method: 'POST',
@@ -783,8 +783,10 @@ class PostCommentBlock extends React.Component {
 		this.handleDelete = this.handleDelete.bind(this);
 		this.handleComment = this.handleComment.bind(this);
 		this.handleCommentDelete = this.handleCommentDelete.bind(this);
+		this.refreshComments = this.refreshComments.bind(this);
 		this.state = {
 			showing: false, // are the comments showing?
+			isUserDataLoaded: true, // is the updated user data loaded?
 			isLoaded: true, // are the comments loaded?
 			comments: [], // current list of comments
 			comment_count: this.props.comment_count,
@@ -798,6 +800,9 @@ class PostCommentBlock extends React.Component {
 	handleClick() {
 		if(!this.state.showing) {
 			// get user data about comments
+			this.setState({
+				isUserDataLoaded: false,
+			})
 			fetch("/api/users/"+userid+"/", {
 				method: 'GET',
 				credentials: "same-origin",
@@ -815,48 +820,54 @@ class PostCommentBlock extends React.Component {
 						my_upvoted: result.comments_upvoted,
 						my_downvoted: result.comments_downvoted,
 						my_comments: result.comments,
+						isUserDataLoaded: true,
 					});
 				}
 			)
 
-			// load comments
-			this.setState({showing: true, isLoaded: false});
-			fetch("/api/posts/"+this.props.id+"/comments/", {
-				method: 'GET',
-				credentials: "same-origin",
-				headers : new Headers(),
-				headers: {
-					 "X-CSRFToken": csrftoken,
-					 'Accept': 'application/json',
-					 'Content-Type': 'application/json',
-				},
-			})
-			.then(res => res.json())
-			.then(
-				(result) => {
-					this.setState({
-						isLoaded: true,
-						showing: true,
-						comments: result,
-						comment_count: result.length,
-					});
-				},
-				(error) => {
-					this.setState({
-						isLoaded: true,
-						error
-					});
-				}
-			)
-
+			this.refreshComments();
 		}
 		else {
 			this.setState({
 				showing: false,
 			})
 		}
-
 	}
+
+	refreshComments() {
+		this.setState({showing: true, isLoaded: false});
+		fetch("/api/posts/"+this.props.id+"/comments/", {
+			method: 'GET',
+			credentials: "same-origin",
+			headers : new Headers(),
+			headers: {
+				 "X-CSRFToken": csrftoken,
+				 'Accept': 'application/json',
+				 'Content-Type': 'application/json',
+			},
+		})
+		.then(res => res.json())
+		.then(
+			(result) => {
+				if (this.state.isUserDataLoaded) {
+					this.setState({
+						isLoaded: true,
+						comments: result,
+						comment_count: result.length,
+					});
+				} else {
+					this.refreshComments();
+				}
+			},
+			(error) => {
+				this.setState({
+					isLoaded: true,
+					error
+				});
+			}
+		)
+	}
+
 	handleDelete() {
 		this.props.handleDelete(this.props.id);
 	}
