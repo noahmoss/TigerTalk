@@ -207,7 +207,6 @@ div.no-more-posts {
     font-family: Quicksand, serif;
     margin: auto;
     margin-bottom: 0px;
-    float: right;
     white-space: pre-wrap;
     max-width: 768px;
     width: 100%;
@@ -222,10 +221,13 @@ div.no-more-posts {
   margin-bottom: 5px;
 }
 
-form.replying {
+.replyBody {
   padding-top: 5px;
+}
+
+#commentContainer {
+  max-width: 150px;
   padding-left: 38px;
-  margin: auto;
 }
 
 
@@ -442,15 +444,8 @@ span.seemore {
     border: solid;
 }
 
-.iconReplyOffset {
-  padding-right: 23px;
-  padding-left: 23px;
-  background-color: var(--main-bg-color);
-}
-
 .replyContainer {
-  max-width: 768px;
-  width: 90%;
+  padding-left: 46px;
   margin: auto;
   background-color: var(--main-bg-color);
   word-wrap:break-word;
@@ -464,4 +459,12 @@ span.seemore {
 .wrapTextComment {
   max-width:630px;
   word-wrap:break-word; 
+}
+
+.replyBody {
+  background-color: var(--comment-bg-color);
+}
+
+.replyContainer {
+  margin-top: 5px;
 }

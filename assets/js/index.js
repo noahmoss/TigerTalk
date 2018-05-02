@@ -297,14 +297,10 @@ class Comment extends React.Component{
 		let date_string = timestamp(this.props.date);
 		return (
 				<div className="replyContainer">
-				<div className="reply">
+				<div className="replyBody">
 				<Media>
-				    <Media.Left className="replyOffset">
-				    </Media.Left>
-				    <Media.Body className="commentBody">
-				    	<Media>
-				    		<Media.Left>
-							<div className="arrowBox">
+				    <Media.Left>
+				    <div className="arrowBox">
 								{
 									this.state.upvoted
 									? <Chevron_up_clicked onClick={this.handleUpvoteUnclick}/>
@@ -316,14 +312,12 @@ class Comment extends React.Component{
 									? <Chevron_down_clicked onClick={this.handleDownvoteUnclick}/>
 									: <Chevron_down onClick={this.handleDownvoteClick}/>
 								}
-							 </div>
-				   		 	</Media.Left>
-				   		 	<Media.Body className="wrapTextComment" onClick={this.props.onClick}>
+					</div>
+				    </Media.Left>
+				    <Media.Body className="wrapTextComment" onClick={this.props.onClick}>
 								{this.renderContent()}
-				   		 	</Media.Body>
-				   		 </Media>
 				   	</Media.Body>
-				   	<Media.Right className="dropdown-container" className="commentBody">
+				   	<Media.Right className="dropdown-container">
 							<DropdownButton pullRight
 					   			bsSize="small"
 					   			title=""
@@ -337,8 +331,10 @@ class Comment extends React.Component{
 				   	</Media.Right>
 				</Media>
 				<Media className="replyIconLine">
-			    	<Media.Left className="iconReplyOffset">
-			   	 	</Media.Left>
+					<Media.Left>
+			      	<div className="iconFirstColumn">
+				  	</div>
+			    	</Media.Left>
 			    	<Media.Body className="commentBody" onClick={this.props.onClick}>
 			    	</Media.Body>
 			    	<Media.Right className="dateString">
@@ -346,7 +342,7 @@ class Comment extends React.Component{
 			    	</Media.Right>
 			  	</Media>
 			  	</div>
-	        	</div>
+			  	</div>
 		);
 	}
 }
