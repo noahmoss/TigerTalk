@@ -100,6 +100,7 @@ textarea.form-control {
 /* react-bootstrap buttons */
 .btn {
     border-radius: 5px;
+
     background-color: var(--post-bg-color);
     float: right;
 }
@@ -169,7 +170,7 @@ div.mainBody {
 }
 
 .dropdown-menu {
-    margin-right: 5px;
+    margin-right: 10px;
 }
 
 div.no-more-posts {
@@ -453,11 +454,12 @@ span.seemore {
 
 .wrapText {
   max-width:675px;
-  word-wrap:break-word; 
+  word-wrap:break-word;
 }
 
 .wrapTextComment {
   max-width:630px;
+<<<<<<< HEAD
   word-wrap:break-word; 
 }
 
@@ -468,3 +470,7 @@ span.seemore {
 .replyContainer {
   margin-top: 5px;
 }
+=======
+  word-wrap:break-word;
+}
+>>>>>>> 6e2588aaef4261039310f5ce5110ac9a8a619d3f

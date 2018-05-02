@@ -27,7 +27,8 @@ SECRET_KEY = os.environ["DJANGO_SECRET_KEY"]
 ALLOWED_HOSTS = ['*']
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
+
 # LOGGING = {
 #     'version': 1,
 #     'disable_existing_loggers': False,
@@ -60,6 +61,7 @@ DEBUG = True
 #         },
 #     }
 # }
+
 # Application definition
 INSTALLED_APPS = [
     'django.contrib.admin',
