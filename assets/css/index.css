@@ -432,6 +432,7 @@ span.seemore {
 }
 
 .commentBody {
+    font-family: Quicksand, serif;
     padding-top: 5px;
     padding-bottom: 5px;
     background-color: var(--comment-bg-color);
@@ -458,18 +459,14 @@ span.seemore {
 
 .wrapTextComment {
   max-width:630px;
-<<<<<<< HEAD
   word-wrap:break-word; 
 }
 
 .replyBody {
   background-color: var(--comment-bg-color);
+  font-family: Quicksand, serif;
 }
 
 .replyContainer {
   margin-top: 5px;
 }
-=======
-  word-wrap:break-word;
-}
->>>>>>> 6e2588aaef4261039310f5ce5110ac9a8a619d3f
