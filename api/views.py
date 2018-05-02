@@ -26,7 +26,7 @@ class PostListByVotes(generics.ListAPIView):
 
     def get_queryset(self):
         now = timezone.now()
-        earliest_time = now - datetime.timedelta(hours=24)
+        earliest_time = now - datetime.timedelta(days=7)
         return sorted(Post.objects.all().filter(date_created__range=[earliest_time, now]),
                             key=lambda x: -x.net_votes())
 

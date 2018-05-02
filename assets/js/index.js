@@ -610,7 +610,7 @@ class Post extends React.Component{
 			upvoted: this.props.upvoted,
 			downvoted: this.props.downvoted,
 			votes: this.props.votes,
-			expanded: this.props.content.length < 280
+			expanded: this.props.content.length < 280 // cutoff for posts
 		};
 	}
 
@@ -704,7 +704,6 @@ class Post extends React.Component{
 			)
 		}
 		else {
-			console.log('test');
 			return (
 				<div>
 				{this.props.content.slice(0,280) + " "}
@@ -784,6 +783,8 @@ class PostCommentBlock extends React.Component {
 		this.handleComment = this.handleComment.bind(this);
 		this.handleCommentDelete = this.handleCommentDelete.bind(this);
 		this.refreshComments = this.refreshComments.bind(this);
+		this.loadNewComments = this.loadNewComments.bind(this);
+		this.toggleRefresh = this.toggleRefresh.bind(this);
 		this.state = {
 			showing: false, // are the comments showing?
 			isUserDataLoaded: true, // is the updated user data loaded?
@@ -794,6 +795,62 @@ class PostCommentBlock extends React.Component {
 			my_upvoted: [],
 			my_downvoted: [],
 		};
+	}
+
+	// toggle auto-refresh
+	toggleRefresh(start) {
+		if (!start) {
+			clearInterval(this.commentTimer);
+		}
+		else {
+			this.commentTimer = setInterval(
+				() => this.loadNewComments(),
+				5000 // 5 seconds
+			);
+		}
+	}
+
+	loadNewComments() {
+		console.log('loading new comments');
+		fetch("/api/posts/"+this.props.id+"/comments/", {
+			method: 'GET',
+			credentials: "same-origin",
+			headers : new Headers(),
+			headers: {
+				 "X-CSRFToken": csrftoken,
+				 'Accept': 'application/json',
+				 'Content-Type': 'application/json',
+			},
+		})
+		.then(res => res.json())
+		.then(
+			(result) => {
+				let loadedComments = result;
+				let oldComments = this.state.comments;
+
+				if (loadedComments.length == 0) {
+					return;
+				}
+
+				for (let i = loadedComments.length - 1; i >= 0; i--) {
+					if (loadedComments[i].id == oldComments[oldComments.length-1].id) {
+						var lastOldComment = i;
+						break;
+					}
+				}
+				let newComments = loadedComments.slice(lastOldComment + 1);
+				this.setState({
+					comments : oldComments.concat(newComments),
+					comment_count: oldComments.concat(newComments).length,
+				});
+			},
+			(error) => {
+				this.setState({
+					error
+				});
+			}
+		)
+
 	}
 
 	// load comments and user data from API when post is clicked
@@ -816,6 +873,7 @@ class PostCommentBlock extends React.Component {
 			.then(res => res.json())
 			.then(
 				(result) => {
+					this.toggleRefresh(true);
 					this.setState({
 						my_upvoted: result.comments_upvoted,
 						my_downvoted: result.comments_downvoted,
@@ -824,10 +882,10 @@ class PostCommentBlock extends React.Component {
 					});
 				}
 			)
-
 			this.refreshComments();
 		}
 		else {
+			this.toggleRefresh(false);
 			this.setState({
 				showing: false,
 			})
@@ -881,6 +939,7 @@ class PostCommentBlock extends React.Component {
 			comment_count: this.state.comment_count - 1,
 		})
 	}
+
 	renderComments() {
 		if (this.state.isLoaded) {
 			return (
@@ -973,12 +1032,12 @@ class PostList extends React.Component {
 		super(props);
 		this.state = {
 			error: null,
-			sort : "recent",
 			isLoaded: false, // are any posts loaded?
 			nextPageLoaded: true, // is the next page loaded?
 			morePosts: true, // are there more posts to load?
 			posturl: "/api/posts/",
 			posts: [], // all post objects
+			newPostCount: 0, // number of posts user has added since refresh
 			my_posts: [], // post ids of user's posts
 			my_upvoted: [], // post ids of user's upvoted posts
 			my_downvoted: [], // post ids of user's downvoted posts
@@ -995,12 +1054,31 @@ class PostList extends React.Component {
 	componentDidMount() {
 		this.getUserData(); // get current data for user
 		this.reloadPosts(this.state.posturl); // load posts
+
+		if (this.props.sort == "recent") {
+			this.postListTimer = setInterval(
+				() => this.getFirstPage(),
+				15000 // 5 seconds
+			);
+		}
 	}
 
 	componentDidUpdate(prevProps, prevState) {
 		if (prevProps.sort != this.props.sort) {
 		 	this.getUserData();
 		 	this.reloadPosts();
+
+			// start or stop reset timer
+			if (this.props.sort == "popular") {
+				clearInterval(this.postListTimer);
+			}
+			if (this.props.sort == "recent") {
+				this.postListTimer = setInterval(
+					() => this.getFirstPage(),
+					5000
+				);
+			}
+
 	 	}
 	}
 
@@ -1053,6 +1131,7 @@ class PostList extends React.Component {
 						isLoaded: true,
 						morePosts: result.next !== null,
 						posts: result.results,
+						newPostCount: 0,
 					});
 				} else {
 					if (!this.state.isLoaded) {
@@ -1071,6 +1150,8 @@ class PostList extends React.Component {
 
 	// get first page of post results and update current post list
 	 getFirstPage() {
+		this.getUserData();
+
 		fetch("/api/posts/", {
 			method: 'GET',
 			credentials: "same-origin",
@@ -1086,15 +1167,16 @@ class PostList extends React.Component {
 			(result) => {
 				// slice new posts and add to front of current post list
 				let loadedPosts = result.results;
+				let oldPosts = this.state.posts.slice(this.state.newPostCount);
 				for (let i = 0; i < loadedPosts.length; i++) {
-					if (loadedPosts[i].id === this.state.posts[0].id) {
-						var newPostsCount = i;
+					if (loadedPosts[i].id == oldPosts[0].id) {
+						var firstOldPost = i;
 						break;
 					}
 				}
-				let newPosts = loadedPosts.slice(0,newPostsCount);
+				let newPosts = loadedPosts.slice(0,firstOldPost);
 				this.setState({
-					posts : newPosts.concat(this.state.posts),
+					posts : newPosts.concat(oldPosts),
 				});
 			},
 			(error) => {
@@ -1175,6 +1257,7 @@ class PostList extends React.Component {
 				(result) => {
 					this.setState({
 						posts : [result].concat(this.state.posts),
+						newPostCount : this.state.newPostCount + 1,
 						my_posts : [result.id].concat(this.state.my_posts),
 					});
 				},
