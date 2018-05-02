@@ -228,7 +228,7 @@ div.no-more-posts {
 
 #commentContainer {
   max-width: 150px;
-  padding-left: 38px;
+  padding-left: 46px;
 }
 
 
@@ -386,7 +386,6 @@ div.no-more-posts {
 .replying {
     padding-bottom:5px;
     padding-top:5px;
-    width: 98.7%;
     float: right;
     white-space: pre-wrap;
 }
