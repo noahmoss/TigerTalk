@@ -68,7 +68,7 @@ function Chevron_up_clicked(props) {
 	return (
 		<span className="glyphicon glyphicon-menu-up"
 			aria-hidden="true"
-			style={{"color":"darkorange", "cursor": "pointer"}}
+			style={{"color":"#F19143", "cursor": "pointer"}}
 			onClick = {props.onClick}>
 		</span>
 	);
@@ -88,7 +88,7 @@ function Chevron_down_clicked(props) {
 	return (
 		<span className="glyphicon glyphicon-menu-down"
 			aria-hidden="true"
-			style={{"color":"darkorange", "cursor": "pointer"}}
+			style={{"color":"#F19143", "cursor": "pointer"}}
 			onClick = {props.onClick}>
 		</span>
 	)
