@@ -978,7 +978,7 @@ class PostCommentBlock extends React.Component {
 
 				<Collapse in={this.state.showing}>
 					<div>
-						this.renderComments()
+						{this.renderComments()}
 					</div>
 				</Collapse>
 			</div>
@@ -1384,16 +1384,16 @@ class NavBar extends React.Component {
 			  </Navbar.Header>
 			  <Navbar.Collapse>
 			  	<Nav pullLeft>
-					<NavItem style={{ fontFamily: 'Quicksand'}} eventKey={1} href="#">
+					<NavItem eventKey={1} href="#">
 						About
 					</NavItem>
 				</Nav>
 				<Navbar.Text>
 					<Navbar.Link href="https://docs.google.com/forms/d/e/1FAIpQLSeO1FP1ghYFiDi2AKrBsEOxu2b_NXowGbxCfrlHXFmm6b1Fug/viewform?usp=pp_url&entry.1782114317"
-					target="_blank" style={{ color: 'black', textDecoration: 'none', fontFamily: 'Quicksand'}}>Feedback</Navbar.Link>
+					target="_blank" style={{ color: 'black', textDecoration: 'none' }}>Feedback</Navbar.Link>
 				</Navbar.Text>
 			    <Nav pullRight>
-					<NavItem style={{fontFamily: 'Quicksand'}} eventKey={3} href="/accounts/logout">
+					<NavItem eventKey={3} href="/accounts/logout">
 					  Logout ({netid})
 					</NavItem>
 			    </Nav>
