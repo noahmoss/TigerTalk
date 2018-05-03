@@ -263,11 +263,12 @@ class Comment extends React.Component{
 	}
 
 
-	handleExpand() {
+	handleExpand(e) {
 		this.setState({
 			expanded : true,
 		})
 	}
+
 	renderContent() {
 		if (this.state.expanded) {
 			return (
@@ -606,7 +607,8 @@ class Post extends React.Component{
 			upvoted: this.props.upvoted,
 			downvoted: this.props.downvoted,
 			votes: this.props.votes,
-			expanded: this.props.content.length < 280 // cutoff for posts
+			needsExpansion: this.props.content.length > 280,
+			expanded: false
 		};
 	}
 
@@ -688,26 +690,29 @@ class Post extends React.Component{
 		this.sendVoteToServer("c");
 	}
 
-	handleExpand() {
+	handleExpand(e) {
+		e.stopPropagation();
 		this.setState({
-			expanded : true,
+			expanded : !this.state.expanded,
 		})
 	}
+
 	renderContent() {
-		if (this.state.expanded) {
-			return (
-				this.props.content
-			)
-		}
-		else {
-			return (
-				<div>
-				{this.props.content.slice(0,280) + " "}
-				<span className="seemore" onClick={this.handleExpand}>...see more</span>
-				</div>
-			)
-		}
+		let content = this.state.expanded
+							? this.props.content + " "
+							: this.props.content.slice(0,280) + " "
+
+
+		return (
+				this.state.needsExpansion
+				? ( this.state.expanded
+					? (<div>{content}<span className="seemore" onClick={this.handleExpand}>...see less</span></div>)
+					: (<div>{content}<span className="seemore" onClick={this.handleExpand}>...see more</span></div>)
+				  )
+			    : content
+		);
 	}
+
 
 
 	render () {
