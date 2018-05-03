@@ -606,7 +606,7 @@ class Post extends React.Component{
 			upvoted: this.props.upvoted,
 			downvoted: this.props.downvoted,
 			votes: this.props.votes,
-			expanded: this.props.content.length < 280
+			expanded: this.props.content.length < 280,
 		};
 	}
 
@@ -710,11 +710,16 @@ class Post extends React.Component{
 		}
 	}
 
+
 	render () {
 		let date_string = timestamp(this.props.date);
 
+		const postclass = !this.props.color
+					  		? ("post")
+					    	: ("post2")
+
 		return (
-			<div className="post">
+			<div className={postclass}>
 			  <Media className="mainBody">
 			    <Media.Left>
 			    	<div className="arrowBox">
@@ -780,6 +785,7 @@ class PostCommentBlock extends React.Component {
 		this.handleComment = this.handleComment.bind(this);
 		this.handleCommentDelete = this.handleCommentDelete.bind(this);
 		this.refreshComments = this.refreshComments.bind(this);
+		this.handleColorClick = this.handleColorClick.bind(this);
 		this.state = {
 			showing: false, // are the comments showing?
 			isUserDataLoaded: true, // is the updated user data loaded?
@@ -789,6 +795,7 @@ class PostCommentBlock extends React.Component {
 			my_comments: [],
 			my_upvoted: [],
 			my_downvoted: [],
+			colorclick: false,
 		};
 	}
 
@@ -820,10 +827,11 @@ class PostCommentBlock extends React.Component {
 					});
 				}
 			)
-
+			this.handleColorClick();
 			this.refreshComments();
 		}
 		else {
+			this.handleColorClick();
 			this.setState({
 				showing: false,
 			})
@@ -877,6 +885,13 @@ class PostCommentBlock extends React.Component {
 			comment_count: this.state.comment_count - 1,
 		})
 	}
+
+	handleColorClick() {
+		console.log("hi");
+		this.setState({
+			colorclick: !this.state.colorclick,
+		})
+	}
 	renderComments() {
 		if (this.state.isLoaded) {
 			return (
@@ -906,6 +921,7 @@ class PostCommentBlock extends React.Component {
 					  isMine={this.props.isMine}
 					  onClick={this.handleClick}
 					  handleDelete={this.handleDelete}
+					  color={this.state.colorclick}
 					  />
 				{
 					this.state.showing

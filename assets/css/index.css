@@ -215,6 +215,140 @@ div.no-more-posts {
 }
 
 
+/*post 2*/
+
+/* Post form */
+div.post2.container-fluid {
+    margin-bottom: 15px;
+    padding-left: 0px;
+    padding-right: 0px;
+}
+div.post2.post-container {
+    margin: auto;
+    max-width: 768px;
+    width: 90%;
+
+}
+
+
+textarea.post2.form-control {
+    margin: auto;
+    resize: vertical;
+    border: 0.1rem solid var(--form-border);
+    background-color: var(--main-bg-color);
+    min-height: 50px;
+    border-radius: 5px;
+    font-family: Quicksand;
+    margin-bottom: 5px;
+    cursor: pointer;
+}
+
+div.post2.wrapText.media-body {
+  cursor: pointer;
+}
+
+div.post2.rip.media {
+  cursor: pointer;
+}
+
+/* react-bootstrap buttons */
+div.post2.btn {
+    border-radius: 5px;
+
+    background-color: #90caf9;
+    float: right;
+}
+
+div.post2.mb.media-body{
+   z-index: 3;
+   width: 9000px
+}
+
+div.post2.mb2.media-body{
+  z-index: 4;
+  width: 10500px
+}
+
+div.post2 .glyphicon.glyphicon-comment {
+  color: #90caf9;
+}
+
+div.post2 #dropdown-size-small{
+  background-color: #90caf9;
+  border-color: #b0bec5;
+}
+
+div.post2 .dateString.media-right {
+  background-color: #90caf9;
+}
+
+div.post2.commentNum.media-left{
+    position: relative;
+    top: -3.6px;
+    margin-bottom: 0px;
+}
+div.post2.dateString.media-right{
+    position: relative;
+    top: -3.6px;
+    margin-bottom: 0px;
+    width:6000px;
+    text-align: right;
+    position: relative;
+    right: 10px;
+    background-color: #90caf9;
+}
+
+div.post2.commentdatestring.media-right{
+    position: relative;
+    top: -3.6px;
+    margin-bottom: 0px;
+    width:10000px;
+    text-align: right;
+    position: relative;
+    right: 10px;
+}
+
+/* Post components */
+div.post2 {
+    font-family: Quicksand;
+    background-color: #90caf9;
+    border-right: 0.2rem solid var(--post-bg-color);
+    border-left: 0.2rem solid var(--post-bg-color);
+    border-top: 0.1rem solid var(--post-bg-color);
+    border-bottom: 0.1rem solid var(--post-bg-color);
+    margin: auto;
+    margin-top: 10px;
+    white-space: pre-wrap;
+    max-width: 768px;
+    width: 90%;
+    border-color: #90caf9;
+}
+div.post2.mainBody {
+    z-index: 1;
+    overflow: visible;
+    padding-top:5px;
+}
+#dropdown-size-small {
+    z-index: 100;
+    margin: auto;
+    vertical-align: top;
+    border-color: var(--post-bg-color);
+    padding-top: 0px;
+    padding-right: 12px;
+}
+
+.dropdown-menu {
+    margin-right: 10px;
+}
+
+div.no-more-posts {
+    font-family: Quicksand;
+    font-size: 16px;
+    text-align: center;
+    margin-top: 40px;
+    margin-bottom: 50px;
+}
+
 /* Comment components -- TODO: fix comment css */
 .replyContainer {
   max-width: 768px;
@@ -486,13 +620,11 @@ span.seemore {
 }
 
 .wrapText {
-  max-width:675px;
-  word-wrap:break-word;
+  word-break:break-all;
 }
 
 .wrapTextComment {
-  max-width:630px;
-  word-wrap:break-word; 
+  word-break:break-all; 
 }
 
 .replyBody {
