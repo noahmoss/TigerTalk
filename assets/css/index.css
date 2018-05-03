@@ -85,7 +85,31 @@ div.post-container {
     margin: auto;
     max-width: 768px;
     width: 90%;
+
 }
+
+div.post:hover {
+    background-color: #c0e4f9;
+    border-color: #c0e4f9 ;
+}
+
+div.post:hover .dateString.media-right{
+  background-color: #c0e4f9;
+}
+
+div.post:hover .glyphicon.glyphicon-comment{
+  color: #c0e4f9;
+}
+
+div.post:hover #dropdown-size-small{
+  background-color: #c0e4f9;
+}
+
+#dropdown-size-small:hover{
+  background-color: var(--post-bg-color);
+  border-color: #a6b6bc;
+}
+
 textarea.form-control {
     margin: auto;
     resize: vertical;
@@ -95,6 +119,15 @@ textarea.form-control {
     border-radius: 5px;
     font-family: Quicksand;
     margin-bottom: 5px;
+    cursor: pointer;
+}
+
+div.wrapText.media-body {
+  cursor: pointer;
+}
+
+div.rip.media {
+  cursor: pointer;
 }
 
 /* react-bootstrap buttons */
@@ -453,13 +486,11 @@ span.seemore {
 }
 
 .wrapText {
-  max-width:675px;
-  word-wrap:break-word;
+  word-break:break-all;
 }
 
 .wrapTextComment {
-  max-width:630px;
-  word-wrap:break-word; 
+  word-break:break-all; 
 }
 
 .replyBody {
