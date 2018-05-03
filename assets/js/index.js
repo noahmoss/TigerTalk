@@ -791,7 +791,7 @@ class PostCommentBlock extends React.Component {
 			showing: false, // are the comments showing?
 			isUserDataLoaded: true, // is the updated user data loaded?
 			isLoaded: true, // are the comments loaded?
-			comments: [], // current list of comments
+			comments: this.props.comments, // current list of comments
 			comment_count: this.props.comment_count,
 			my_comments: [],
 			my_upvoted: [],
@@ -1318,6 +1318,7 @@ class PostList extends React.Component {
 	                	content={post.content}
 						votes={post.net_votes}
 						comment_count={post.comments.length}
+						comments={post.comments}
 						date={post.date_created}
 						isMine={this.state.my_posts.includes(post.id)}
 						upvoted={this.state.my_upvoted.includes(post.id)}
