@@ -415,6 +415,14 @@ class CommentBlock extends React.Component {
 		this.handleDelete = this.handleDelete.bind(this);
 	}
 
+	componentDidUpdate(prevProps, prevState) {
+		if (this.props.comments != prevProps.comments) {
+			this.setState({
+				comments: this.props.comments,
+			})
+		}
+	}
+
 	silentRefreshComments() {
 		this.getUserData();
 
@@ -518,7 +526,7 @@ class CommentBlock extends React.Component {
 				this.setState({
 					comments : newcomments
 				});
-				this.props.handleCommentDelete();
+				this.props.handleCommentDelete(id);
 			}
 		)
 	}
@@ -832,16 +840,33 @@ class PostCommentBlock extends React.Component {
 					return;
 				}
 
-				for (let i = loadedComments.length - 1; i >= 0; i--) {
-					if (loadedComments[i].id == oldComments[oldComments.length-1].id) {
+				let newOldComments = oldComments.slice();
+				for (let i = 0; i < oldComments.length; i++) {
+					var found = false;
+					for (let j = 0; j < loadedComments.length; j++) {
+						if (oldComments[i].id == loadedComments[j].id) {
+							found = true;
+							break;
+						}
+					}
+					if (!found) {
+						newOldComments.slice(i,1);
+					}
+				}
+
+				console.log(loadedComments);
+				for (let i = 0; i < loadedComments.length; i++) {
+					if (loadedComments[i].id == newOldComments[newOldComments.length-1].id) {
 						var lastOldComment = i;
 						break;
 					}
 				}
 				let newComments = loadedComments.slice(lastOldComment + 1);
+				console.log(newOldComments);
+				console.log(newComments);
 				this.setState({
-					comments : oldComments.concat(newComments),
-					comment_count: oldComments.concat(newComments).length,
+					comments : newOldComments.concat(newComments),
+					comment_count: newOldComments.concat(newComments).length,
 				});
 			},
 			(error) => {
@@ -934,29 +959,34 @@ class PostCommentBlock extends React.Component {
 			comment_count: this.state.comment_count + 1,
 		})
 	}
-	handleCommentDelete() {
+	handleCommentDelete(id) {
+		var commentsWithoutDeleted = this.state.comments;
+		for (let i = 0; i < this.state.comments.length; i++) {
+			if (this.state.comments[i].id == id) {
+				commentsWithoutDeleted.splice(i, 1);
+				break;
+			}
+		}
 		this.setState({
+			comments: commentsWithoutDeleted,
 			comment_count: this.state.comment_count - 1,
 		})
 	}
 
-	renderComments() {
-		if (this.state.isLoaded) {
-			return (
-				<CommentBlock id={this.props.id}
-							comments={this.state.comments}
-							my_comments={this.state.my_comments}
-							my_upvoted={this.state.my_upvoted}
-							my_downvoted={this.state.my_downvoted}
-							handleComment={this.handleComment}
-							handleCommentDelete={this.handleCommentDelete}/>
-			);
-		}
-		else {
-			return (<LilSpinner />);
-		}
-	}
 	render() {
+		const commentarea = this.state.showing ? (
+								this.state.isLoaded ? (
+									<CommentBlock id={this.props.id}
+													comments={this.state.comments}
+													my_comments={this.state.my_comments}
+													my_upvoted={this.state.my_upvoted}
+													my_downvoted={this.state.my_downvoted}
+													handleComment={this.handleComment}
+													handleCommentDelete={this.handleCommentDelete}/>
+												) : (<LilSpinner />)
+											) : (null)
+
+
 		return (
 			<div>
 				<Post id={this.props.id}
@@ -970,11 +1000,7 @@ class PostCommentBlock extends React.Component {
 					  onClick={this.handleClick}
 					  handleDelete={this.handleDelete}
 					  />
-				{
-					this.state.showing
-					? this.renderComments()
-					: null
-				}
+					  {commentarea}
 			</div>
 		);
 	}
@@ -1009,6 +1035,7 @@ function LilSpinner() {
 }
 
 // get csrf token from cookies
+// from https://stackoverflow.com/questions/35112451/forbidden-csrf-token-missing-or-incorrect-django-error
 function getCookie(name) {
 	var cookieValue = null;
 	if (document.cookie && document.cookie !== '') {
@@ -1382,7 +1409,7 @@ class NavBar extends React.Component {
 				</Nav>
 				<Navbar.Text>
 					<Navbar.Link href="https://docs.google.com/forms/d/e/1FAIpQLSeO1FP1ghYFiDi2AKrBsEOxu2b_NXowGbxCfrlHXFmm6b1Fug/viewform?usp=pp_url&entry.1782114317"
-					target="_blank" style={{ color: '#f3f3f3', textDecoration: 'none' }}>Feedback</Navbar.Link>
+					target="_blank" style={{ color: 'black', textDecoration: 'none' }}>Feedback</Navbar.Link>
 				</Navbar.Text>
 			    <Nav pullRight>
 					<NavItem eventKey={3} href="/accounts/logout">

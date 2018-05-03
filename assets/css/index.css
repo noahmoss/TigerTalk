@@ -1,9 +1,10 @@
 /* Document-wide style */
 :root {
-  --main-bg-color: #f3f3f3;
-  --post-bg-color: #cfd8dc;
-  --comment-bg-color: #cfd8dc;
-  --nav-bg-color: #323d49;
+  --main-bg-color: #fefcfb;
+  --post-bg-color: #e5e7e8;
+  --comment-bg-color: #e5e7e8;
+  --nav-bg-color: #e27c12;
+  --nav-text-color: black;
   --form-border: #676767;
 }
 
@@ -18,19 +19,19 @@ body {
     background-color: var(--nav-bg-color);
 }
 .navbar .nav > li > a {
-    color: var(--main-bg-color);
+    color: var(--nav-text-color);
 }
 .navbar .nav > li > a:hover {
-    color: var(--main-bg-color);
+    color: var(--nav-text-color);
 }
 .navbar .nav > li > a:visited {
-    color: var(--main-bg-color);
+    color: var(--nav-text-color);
 }
 .navbar .nav > li > a:active {
-    color: var(--main-bg-color);
+    color: var(--nav-text-color);
 }
 .navbar .nav > li > a:focus {
-    color: var(--main-bg-color);
+    color: var(--nav-text-color);
 }
 
 /* Main header (TigerTalk) */
