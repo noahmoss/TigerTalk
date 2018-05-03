@@ -1,10 +1,10 @@
 /* Document-wide style */
 :root {
-  --main-bg-color: #f3f3f3;
-  --post-bg-color: #cfd8dc;
-  --comment-bg-color: #cfd8dc;
-  --nav-bg-color: #323d49;
-  --form-border: #676767;
+  --main-bg-color: #FEFCFB;
+  --post-bg-color: #D2E4F4;
+  --comment-bg-color: #D2E4F4;
+  --nav-bg-color: #034e78;
+  --form-border: #FEFCFB;
 }
 
 body {
