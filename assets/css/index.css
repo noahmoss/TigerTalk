@@ -151,6 +151,8 @@ div.wrapText.media-body {
 
 div.rip.media {
   cursor: pointer;
+  margin-top: 0px;
+  padding-top: 10px;
 }
 
 /* react-bootstrap buttons */
@@ -215,6 +217,9 @@ div.mainBody {
     z-index: 1;
     overflow: visible;
     padding-top:5px;
+}
+div.wrapText.media-body {
+    /* padding-bottom:10px; */
 }
 #dropdown-size-small {
     z-index: 100;
