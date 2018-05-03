@@ -910,6 +910,7 @@ class PostCommentBlock extends React.Component {
 					});
 				}
 			)
+			this.handleColorClick();
 			this.refreshComments();
 		}
 		else {
