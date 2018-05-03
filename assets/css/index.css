@@ -486,13 +486,11 @@ span.seemore {
 }
 
 .wrapText {
-  max-width:675px;
-  word-wrap:break-word;
+  word-break:break-all;
 }
 
 .wrapTextComment {
-  max-width:630px;
-  word-wrap:break-word; 
+  word-break:break-all; 
 }
 
 .replyBody {
