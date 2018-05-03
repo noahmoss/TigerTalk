@@ -351,7 +351,7 @@ class Comment extends React.Component{
 								onToggle={val => this.dropdownToggle(val)}
 					   		>
 								{ this.props.isMine
-									? <MenuItem onClick={this.props.handleDelete}>Delete</MenuItem>
+									? <MenuItem onClick={this.handleDelete}>Delete</MenuItem>
 									: (this.state.reported
 										? <MenuItem>Reported ✔</MenuItem>
 										: <MenuItem onClick={() => this.menuItemClickedThatShouldntCloseDropdown()}>Report</MenuItem>)
