@@ -814,7 +814,6 @@ class PostCommentBlock extends React.Component {
 	}
 
 	loadNewComments() {
-		console.log('loading new comments');
 		fetch("/api/posts/"+this.props.id+"/comments/", {
 			method: 'GET',
 			credentials: "same-origin",
@@ -941,7 +940,6 @@ class PostCommentBlock extends React.Component {
 	}
 
 	handleColorClick() {
-		console.log("hi");
 		this.setState({
 			colorclick: !this.state.colorclick,
 		})
