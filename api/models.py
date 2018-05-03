@@ -10,7 +10,7 @@ class Post(models.Model):
     author = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='posts', on_delete=None)
     content = models.TextField(max_length=5000)
     date_created = models.DateTimeField(auto_now_add=True)
-
+    reported = models.BooleanField(default=False)
     readonly_fields=('author', 'date_created')
 
     def net_votes(self):
@@ -27,6 +27,7 @@ class Comment(models.Model):
     author = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='comments', on_delete=None)
     content = models.CharField(max_length=2000)
     date_created = models.DateTimeField(auto_now_add=True)
+    reported = models.BooleanField(default=False)
     post = models.ForeignKey(Post, related_name='comments', on_delete=models.CASCADE)
 
     readonly_fields=('author', 'date_created', 'post')

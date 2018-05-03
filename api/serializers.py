@@ -13,6 +13,7 @@ class CommentSerializer(serializers.ModelSerializer):
             'post',
             'content',
             'net_votes',
+            'reported',
         )
         read_only_fields = ('id','author','date_created',)
 
@@ -28,6 +29,7 @@ class PostSerializer(serializers.ModelSerializer):
             'content',
             'comments',
             'net_votes',
+            'reported',
         )
 
 class UserSerializer(serializers.ModelSerializer):
