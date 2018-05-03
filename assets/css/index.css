@@ -3,8 +3,8 @@
   --main-bg-color: #fefcfb;
   --post-bg-color: #e5e7e8;
   --post-hover-color: #d9dee0;
-  --post-click-color: #d2d9dd;
-  --comment-bg-color: #e5e7e8;
+  --post-click-color: #d4dde2;
+  --comment-bg-color: #d4dde2;
   --nav-bg-color: #F19143;
   --nav-text-color: black;
   --form-border: #676767;
@@ -158,7 +158,7 @@ div.rip.media {
 /* react-bootstrap buttons */
 .btn {
     border-radius: 5px;
-
+    border-color: var(--post-bg-color);
     background-color: var(--post-bg-color);
     float: right;
 }
@@ -186,7 +186,6 @@ div.dateString.media-right{
     text-align: right;
     position: relative;
     right: 10px;
-    background-color: var(--post-bg-color);
 }
 
 div.commentdatestring.media-right{
@@ -225,13 +224,19 @@ div.wrapText.media-body {
     z-index: 100;
     margin: auto;
     vertical-align: top;
-    border-color: var(--post-bg-color);
+    border-color: none;
     padding-top: 0px;
     padding-right: 12px;
 }
 
 .dropdown-menu {
     margin-right: 10px;
+}
+.postDropdown {
+    background-color: var(--post-bg-color);
+}
+.commentDropdown {
+    background-color: var(--comment-bg-color);
 }
 
 div.no-more-posts {

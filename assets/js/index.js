@@ -344,6 +344,7 @@ class Comment extends React.Component{
 				   	</Media.Body>
 				   	<Media.Right className="dropdown-container">
 							<DropdownButton pullRight
+								className="commentDropdown"
 					   			bsSize="small"
 					   			title=""
 					   			id="dropdown-size-small"
@@ -772,7 +773,7 @@ class Post extends React.Component{
 		return (
 				this.state.needsExpansion
 				? ( this.state.expanded
-					? (<div>{content}<span className="seemore" onClick={this.handleExpand}>...see less</span></div>)
+					? (<div>{content}<span className="seemore" onClick={this.handleExpand}>see less</span></div>)
 					: (<div>{content}<span className="seemore" onClick={this.handleExpand}>...see more</span></div>)
 				  )
 			    : content
@@ -811,6 +812,7 @@ class Post extends React.Component{
 			    </Media.Body>
 				<Media.Right className="dropdown-container">
 					<DropdownButton pullRight
+					   className="postDropdown"
 					   bsSize="small"
 					   title=""
 					   id="dropdown-size-small"
