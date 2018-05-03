@@ -1384,16 +1384,16 @@ class NavBar extends React.Component {
 			  </Navbar.Header>
 			  <Navbar.Collapse>
 			  	<Nav pullLeft>
-					<NavItem eventKey={1} href="#">
+					<NavItem style={{ fontFamily: 'Quicksand' }} eventKey={1} href="#">
 						About
 					</NavItem>
 				</Nav>
 				<Navbar.Text>
 					<Navbar.Link href="https://docs.google.com/forms/d/e/1FAIpQLSeO1FP1ghYFiDi2AKrBsEOxu2b_NXowGbxCfrlHXFmm6b1Fug/viewform?usp=pp_url&entry.1782114317"
-					target="_blank" style={{ color: 'black', textDecoration: 'none' }}>Feedback</Navbar.Link>
+					target="_blank" style={{ color: 'black', textDecoration: 'none', fontFamily: 'Quicksand' }}>Feedback</Navbar.Link>
 				</Navbar.Text>
 			    <Nav pullRight>
-					<NavItem eventKey={3} href="/accounts/logout">
+					<NavItem eventKey={3} style={{ fontFamily: 'Quicksand' }} href="/accounts/logout">
 					  Logout ({netid})
 					</NavItem>
 			    </Nav>
