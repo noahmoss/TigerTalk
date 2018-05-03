@@ -176,7 +176,8 @@ class Comment extends React.Component{
 			upvoted: this.props.upvoted,
 			downvoted: this.props.downvoted,
 			votes: this.props.votes,
-			expanded: this.props.content.length < 220
+			expanded: this.props.content.length < 220,
+			reported: false,
 		};
 	}
 
@@ -269,6 +270,36 @@ class Comment extends React.Component{
 		})
 	}
 
+	// prevent dropdown close when clicking 'report'
+	// code from https://github.com/react-bootstrap/react-bootstrap/issues/1490
+	dropdownToggle(newValue){
+	    if (this._forceOpen){
+	        this.setState({ menuOpen: true });
+	        this._forceOpen = false;
+	    } else {
+	        this.setState({ menuOpen: newValue });
+	    }
+	}
+	menuItemClickedThatShouldntCloseDropdown(){
+	    this._forceOpen = true;
+
+		fetch("/api/comments/"+this.props.id+"/r/", {
+			method: 'GET',
+			credentials: "same-origin",
+			headers : new Headers(),
+			headers: {
+				 "X-CSRFToken": csrftoken,
+				 'Accept': 'application/json',
+				 'Content-Type': 'application/json',
+			},
+		});
+
+		this.setState({
+			reported: true,
+		});
+	}
+
+
 	renderContent() {
 		if (this.state.expanded) {
 			return (
@@ -315,10 +346,14 @@ class Comment extends React.Component{
 					   			bsSize="small"
 					   			title=""
 					   			id="dropdown-size-small"
+								open={this.state.menuOpen}
+								onToggle={val => this.dropdownToggle(val)}
 					   		>
 								{ this.props.isMine
-		 					   		? <MenuItem onClick={this.handleDelete}>Delete</MenuItem>
-		 							: <MenuItem>Report</MenuItem>
+									? <MenuItem onClick={this.props.handleDelete}>Delete</MenuItem>
+									: (this.state.reported
+										? <MenuItem>Reported ✔</MenuItem>
+										: <MenuItem onClick={() => this.menuItemClickedThatShouldntCloseDropdown()}>Report</MenuItem>)
 		 				   		}
 							</DropdownButton>
 				   	</Media.Right>
@@ -608,7 +643,8 @@ class Post extends React.Component{
 			downvoted: this.props.downvoted,
 			votes: this.props.votes,
 			needsExpansion: this.props.content.length > 280,
-			expanded: false
+			expanded: false,
+			reported: false,
 		};
 	}
 
@@ -697,6 +733,35 @@ class Post extends React.Component{
 		})
 	}
 
+	// prevent dropdown close when clicking 'report'
+	// code from https://github.com/react-bootstrap/react-bootstrap/issues/1490
+	dropdownToggle(newValue){
+	    if (this._forceOpen){
+	        this.setState({ menuOpen: true });
+	        this._forceOpen = false;
+	    } else {
+	        this.setState({ menuOpen: newValue });
+	    }
+	}
+	menuItemClickedThatShouldntCloseDropdown(){
+	    this._forceOpen = true;
+
+		fetch("/api/posts/"+this.props.id+"/r/", {
+			method: 'GET',
+			credentials: "same-origin",
+			headers : new Headers(),
+			headers: {
+				 "X-CSRFToken": csrftoken,
+				 'Accept': 'application/json',
+				 'Content-Type': 'application/json',
+			},
+		});
+
+		this.setState({
+			reported: true,
+		});
+	}
+
 	renderContent() {
 		let content = this.state.expanded
 							? this.props.content + " "
@@ -748,10 +813,14 @@ class Post extends React.Component{
 					   bsSize="small"
 					   title=""
 					   id="dropdown-size-small"
+					   open={this.state.menuOpen}
+					   onToggle={val => this.dropdownToggle(val)}
 					   >
 					   { this.props.isMine
 					   		? <MenuItem onClick={this.props.handleDelete}>Delete</MenuItem>
-							: <MenuItem>Report</MenuItem>
+							: (this.state.reported
+								? <MenuItem>Reported ✔</MenuItem>
+								: <MenuItem onClick={() => this.menuItemClickedThatShouldntCloseDropdown()}>Report</MenuItem>)
 				   		}
 					</DropdownButton>
 				</Media.Right>
@@ -950,7 +1019,6 @@ class PostCommentBlock extends React.Component {
 		})
 	}
 	renderComments() {
-		// if (this.state.isLoaded) {
 			return (
 				<CommentBlock id={this.props.id}
 							comments={this.state.comments}
@@ -960,10 +1028,6 @@ class PostCommentBlock extends React.Component {
 							handleComment={this.handleComment}
 							handleCommentDelete={this.handleCommentDelete}/>
 			);
-		// }
-		// else {
-		// 	return (<LilSpinner />);
-		// }
 	}
 	render() {
 		return (
@@ -1383,7 +1447,7 @@ class MainTitle extends React.Component {
 class NavBar extends React.Component {
 	render() {
 		return (
-			<Navbar fixedTop collapseOnSelect>
+			<Navbar fixedTop collapseOnSelect fluid>
 			  <Navbar.Header>
 			    <Navbar.Toggle />
 			  </Navbar.Header>

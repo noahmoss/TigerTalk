@@ -3,7 +3,7 @@
   --main-bg-color: #fefcfb;
   --post-bg-color: #e5e7e8;
   --post-hover-color: #d7e2e8;
-  --post-click-color: #afd4e8;
+  --post-click-color: #b2ccda;
   --comment-bg-color: #e5e7e8;
   --nav-bg-color: #F19143;
   --nav-text-color: black;
@@ -34,6 +34,12 @@ body {
 }
 .navbar .nav > li > a:focus {
     color: var(--nav-text-color);
+}
+ul.nav.navbar-nav.navbar-right {
+    margin-right: 0px;
+}
+button.navbar-toggle.collapsed {
+    margin-right: 30px;
 }
 
 /* Main header (TigerTalk) */
@@ -80,7 +86,6 @@ button:focus {
 
 /* Post form */
 div.container-fluid {
-    margin-bottom: 15px;
     padding-left: 0px;
     padding-right: 0px;
 
