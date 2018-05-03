@@ -672,3 +672,11 @@ span.seemore {
 .navbar-toggle.collapsed {
   border-color: black;
 }
+
+div.btn-toolbar {
+    font-family: Quicksand, serif;
+}
+
+button#post.btn.btn-default {
+  font-family: Quicksand, serif;
+}
