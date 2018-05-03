@@ -599,10 +599,12 @@ class PostEntryForm extends React.Component {
 		super(props);
 		this.state = {
 			value: '',
+			shift: false,
 		};
 		this.handleChange = this.handleChange.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
 		this.onKeyDown = this.onKeyDown.bind(this);
+		this.onKeyUp = this.onKeyUp.bind(this);
 	}
 
 	handleChange(event) {
@@ -622,15 +624,32 @@ class PostEntryForm extends React.Component {
 		if (event.key === 'Enter') {
 			event.preventDefault();
 			event.stopPropagation();
-			this.handleSubmit();
+			if (this.state.shift) {
+				this.setState({
+					value:this.state.value+'\n',
+				})
+			}
+			else { this.handleSubmit(); }
+		} else if (event.key === 'Shift') {
+				this.setState({
+					shift: true,
+				});
+			}
+		}
+
+	onKeyUp(event: React.KeyboardEvent<HTMLDivElement>) {
+		if (event.key === 'Shift') {
+			console.log('hi');
+			this.setState({
+				shift: false,
+			});
 		}
 	}
-
 
 	render() {
 		return (
 			<div className="container-fluid" id="postContainer">
-			<form onSubmit={this.handleSubmit} onKeyDown={this.onKeyDown}>
+			<form onSubmit={this.handleSubmit} onKeyDown={this.onKeyDown} onKeyUp={this.onKeyUp}>
 			<div className="post-container">
 				  <FormControl componentClass="textarea"
 				  			className="posting"
