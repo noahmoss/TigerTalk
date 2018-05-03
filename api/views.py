@@ -144,6 +144,28 @@ class CommentClearVote(generics.ListAPIView):
         user.comments_upvoted.remove(comment)
         return Response({"net_votes" : comment.net_votes()})
 
+class PostReport(generics.ListAPIView):
+    queryset = Post.objects.all()
+    serializer_class = PostSerializer
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def list(self, request, pk):
+        post = Post.objects.get(id=self.kwargs.get('pk'))
+        post.reported = True
+        post.save()
+        return Response({"reported" : post.reported})
+
+class CommentReport(generics.ListAPIView):
+    queryset = Comment.objects.all()
+    serializer_class = CommentSerializer
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def list(self, request, pk):
+        comment = Comment.objects.get(id=self.kwargs.get('pk'))
+        comment.reported = True
+        comment.save()
+        return Response({"reported" : comment.reported})
+
 # list of all users (only available to admins; for debugging purposes)
 # TODO: remove in production
 class UserList(generics.ListAPIView):
