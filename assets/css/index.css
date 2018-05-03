@@ -1,16 +1,11 @@
 /* Document-wide style */
 :root {
   --main-bg-color: #fefcfb;
-  /*--post-bg-color: #e5e7e8;*/
-  --post-hover-color: #d7e2e8;
-  --post-click-color: #afd4e8;
-  --post-bg-color: #F0F2F4;
-  --comment-bg-color: #F0F2F4;
-  --nav-bg-color: #ff9408;
+  --post-bg-color: #e5e7e8;
+  --comment-bg-color: #e5e7e8;
+  --nav-bg-color: #F19143;
   --nav-text-color: black;
   --form-border: #676767;
-  /*--nav-bg-color: #F19143; */
-  
 }
 
 body {
@@ -94,24 +89,22 @@ div.post-container {
     width: 90%;
 
 }
-div.post .glyphicon.glyphicon-comment {
-  color: var(--post-bg-color);
-}
+
 div.post:hover {
-    background-color: var(--post-hover-color);
-    border-color: var(--post-hover-color);
+    background-color: #c0e4f9;
+    border-color: #c0e4f9 ;
 }
 
 div.post:hover .dateString.media-right{
-  background-color: var(--post-hover-color);
+  background-color: #c0e4f9;
 }
 
 div.post:hover .glyphicon.glyphicon-comment{
-  color: var(--post-hover-color);
+  color: #c0e4f9;
 }
 
 div.post:hover #dropdown-size-small{
-  background-color: var(--post-hover-color);
+  background-color: #c0e4f9;
 }
 
 #dropdown-size-small:hover{
@@ -267,7 +260,7 @@ div.post2.rip.media {
 div.post2.btn {
     border-radius: 5px;
 
-    background-color: var(--post-click-color);
+    background-color: #90caf9;
     float: right;
 }
 
@@ -282,16 +275,16 @@ div.post2.mb2.media-body{
 }
 
 div.post2 .glyphicon.glyphicon-comment {
-  color: var(--post-click-color);
+  color: #90caf9;
 }
 
 div.post2 #dropdown-size-small{
-  background-color: var(--post-click-color);
+  background-color: #90caf9;
   border-color: #b0bec5;
 }
 
 div.post2 .dateString.media-right {
-  background-color: var(--post-click-color);
+  background-color: #90caf9;
 }
 
 div.post2.commentNum.media-left{
@@ -307,7 +300,7 @@ div.post2.dateString.media-right{
     text-align: right;
     position: relative;
     right: 10px;
-    background-color: var(--post-click-color);
+    background-color: #90caf9;
 }
 
 div.post2.commentdatestring.media-right{
@@ -323,7 +316,7 @@ div.post2.commentdatestring.media-right{
 /* Post components */
 div.post2 {
     font-family: Quicksand;
-    background-color: var(--post-click-color);
+    background-color: #90caf9;
     border-right: 0.2rem solid var(--post-bg-color);
     border-left: 0.2rem solid var(--post-bg-color);
     border-top: 0.1rem solid var(--post-bg-color);
@@ -333,7 +326,7 @@ div.post2 {
     white-space: pre-wrap;
     max-width: 768px;
     width: 90%;
-    border-color: var(--post-click-color);
+    border-color: #90caf9;
 }
 div.post2.mainBody {
     z-index: 1;
@@ -632,11 +625,11 @@ span.seemore {
 }
 
 .wrapText {
-  word-break:break-word;
+  word-break:break-all;
 }
 
 .wrapTextComment {
-  word-break:break-word;
+  word-break:break-all;
 }
 
 .replyBody {
@@ -650,4 +643,8 @@ span.seemore {
 
 .navbar-default .navbar-toggle .icon-bar {
   background-color: black;
+}
+
+.navbar-toggle.collapsed {
+  border-color: black;
 }
