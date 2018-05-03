@@ -3,7 +3,7 @@ var ReactDOM = require('react-dom')
 import { Grid, Row, Col } from 'react-bootstrap'
 import { Navbar, Nav, NavItem } from 'react-bootstrap';
 import { ToggleButton, ButtonToolbar, ToggleButtonGroup, DropdownButton, MenuItem, SplitButton } from 'react-bootstrap';
-import { FormGroup, ControlLabel, FormControl, Button } from 'react-bootstrap';
+import { FormGroup, ControlLabel, FormControl, Button, Collapse } from 'react-bootstrap';
 import { Media } from 'react-bootstrap';
 
 // Buttons for sorting posts by recent or popular
@@ -791,7 +791,7 @@ class PostCommentBlock extends React.Component {
 			showing: false, // are the comments showing?
 			isUserDataLoaded: true, // is the updated user data loaded?
 			isLoaded: true, // are the comments loaded?
-			comments: [], // current list of comments
+			comments: this.props.comments, // current list of comments
 			comment_count: this.props.comment_count,
 			my_comments: [],
 			my_upvoted: [],
@@ -945,7 +945,7 @@ class PostCommentBlock extends React.Component {
 		})
 	}
 	renderComments() {
-		if (this.state.isLoaded) {
+		// if (this.state.isLoaded) {
 			return (
 				<CommentBlock id={this.props.id}
 							comments={this.state.comments}
@@ -955,25 +955,12 @@ class PostCommentBlock extends React.Component {
 							handleComment={this.handleComment}
 							handleCommentDelete={this.handleCommentDelete}/>
 			);
-		}
-		else {
-			return (<LilSpinner />);
-		}
+		// }
+		// else {
+		// 	return (<LilSpinner />);
+		// }
 	}
 	render() {
-		const commentarea = this.state.showing ? (
-								this.state.isLoaded ? (
-									<CommentBlock id={this.props.id}
-													comments={this.state.comments}
-													my_comments={this.state.my_comments}
-													my_upvoted={this.state.my_upvoted}
-													my_downvoted={this.state.my_downvoted}
-													handleComment={this.handleComment}
-													handleCommentDelete={this.handleCommentDelete}/>
-												) : (<LilSpinner />)
-											) : (null)
-
-
 		return (
 			<div>
 				<Post id={this.props.id}
@@ -988,7 +975,16 @@ class PostCommentBlock extends React.Component {
 					  handleDelete={this.handleDelete}
 					  color={this.state.colorclick}
 					  />
-					  {commentarea}
+					  
+				<Collapse in={this.state.showing}>
+					<div>
+					{
+						this.state.showing
+						? this.renderComments()
+						: null
+					}
+					</div>
+				</Collapse>
 			</div>
 		);
 	}
@@ -1009,18 +1005,18 @@ function Spinner() {
 }
 
 // Spinner for loading comments
-function LilSpinner() {
-	return (
-		<div style={{}}>
-		<div className="lds-css ng-scope">
-		<div style={{width:"100%",height:"100%"}} className="lds-dual-ring2">
-		<div>
-		</div>
-		</div>
-		</div>
-		</div>
-	);
-}
+// function LilSpinner() {
+// 	return (
+// 		<div style={{}}>
+// 		<div className="lds-css ng-scope">
+// 		<div style={{width:"100%",height:"100%"}} className="lds-dual-ring2">
+// 		<div>
+// 		</div>
+// 		</div>
+// 		</div>
+// 		</div>
+// 	);
+// }
 
 // get csrf token from cookies
 // from https://stackoverflow.com/questions/35112451/forbidden-csrf-token-missing-or-incorrect-django-error
@@ -1322,6 +1318,7 @@ class PostList extends React.Component {
 	                	content={post.content}
 						votes={post.net_votes}
 						comment_count={post.comments.length}
+						comments={post.comments}
 						date={post.date_created}
 						isMine={this.state.my_posts.includes(post.id)}
 						upvoted={this.state.my_upvoted.includes(post.id)}
