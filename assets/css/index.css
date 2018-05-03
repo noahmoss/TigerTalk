@@ -87,6 +87,29 @@ div.post-container {
     width: 90%;
 
 }
+
+div.post:hover {
+    background-color: #c0e4f9;
+    border-color: #c0e4f9 ;
+}
+
+div.post:hover .dateString.media-right{
+  background-color: #c0e4f9;
+}
+
+div.post:hover .glyphicon.glyphicon-comment{
+  color: #c0e4f9;
+}
+
+div.post:hover #dropdown-size-small{
+  background-color: #c0e4f9;
+}
+
+#dropdown-size-small:hover{
+  background-color: var(--post-bg-color);
+  border-color: #a6b6bc;
+}
+
 textarea.form-control {
     margin: auto;
     resize: vertical;
