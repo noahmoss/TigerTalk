@@ -975,14 +975,10 @@ class PostCommentBlock extends React.Component {
 					  handleDelete={this.handleDelete}
 					  color={this.state.colorclick}
 					  />
-					  
+
 				<Collapse in={this.state.showing}>
 					<div>
-					{
-						this.state.showing
-						? this.renderComments()
-						: null
-					}
+						this.renderComments()
 					</div>
 				</Collapse>
 			</div>
