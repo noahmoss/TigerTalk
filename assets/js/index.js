@@ -122,17 +122,9 @@ function timestamp(st) {
 		var now = moment();
 		var timeAgo = now.diff(postDatetime,'seconds');
 
-		if (timeAgo <= 0) {
+		if (timeAgo < 60) {
 			var timeUnit = "just now";
 		}
-
-		else if (timeAgo == 1) {
-			var timeUnit = "second ago";
-		}
-		else if (timeAgo < 60) {
-			var timeUnit = "seconds ago"
-		}
-
 		else if (timeAgo < 120) {
 			timeAgo = 1;
 			var timeUnit = "minute ago"
@@ -837,39 +829,9 @@ class PostCommentBlock extends React.Component {
 		.then(
 			(result) => {
 				let loadedComments = result;
-				let oldComments = this.state.comments;
-
-				if (loadedComments.length == 0) {
-					return;
-				}
-
-				let newOldComments = oldComments.slice();
-				for (let i = 0; i < oldComments.length; i++) {
-					var found = false;
-					for (let j = 0; j < loadedComments.length; j++) {
-						if (oldComments[i].id == loadedComments[j].id) {
-							found = true;
-							break;
-						}
-					}
-					if (!found) {
-						newOldComments.slice(i,1);
-					}
-				}
-
-				console.log(loadedComments);
-				for (let i = 0; i < loadedComments.length; i++) {
-					if (loadedComments[i].id == newOldComments[newOldComments.length-1].id) {
-						var lastOldComment = i;
-						break;
-					}
-				}
-				let newComments = loadedComments.slice(lastOldComment + 1);
-				console.log(newOldComments);
-				console.log(newComments);
 				this.setState({
-					comments : newOldComments.concat(newComments),
-					comment_count: newOldComments.concat(newComments).length,
+					comments : loadedComments,
+					comment_count: loadedComments.length,
 				});
 			},
 			(error) => {
