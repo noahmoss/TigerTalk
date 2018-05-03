@@ -2,6 +2,8 @@
 :root {
   --main-bg-color: #fefcfb;
   --post-bg-color: #e5e7e8;
+  --post-hover-color: #d7e2e8;
+  --post-click-color: #afd4e8;
   --comment-bg-color: #e5e7e8;
   --nav-bg-color: #e27c12;
   --nav-text-color: black;
@@ -91,20 +93,20 @@ div.post-container {
 }
 
 div.post:hover {
-    background-color: #c0e4f9;
-    border-color: #c0e4f9 ;
+    background-color: var(--post-hover-color);
+    border-color: var(--post-hover-color);
 }
 
 div.post:hover .dateString.media-right{
-  background-color: #c0e4f9;
+  background-color: var(--post-hover-color);
 }
 
 div.post:hover .glyphicon.glyphicon-comment{
-  color: #c0e4f9;
+  color: var(--post-hover-color);
 }
 
 div.post:hover #dropdown-size-small{
-  background-color: #c0e4f9;
+  background-color: var(--post-hover-color);
 }
 
 #dropdown-size-small:hover{
@@ -260,7 +262,7 @@ div.post2.rip.media {
 div.post2.btn {
     border-radius: 5px;
 
-    background-color: #90caf9;
+    background-color: var(--post-click-color);
     float: right;
 }
 
@@ -275,16 +277,16 @@ div.post2.mb2.media-body{
 }
 
 div.post2 .glyphicon.glyphicon-comment {
-  color: #90caf9;
+  color: var(--post-click-color);
 }
 
 div.post2 #dropdown-size-small{
-  background-color: #90caf9;
+  background-color: var(--post-click-color);
   border-color: #b0bec5;
 }
 
 div.post2 .dateString.media-right {
-  background-color: #90caf9;
+  background-color: var(--post-click-color);
 }
 
 div.post2.commentNum.media-left{
@@ -300,7 +302,7 @@ div.post2.dateString.media-right{
     text-align: right;
     position: relative;
     right: 10px;
-    background-color: #90caf9;
+    background-color: var(--post-click-color);
 }
 
 div.post2.commentdatestring.media-right{
@@ -316,7 +318,7 @@ div.post2.commentdatestring.media-right{
 /* Post components */
 div.post2 {
     font-family: Quicksand;
-    background-color: #90caf9;
+    background-color: var(--post-click-color);
     border-right: 0.2rem solid var(--post-bg-color);
     border-left: 0.2rem solid var(--post-bg-color);
     border-top: 0.1rem solid var(--post-bg-color);
@@ -326,7 +328,7 @@ div.post2 {
     white-space: pre-wrap;
     max-width: 768px;
     width: 90%;
-    border-color: #90caf9;
+    border-color: var(--post-click-color);
 }
 div.post2.mainBody {
     z-index: 1;
