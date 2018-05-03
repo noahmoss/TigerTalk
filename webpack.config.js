@@ -8,7 +8,12 @@ module.exports = {
 	context: __dirname,
 
 	// entry point
-	entry: './assets/js/index',
+
+	entry: {
+	    main: './assets/js/index',
+		vendor: Object.keys(package.dependencies),
+	    about: './assets/js/about',
+	},
 
 	// default to dev mode
 	mode: 'development',
@@ -29,6 +34,23 @@ module.exports = {
 			jQuery: 'jquery',
 			'window.jQuery': 'jquery'
 		})
+		new HtmlWebpackPlugin({
+			hash: true,
+			// title: 'My Awesome application',
+			// myPageHeader: 'Hello World',
+			template: './templates/index.html',
+			chunks: ['vendor', 'app'],
+			filename: './templates/index.html' //relative to root of the application
+		}),
+		new HtmlWebpackPlugin({
+			hash: true,
+			// title: 'My Awesome application',
+			// myPageHeader: 'Settings',
+			template: './templates/index.html',
+			chunks: ['vendor', 'settings'],
+			filename: './templates/about.html'
+		})
+
 	],
 
 	module: {
