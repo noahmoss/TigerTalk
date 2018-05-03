@@ -1,0 +1,75 @@
+/* Document-wide style */
+:root {
+  --main-bg-color: #fefcfb;
+  --post-bg-color: #e5e7e8;
+  --post-hover-color: #d7e2e8;
+  --post-click-color: #c9dce7;
+  --comment-bg-color: #e5e7e8;
+  --nav-bg-color: #F19143;
+  --nav-text-color: black;
+  --form-border: #676767;
+}
+
+body {background-color: var(--main-bg-color)}
+
+/* Navbar background and link colors */
+.navbar-default {
+    background-color: var(--nav-bg-color);
+}
+.navbar .nav > li > a {
+    color: var(--nav-text-color);
+}
+.navbar .nav > li > a:hover {
+    color: var(--nav-text-color);
+}
+.navbar .nav > li > a:visited {
+    color: var(--nav-text-color);
+}
+.navbar .nav > li > a:active {
+    color: var(--nav-text-color);
+}
+.navbar .nav > li > a:focus {
+    color: var(--nav-text-color);
+}
+ul.nav.navbar-nav.navbar-right {
+    margin-right: 0px;
+}
+button.navbar-toggle.collapsed {
+    margin-right: 30px;
+}
+
+h1 {
+	font-family: Quicksand;
+	font-size: 300%;
+	padding-top:0px;
+	margin-left:auto;
+	margin-right:auto;
+}
+
+h2 {
+	font-family: Quicksand;
+	font-size: 300%;
+	padding-top:20px;
+	margin-left:auto;
+	margin-right:auto;
+}
+
+h4 {
+	font-family: Quicksand;
+}
+
+.aboutText1 {
+	font-family: Quicksand;
+	font-size: 100%;
+	padding-top: 10px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.aboutText2 {
+	font-family: Quicksand;
+	font-size: 100%;
+	padding-top: 0px;
+	margin-left: auto;
+	margin-right: auto;
+}
