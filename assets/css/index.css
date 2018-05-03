@@ -1,13 +1,16 @@
 /* Document-wide style */
 :root {
   --main-bg-color: #fefcfb;
-  --post-bg-color: #e5e7e8;
+  /*--post-bg-color: #e5e7e8;*/
   --post-hover-color: #d7e2e8;
   --post-click-color: #c9dce7;
-  --comment-bg-color: #e5e7e8;
-  --nav-bg-color: #F19143;
+  --post-bg-color: #F0F2F4;
+  --comment-bg-color: #F0F2F4;
+  --nav-bg-color: #ff9408;
   --nav-text-color: black;
   --form-border: #676767;
+  /*--nav-bg-color: #F19143; */
+
 }
 
 body {
@@ -96,7 +99,9 @@ div.post-container {
     width: 90%;
 
 }
-
+div.post .glyphicon.glyphicon-comment {
+  color: var(--post-bg-color);
+}
 div.post:hover {
     background-color: var(--post-hover-color);
     border-color: var(--post-hover-color);

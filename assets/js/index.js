@@ -5,6 +5,7 @@ import { Navbar, Nav, NavItem } from 'react-bootstrap';
 import { ToggleButton, ButtonToolbar, ToggleButtonGroup, DropdownButton, MenuItem, SplitButton } from 'react-bootstrap';
 import { FormGroup, ControlLabel, FormControl, Button, Collapse } from 'react-bootstrap';
 import { Media } from 'react-bootstrap';
+// export { NavBar };
 
 // Buttons for sorting posts by recent or popular
 class SortBar extends React.Component {
@@ -1453,7 +1454,7 @@ class NavBar extends React.Component {
 			  </Navbar.Header>
 			  <Navbar.Collapse>
 			  	<Nav pullLeft>
-					<NavItem style={{ fontFamily: 'Quicksand' }} eventKey={1} href="#">
+					<NavItem style={{ fontFamily: 'Quicksand' }} eventKey={1} href="/about">
 						About
 					</NavItem>
 				</Nav>

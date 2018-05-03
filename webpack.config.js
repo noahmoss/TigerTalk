@@ -2,6 +2,7 @@
 var path = require('path')
 var webpack = require('webpack')
 var BundleTracker = require('webpack-bundle-tracker')
+var HTMLWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
 	// the base directory for resolving the entry option
@@ -10,9 +11,8 @@ module.exports = {
 	// entry point
 
 	entry: {
-	    main: './assets/js/index',
-		vendor: Object.keys(package.dependencies),
-	    about: './assets/js/about',
+	    main: './assets/js/index.js',
+	    about: './assets/js/about.js',
 	},
 
 	// default to dev mode
@@ -33,23 +33,10 @@ module.exports = {
 			$: 'jquery',
 			jQuery: 'jquery',
 			'window.jQuery': 'jquery'
-		})
-		new HtmlWebpackPlugin({
-			hash: true,
-			// title: 'My Awesome application',
-			// myPageHeader: 'Hello World',
-			template: './templates/index.html',
-			chunks: ['vendor', 'app'],
-			filename: './templates/index.html' //relative to root of the application
 		}),
-		new HtmlWebpackPlugin({
-			hash: true,
-			// title: 'My Awesome application',
-			// myPageHeader: 'Settings',
-			template: './templates/index.html',
-			chunks: ['vendor', 'settings'],
-			filename: './templates/about.html'
-		})
+		// new HTMLWebpackPlugin({
+		// 	title: 'Code Splitting'
+		// })
 
 	],
 
