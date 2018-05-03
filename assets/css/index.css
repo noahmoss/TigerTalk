@@ -5,7 +5,7 @@
   --post-hover-color: #d7e2e8;
   --post-click-color: #afd4e8;
   --comment-bg-color: #e5e7e8;
-  --nav-bg-color: #e27c12;
+  --nav-bg-color: #F19143;
   --nav-text-color: black;
   --form-border: #676767;
 }
@@ -641,4 +641,8 @@ span.seemore {
 
 .replyContainer {
   margin-top: 5px;
+}
+
+.navbar-default .navbar-toggle .icon-bar {
+  background-color: black;
 }
