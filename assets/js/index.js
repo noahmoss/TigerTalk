@@ -387,6 +387,7 @@ class CommentEntryForm extends React.Component {
 		};
 		this.handleChange = this.handleChange.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
+		this.onKeyDown = this.onKeyDown.bind(this);
 	}
 
 	handleChange(event) {
@@ -394,14 +395,26 @@ class CommentEntryForm extends React.Component {
 	}
 
 	handleSubmit(event) {
+		if(event) {
+			event.preventDefault();
+			event.stopPropagation();
+		};
+		this.props.onClick(this.state.value)
 		this.setState({value:''});
-		event.preventDefault();
 	}
+
+	onKeyDown(event: React.KeyboardEvent<HTMLDivElement>) {
+      if (event.key === 'Enter') {
+        event.preventDefault();
+        event.stopPropagation();
+        this.handleSubmit();
+      }
+    }
 
 	render() {
 		return (
 			<div className="container-fluid" id="commentContainer">
-			<form className="replying" onSubmit={this.handleSubmit}>
+			<form className="replying" onSubmit={this.handleSubmit} onKeyDown={this.onKeyDown}>
 				  <FormControl componentClass="textarea"
 				  			  className="replyBox"
 							  name="reply"
@@ -416,7 +429,7 @@ class CommentEntryForm extends React.Component {
 					<Button
 						type="submit"
 						id="post"
-						onClick={() => this.props.onClick(this.state.value)}>
+						>
 					Post
 					</Button>
 			</form>
