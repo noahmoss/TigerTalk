@@ -1319,7 +1319,7 @@ class PostList extends React.Component {
 		if (prevState.openPostID != this.state.openPostID) {
 			let openNode = this.openPost.current;
 			let domNode = ReactDOM.findDOMNode(openNode).firstChild;
-			domNode.scrollIntoView({behavior: "smooth"});
+			// domNode.scrollIntoView({behavior: "smooth"});
 		}
 	}
 
