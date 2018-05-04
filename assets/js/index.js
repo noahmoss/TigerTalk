@@ -1547,18 +1547,13 @@ class PostList extends React.Component {
 		let openNode = this.openPost.current;
 		let domNode = ReactDOM.findDOMNode(openNode).firstChild;
 		if (!this.isElementInViewport(domNode)) {
-			domNode.scrollIntoView({behavior: "smooth"});
+			domNode.scrollIntoView({behavior: "smooth", block: 'start', inline: 'nearest'});
 
 			if(isMobile) {
 				var navHeight = 60;
 				var scrolledY = window.scrollY;
 				if(scrolledY) {
 					setTimeout(window.scroll(0, scrolledY - navHeight), 100);
-					// window.scroll({
-					//   top: scrolledY - navHeight,
-					//   behavior: 'smooth'
-					// });
-
 				}
 			}
 		}
