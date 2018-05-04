@@ -736,7 +736,8 @@ class Post extends React.Component{
 	}
 
 	// voting logic
-	handleUpvoteClick() {
+	handleUpvoteClick(e) {
+		e.stopPropagation();
 		if (this.state.upvoted) {
 			return;
 		}
@@ -755,7 +756,8 @@ class Post extends React.Component{
 		}
 		this.sendVoteToServer("u");
 	}
-	handleUpvoteUnclick() {
+	handleUpvoteUnclick(e) {
+		e.stopPropagation();
 		if (!this.state.upvoted) {
 			return;
 		}
@@ -767,7 +769,8 @@ class Post extends React.Component{
 		}
 		this.sendVoteToServer("c");
 	}
-	handleDownvoteClick() {
+	handleDownvoteClick(e) {
+		e.stopPropagation();
 		if (this.state.downvoted) {
 			return;
 		}
@@ -786,7 +789,8 @@ class Post extends React.Component{
 		}
 		this.sendVoteToServer("d");
 	}
-	handleDownvoteUnclick() {
+	handleDownvoteUnclick(e) {
+		e.stopPropagation();
 		if (!this.state.downvoted) {
 			return;
 		}
@@ -914,7 +918,7 @@ class Post extends React.Component{
 			      <div className="iconFirstColumn">
 				  </div>
 			    </Media.Left>
-			    <Media.Body onClick={this.props.onClick}>
+			    <Media.Body onClick={this.props.onClick} className="bottom">
 					<Media.Left>
 				      <Speech_bubble />
 				    </Media.Left>
@@ -924,7 +928,7 @@ class Post extends React.Component{
 				    <Media.Right>
 				    </Media.Right>
 			    </Media.Body>
-			    <Media.Right className = "dateString">
+			    <Media.Right onClick={this.props.onClick} className = "postDateString">
 			    	{date_string}
 			    </Media.Right>
 			  </Media>
@@ -957,6 +961,16 @@ class PostCommentBlock extends React.Component {
 			my_downvoted: [],
 			colorclick: false,
 		};
+	}
+
+	componentDidUpdate(prevProps, prevState) {
+		if (prevProps.showing != this.props.showing ) {
+			this.setState({
+				showing:this.props.showing,
+				colorclick:this.props.showing,
+			})
+			this.toggleRefresh(false);
+		}
 	}
 
 	// toggle auto-refresh
@@ -1057,14 +1071,18 @@ class PostCommentBlock extends React.Component {
 					});
 				}
 			)
-			this.handleColorClick();
+			this.setState({
+				showing: true,
+				colorclick: true,
+			});
+			this.props.handleOpen(this.props.id);
 			this.refreshComments();
 		}
 		else {
-			this.handleColorClick();
 			this.toggleRefresh(false);
 			this.setState({
 				showing: false,
+				colorclick:false
 			})
 		}
 	}
@@ -1154,8 +1172,8 @@ class PostCommentBlock extends React.Component {
 					  comment_count={this.state.comment_count}
 					  date={this.props.date}
 					  isMine={this.props.isMine}
-					  onClick={this.handleClick}
 					  handleDelete={this.handleDelete}
+					  onClick={this.handleClick}
 					  color={this.state.colorclick}
 					  />
 
@@ -1227,6 +1245,7 @@ class PostList extends React.Component {
 			morePosts: true, // are there more posts to load?
 			posturl: "/api/posts/",
 			posts: [], // all post objects
+			openPostID: null,
 			newPostCount: 0, // number of posts user has added since refresh
 			my_posts: [], // post ids of user's posts
 			my_upvoted: [], // post ids of user's upvoted posts
@@ -1238,6 +1257,7 @@ class PostList extends React.Component {
 		this.getNextPage = this.getNextPage.bind(this);
 		this.reloadPosts = this.reloadPosts.bind(this);
 		this.getUserData = this.getUserData.bind(this);
+		this.handleOpen = this.handleOpen.bind(this);
 	}
 
 	// fetch current posts and comments upon page load
@@ -1484,6 +1504,13 @@ class PostList extends React.Component {
 		)
 	}
 
+	handleOpen(id) {
+		console.log(id);
+		this.setState({
+			openPostID: id,
+		});
+	}
+
 	render() {
 		return (
 			<div>
@@ -1499,10 +1526,12 @@ class PostList extends React.Component {
 						comment_count={post.comments.length}
 						comments={post.comments}
 						date={post.date_created}
+						showing={post.id==this.state.openPostID ? true : false}
 						isMine={this.state.my_posts.includes(post.id)}
 						upvoted={this.state.my_upvoted.includes(post.id)}
 						downvoted={this.state.my_downvoted.includes(post.id)}
 						handleDelete={this.handleDelete}
+						handleOpen={this.handleOpen}
 						 />)
 				: null
 	        }

@@ -132,7 +132,7 @@ div.wrapText.media-body {
 div.rip.media {
   cursor: pointer;
   margin-top: 0px;
-  padding-top: 10px;
+  padding-top: 0px;
 }
 
 /* react-bootstrap buttons */
@@ -168,7 +168,7 @@ div.dateString.media-right{
     right: 10px;
 }
 
-div.commentdatestring.media-right{
+div.postDateString.media-right{
     position: relative;
     top: -3.6px;
     margin-bottom: 0px;
@@ -176,6 +176,7 @@ div.commentdatestring.media-right{
     text-align: right;
     position: relative;
     right: 10px;
+    padding-top:10px;
 }
 
 /* Post components */
@@ -207,6 +208,10 @@ div.wrapText.media-body {
     border-color: none;
     padding-top: 0px;
     padding-right: 12px;
+}
+
+div.bottom.media-body {
+    padding-top: 10px;
 }
 
 .dropdown-menu {
