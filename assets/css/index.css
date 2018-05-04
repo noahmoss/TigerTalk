@@ -4,22 +4,11 @@
   --post-bg-color: #e5e7e8;
   --post-hover-color: #d9dee0;
   --post-click-color: #d4dde2;
-  --comment-bg-color: #d4dde2;
-  --nav-bg-color: #F19143;
+  --comment-bg-color: #e5e7e8;
+  --nav-bg-color: #f19143;
   --nav-text-color: black;
   --form-border: #676767;
 }
-
-
-/*--post-bg-color: #e5e7e8;*/
-/* --post-hover-color: #d7e2e8;
---post-click-color: #c9dce7;
---post-bg-color: #F0F2F4;
---comment-bg-color: #F0F2F4;
---nav-bg-color: #ff9408;
---nav-text-color: black;
---form-border: #676767; */
-/*--nav-bg-color: #F19143; */
 
 body {
   background-color: var(--main-bg-color);
@@ -85,15 +74,6 @@ div.btn-toolbar {
     float: right;
     position: relative;
 }
-/* button {
-  position: relative;
-  border-radius: 5px;
-  background-color: var(--post-bg-color);
-  font-family: Quicksand;
-}
-button:focus {
-    outline: none;
-} */
 
 /* Post form */
 div.container-fluid {
@@ -382,7 +362,6 @@ div.no-more-posts {
     margin-bottom: 50px;
 }
 
-/* Comment components -- TODO: fix comment css */
 .replyContainer {
   max-width: 768px;
   width: 90%;
@@ -654,11 +633,13 @@ span.seemore {
 }
 
 .wrapText {
-  word-break:break-all;
+    white-space: pre-wrap;
+    word-break:break-all;
 }
 
 .wrapTextComment {
-  word-break:break-all;
+    white-space: pre-wrap;
+    word-break:break-all;
 }
 
 .replyBody {

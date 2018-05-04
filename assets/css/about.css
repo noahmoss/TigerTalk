@@ -13,7 +13,7 @@
 body {background-color: var(--main-bg-color)}
 
 /* Navbar background and link colors */
-.navbar-default {
+/* .navbar-default {
     background-color: var(--nav-bg-color);
 }
 .navbar .nav > li > a {
@@ -36,7 +36,7 @@ ul.nav.navbar-nav.navbar-right {
 }
 button.navbar-toggle.collapsed {
     margin-right: 30px;
-}
+} */
 
 h1 {
 	font-family: Quicksand;

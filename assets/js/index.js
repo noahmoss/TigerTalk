@@ -388,6 +388,7 @@ class CommentEntryForm extends React.Component {
 		this.handleChange = this.handleChange.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
 		this.onKeyDown = this.onKeyDown.bind(this);
+		this.onKeyUp = this.onKeyUp.bind(this);
 	}
 
 	handleChange(event) {
@@ -404,17 +405,35 @@ class CommentEntryForm extends React.Component {
 	}
 
 	onKeyDown(event: React.KeyboardEvent<HTMLDivElement>) {
-      if (event.key === 'Enter') {
-        event.preventDefault();
-        event.stopPropagation();
-        this.handleSubmit();
-      }
-    }
+		if (event.key === 'Enter') {
+			event.preventDefault();
+			event.stopPropagation();
+			if (this.state.shift) {
+				this.setState({
+					value:this.state.value+'\n',
+				})
+			}
+			else {
+				this.handleSubmit();
+			}
+		} else if (event.key === 'Shift') {
+				this.setState({
+					shift: true,
+				});
+			}
+		}
+	onKeyUp(event: React.KeyboardEvent<HTMLDivElement>) {
+		if (event.key === 'Shift') {
+			this.setState({
+				shift: false,
+			});
+		}
+	}
 
 	render() {
 		return (
 			<div className="container-fluid" id="commentContainer">
-			<form className="replying" onSubmit={this.handleSubmit} onKeyDown={this.onKeyDown}>
+			<form className="replying" onSubmit={this.handleSubmit} onKeyDown={this.onKeyDown} onKeyUp={this.onKeyUp}>
 				  <FormControl componentClass="textarea"
 				  			  className="replyBox"
 							  name="reply"
@@ -458,6 +477,9 @@ class CommentBlock extends React.Component {
 		if (this.props.comments != prevProps.comments) {
 			this.setState({
 				comments: this.props.comments,
+				my_upvoted: this.props.my_upvoted,
+				my_downvoted: this.props.my_downvoted,
+				my_comments: this.props.my_comments,
 			})
 		}
 	}
@@ -629,7 +651,9 @@ class PostEntryForm extends React.Component {
 					value:this.state.value+'\n',
 				})
 			}
-			else { this.handleSubmit(); }
+			else {
+				this.handleSubmit();
+			}
 		} else if (event.key === 'Shift') {
 				this.setState({
 					shift: true,
@@ -639,7 +663,6 @@ class PostEntryForm extends React.Component {
 
 	onKeyUp(event: React.KeyboardEvent<HTMLDivElement>) {
 		if (event.key === 'Shift') {
-			console.log('hi');
 			this.setState({
 				shift: false,
 			});
@@ -910,6 +933,7 @@ class PostCommentBlock extends React.Component {
 		this.loadNewComments = this.loadNewComments.bind(this);
 		this.toggleRefresh = this.toggleRefresh.bind(this);
 		this.handleColorClick = this.handleColorClick.bind(this);
+		this.getUserData = this.getUserData.bind(this);
 		this.state = {
 			showing: false, // are the comments showing?
 			isUserDataLoaded: true, // is the updated user data loaded?
@@ -936,7 +960,33 @@ class PostCommentBlock extends React.Component {
 		}
 	}
 
+	// get user comment data
+	getUserData() {
+		fetch("/api/users/"+userid+"/", {
+			method: 'GET',
+			credentials: "same-origin",
+			headers : new Headers(),
+			headers: {
+				 "X-CSRFToken": csrftoken,
+				 'Accept': 'application/json',
+				 'Content-Type': 'application/json',
+			},
+		})
+		.then(res => res.json())
+		.then(
+			(result) => {
+				this.setState({
+					my_posts: result.posts,
+					my_upvoted: result.posts_upvoted,
+					my_downvoted: result.posts_downvoted,
+				});
+			}
+		)
+	}
+
 	loadNewComments() {
+		this.getUserData();
+
 		fetch("/api/posts/"+this.props.id+"/comments/", {
 			method: 'GET',
 			credentials: "same-origin",
