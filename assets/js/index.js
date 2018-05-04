@@ -1537,7 +1537,7 @@ class PostList extends React.Component {
 	}
 
 	// set openPostID to be the id of the newly opened post, and scroll new
-	// post into view if necessary
+	// post into view if necessary when old post collapses
 	handleOpen(id) {
 		this.setState({
 			openPostID: id,
@@ -1547,8 +1547,8 @@ class PostList extends React.Component {
 		let openNode = this.openPost.current;
 		let domNode = ReactDOM.findDOMNode(openNode).firstChild;
 		if (!this.isElementInViewport(domNode)) {
-			domNode.scrollIntoView({behavior: "smooth", block: 'start', inline: 'nearest'});
-
+			// TODO: doesn't seem to work on android
+			domNode.scrollIntoView(true, {behavior: "smooth", block: 'start', inline: 'nearest'});
 			if(isMobile) {
 				var navHeight = 60;
 				var scrolledY = window.scrollY;
