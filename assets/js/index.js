@@ -1296,7 +1296,6 @@ class PostList extends React.Component {
 	    );
 	}
 
-
 	componentDidUpdate(prevProps, prevState) {
 
 		// update post list and refresh timer if sort type changed
@@ -1546,9 +1545,9 @@ class PostList extends React.Component {
 	handleCollapsed(id) {
 		let openNode = this.openPost.current;
 		let domNode = ReactDOM.findDOMNode(openNode).firstChild;
-		if (!this.isElementInViewport(domNode)) {
-			domNode.scrollIntoView({behavior: "smooth"});
-		}
+		// if (!this.isElementInViewport(domNode)) {
+		// 	domNode.scrollIntoView({behavior: "smooth"});
+		// }
 	}
 
 	render() {
