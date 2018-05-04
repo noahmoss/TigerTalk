@@ -950,6 +950,7 @@ class PostCommentBlock extends React.Component {
 		this.toggleRefresh = this.toggleRefresh.bind(this);
 		this.handleColorClick = this.handleColorClick.bind(this);
 		this.getUserData = this.getUserData.bind(this);
+		this.handleCollapsed = this.handleCollapsed.bind(this);
 		this.state = {
 			showing: false, // are the comments showing?
 			isUserDataLoaded: true, // is the updated user data loaded?
@@ -1086,6 +1087,9 @@ class PostCommentBlock extends React.Component {
 			})
 		}
 	}
+	handleCollapsed() {
+		this.props.handleCollapsed(this.props.id);
+	}
 
 	refreshComments() {
 		this.setState({showing: true, isLoaded: false});
@@ -1177,7 +1181,7 @@ class PostCommentBlock extends React.Component {
 					  color={this.state.colorclick}
 					  />
 
-				<Collapse in={this.state.showing}>
+				<Collapse in={this.state.showing} onExited={this.handleCollapsed}>
 					<div>
 						{this.renderComments()}
 					</div>
@@ -1251,6 +1255,7 @@ class PostList extends React.Component {
 			my_upvoted: [], // post ids of user's upvoted posts
 			my_downvoted: [], // post ids of user's downvoted posts
 		};
+		this.openPost = React.createRef();
 		this.handlePost = this.handlePost.bind(this);
 		this.handleDelete = this.handleDelete.bind(this);
 		this.getFirstPage = this.getFirstPage.bind(this);
@@ -1258,6 +1263,7 @@ class PostList extends React.Component {
 		this.reloadPosts = this.reloadPosts.bind(this);
 		this.getUserData = this.getUserData.bind(this);
 		this.handleOpen = this.handleOpen.bind(this);
+		this.handleCollapsed = this.handleCollapsed.bind(this);
 	}
 
 	// fetch current posts and comments upon page load
@@ -1273,7 +1279,27 @@ class PostList extends React.Component {
 		}
 	}
 
+	// modified from https://stackoverflow.com/questions/123999/how-to-tell-if-a-dom-element-is-visible-in-the-current-viewport/7557433#7557433
+	isElementInViewport(el) {
+	    //special bonus for those using jQuery
+	    if (typeof jQuery === "function" && el instanceof jQuery) {
+	        el = el[0];
+	    }
+
+	    var rect = el.getBoundingClientRect();
+
+	    return (
+	        rect.top >= 0 &&
+	        rect.left >= 0 &&
+	        rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) && /*or $(window).height() */
+	        rect.right <= (window.innerWidth || document.documentElement.clientWidth) /*or $(window).width() */
+	    );
+	}
+
+
 	componentDidUpdate(prevProps, prevState) {
+
+		// update post list and refresh timer if sort type changed
 		if (prevProps.sort != this.props.sort) {
 		 	this.getUserData();
 		 	this.reloadPosts();
@@ -1288,8 +1314,14 @@ class PostList extends React.Component {
 					5000
 				);
 			}
-
 	 	}
+
+		// check if ref to new open post is in view, and scroll if not
+		if (prevState.openPostID != this.state.openPostID) {
+			let openNode = this.openPost.current;
+			let domNode = ReactDOM.findDOMNode(openNode).firstChild;
+			domNode.scrollIntoView({behavior: "smooth"});
+		}
 	}
 
 	getUserData() {
@@ -1504,11 +1536,19 @@ class PostList extends React.Component {
 		)
 	}
 
+	// set openPostID to be the id of the newly opened post, and scroll new
+	// post into view if necessary
 	handleOpen(id) {
-		console.log(id);
 		this.setState({
 			openPostID: id,
 		});
+	}
+	handleCollapsed(id) {
+		let openNode = this.openPost.current;
+		let domNode = ReactDOM.findDOMNode(openNode).firstChild;
+		if (!this.isElementInViewport(domNode)) {
+			domNode.scrollIntoView({behavior: "smooth"});
+		}
 	}
 
 	render() {
@@ -1519,6 +1559,7 @@ class PostList extends React.Component {
 				this.state.isLoaded
 				? this.state.posts.map((post) =>
 	          		<PostCommentBlock
+						ref={post.id==this.state.openPostID ? this.openPost : null}
 			   			key={post.id}
 						id={post.id}
 	                	content={post.content}
@@ -1532,6 +1573,7 @@ class PostList extends React.Component {
 						downvoted={this.state.my_downvoted.includes(post.id)}
 						handleDelete={this.handleDelete}
 						handleOpen={this.handleOpen}
+						handleCollapsed={this.handleCollapsed}
 						 />)
 				: null
 	        }
