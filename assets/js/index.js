@@ -5,7 +5,6 @@ import { Navbar, Nav, NavItem } from 'react-bootstrap';
 import { ToggleButton, ButtonToolbar, ToggleButtonGroup, DropdownButton, MenuItem, SplitButton } from 'react-bootstrap';
 import { FormGroup, ControlLabel, FormControl, Button, Collapse } from 'react-bootstrap';
 import { Media } from 'react-bootstrap';
-// export { NavBar };
 
 // Buttons for sorting posts by recent or popular
 class SortBar extends React.Component {
@@ -36,7 +35,6 @@ class SortBar extends React.Component {
 	}
     render() {
 		return (
-
 				<div className="sortbar">
 					<ButtonToolbar>
 					  <ToggleButtonGroup defaultValue={"recent"} type="radio" name="sortbar" >
@@ -45,12 +43,7 @@ class SortBar extends React.Component {
 					  </ToggleButtonGroup>
 					</ButtonToolbar>
 				</div>
-
-
 		);
-
-		//	<Refresh_icon onClick={this.props.handleRefresh}/>
-
     }
 }
 
@@ -173,11 +166,14 @@ class Comment extends React.Component{
 		this.handleDownvoteUnclick = this.handleDownvoteUnclick.bind(this);
 		this.handleDelete = this.handleDelete.bind(this);
 		this.handleExpand = this.handleExpand.bind(this);
+		this.cutoffContent = this.cutoffContent.bind(this);
 		this.state = {
 			upvoted: this.props.upvoted,
 			downvoted: this.props.downvoted,
 			votes: this.props.votes,
-			expanded: this.props.content.length < 220,
+			needsExpansion: (this.props.content.length > 280
+							|| this.props.content.split(/\r\n|\r|\n/).length > 3),
+			expanded: false, // if the comment needs expansion, is it expanded?
 			reported: false,
 		};
 	}
@@ -264,10 +260,9 @@ class Comment extends React.Component{
 		this.props.handleDelete(this.props.id);
 	}
 
-
 	handleExpand(e) {
 		this.setState({
-			expanded : true,
+			expanded : !this.state.expanded,
 		})
 	}
 
@@ -300,23 +295,29 @@ class Comment extends React.Component{
 		});
 	}
 
-
-	renderContent() {
-		if (this.state.expanded) {
-			return (
-				this.props.content
-			)
+	// cut off content to 3 lines or 280 chars, whichever is fewer
+	cutoffContent(content) {
+		let newContent = content;
+		if (newContent.split(/\r\n|\r|\n/).length > 3) {
+			newContent = newContent.split(/\r\n|\r|\n/).slice(0,3).join('\n');
 		}
-		else {
-			return (
-				<div>
-				{this.props.content.slice(0,220) + " "}
-				<span className="seemore" onClick={this.handleExpand}>...see more</span>
-				</div>
-			)
-		}
+		return newContent.slice(0,280)
 	}
+	renderContent() {
+		let content = this.state.expanded
+							? this.props.content + " "
+							: this.cutoffContent(this.props.content) + " "
 
+
+		return (
+				this.state.needsExpansion
+				? ( this.state.expanded
+					? (<div>{content}<span className="seemore" onClick={this.handleExpand}>see less</span></div>)
+					: (<div>{content}<span className="seemore" onClick={this.handleExpand}>...see more</span></div>)
+				  )
+			    : content
+		);
+	}
 
 	render() {
 		let date_string = timestamp(this.props.date);
@@ -552,7 +553,6 @@ class CommentBlock extends React.Component {
 			.then(res => res.json())
 			.then(
 				(result) => {
-					this.props.handleComment();
 					this.setState({
 						comments: this.state.comments.concat([result]),
 						my_comments: this.state.my_comments.concat(result.id),
@@ -709,11 +709,13 @@ class Post extends React.Component{
 		this.handleDownvoteClick = this.handleDownvoteClick.bind(this);
 		this.handleDownvoteUnclick = this.handleDownvoteUnclick.bind(this);
 		this.handleExpand = this.handleExpand.bind(this);
+		this.cutoffContent = this.cutoffContent.bind(this);
 		this.state = {
 			upvoted: this.props.upvoted,
 			downvoted: this.props.downvoted,
 			votes: this.props.votes,
-			needsExpansion: this.props.content.length > 280,
+			needsExpansion: (this.props.content.length > 280
+							|| this.props.content.split(/\r\n|\r|\n/).length > 3),
 			expanded: false,
 			reported: false,
 		};
@@ -833,10 +835,20 @@ class Post extends React.Component{
 		});
 	}
 
+	// cut off content to 3 lines or 280 chars, whichever is fewer
+	cutoffContent(content) {
+		let newContent = content;
+		if (newContent.split(/\r\n|\r|\n/).length > 3) {
+			newContent = newContent.split(/\r\n|\r|\n/).slice(0,3).join('\n');
+		}
+		return newContent.slice(0,280)
+
+	}
+
 	renderContent() {
 		let content = this.state.expanded
 							? this.props.content + " "
-							: this.props.content.slice(0,280) + " "
+							: this.cutoffContent(this.props.content) + " "
 
 
 		return (
@@ -977,6 +989,7 @@ class PostCommentBlock extends React.Component {
 			(result) => {
 				this.setState({
 					my_posts: result.posts,
+					my_comments: result.comments,
 					my_upvoted: result.posts_upvoted,
 					my_downvoted: result.posts_downvoted,
 				});
@@ -1093,9 +1106,11 @@ class PostCommentBlock extends React.Component {
 	handleDelete() {
 		this.props.handleDelete(this.props.id);
 	}
-	handleComment() {
+	handleComment(id) {
+		var newMyComments = this.state.my_comments.concat(id);
 		this.setState({
 			comment_count: this.state.comment_count + 1,
+			my_comments: newMyComments,
 		})
 	}
 	handleCommentDelete(id) {
