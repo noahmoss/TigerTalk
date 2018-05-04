@@ -1547,6 +1547,12 @@ class PostList extends React.Component {
 		let domNode = ReactDOM.findDOMNode(openNode).firstChild;
 		if (!this.isElementInViewport(domNode)) {
 			domNode.scrollIntoView({behavior: "smooth"});
+
+			var navHeight = 50;
+			var scrolledY = window.scrollY;
+			if(scrolledY){
+				window.scroll(0, scrolledY - navHeight);
+			}
 		}
 	}
 
