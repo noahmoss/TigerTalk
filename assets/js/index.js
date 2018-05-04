@@ -1316,11 +1316,11 @@ class PostList extends React.Component {
 	 	}
 
 		// check if ref to new open post is in view, and scroll if not
-		if (prevState.openPostID != this.state.openPostID) {
-			let openNode = this.openPost.current;
-			let domNode = ReactDOM.findDOMNode(openNode).firstChild;
-			// domNode.scrollIntoView({behavior: "smooth"});
-		}
+		// if (prevState.openPostID != this.state.openPostID) {
+		// 	let openNode = this.openPost.current;
+		// 	let domNode = ReactDOM.findDOMNode(openNode).firstChild;
+		// 	domNode.scrollIntoView({behavior: "smooth"});
+		// }
 	}
 
 	getUserData() {
