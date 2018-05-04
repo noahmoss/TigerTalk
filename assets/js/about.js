@@ -1,7 +1,6 @@
 var React = require('react')
 var ReactDOM = require('react-dom')
 import { Navbar, Nav, NavItem } from 'react-bootstrap';
-// import {NavBar} from "./index.js"
 
 class NavBar extends React.Component {
 	render() {

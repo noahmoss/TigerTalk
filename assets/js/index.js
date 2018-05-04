@@ -179,6 +179,32 @@ class Comment extends React.Component{
 		};
 	}
 
+	componentWillReceiveProps(nextProps) {
+		if(this.props.upvoted != nextProps.upvoted) {
+			this.setState({
+				upvoted: nextProps.upvoted,
+				downvoted: nextProps.downvoted,
+			});
+		}
+	}
+
+
+	// componentDidMount() {
+	// 	this.setState({
+	// 		upvoted: this.props.upvoted,
+	// 		downvoted: this.props.downvoted,
+	// 	})
+	// }
+
+	// componentDidUpdate(prevProps, prevState) {
+	// 	if (this.props.upvoted != this.state.upvoted || this.props.downvoted != this.props.downvoted) {
+	// 		this.setState({
+	// 			upvoted: this.props.upvoted,
+	// 			downvoted: this.props.downvoted,
+	// 		})
+	// 	}
+	// }
+
 	// TODO: think about error handling - i.e. behavior when no server connection
 	sendVoteToServer(tag) {
 		fetch("/api/comments/"+this.props.id+"/"+tag+"/", {
@@ -526,8 +552,8 @@ class CommentBlock extends React.Component {
 			(result) => {
 				this.setState({
 					my_comments: result.comments,
-					my_upvoted: result.posts_upvoted,
-					my_downvoted: result.posts_downvoted,
+					my_upvoted: result.comments_upvoted,
+					my_downvoted: result.comments_downvoted,
 				});
 			}
 		)
@@ -958,9 +984,9 @@ class PostCommentBlock extends React.Component {
 			isLoaded: true, // are the comments loaded?
 			comments: this.props.comments, // current list of comments
 			comment_count: this.props.comment_count,
-			my_comments: [],
-			my_upvoted: [],
-			my_downvoted: [],
+			my_comments: this.props.my_comments,
+			my_upvoted: this.props.my_upvoted,
+			my_downvoted: this.props.my_downvoted,
 			colorclick: false,
 		};
 	}
@@ -1006,8 +1032,8 @@ class PostCommentBlock extends React.Component {
 				this.setState({
 					my_posts: result.posts,
 					my_comments: result.comments,
-					my_upvoted: result.posts_upvoted,
-					my_downvoted: result.posts_downvoted,
+					my_upvoted: result.comments_upvoted,
+					my_downvoted: result.comments_downvoted,
 				});
 			}
 		)
@@ -1255,6 +1281,9 @@ class PostList extends React.Component {
 			my_posts: [], // post ids of user's posts
 			my_upvoted: [], // post ids of user's upvoted posts
 			my_downvoted: [], // post ids of user's downvoted posts
+			my_comments: [],
+			my_upvoted_comments: [],
+			my_downvoted_comments: [],
 		};
 		this.openPost = React.createRef();
 		this.handlePost = this.handlePost.bind(this);
@@ -1342,6 +1371,9 @@ class PostList extends React.Component {
 					my_posts: result.posts,
 					my_upvoted: result.posts_upvoted,
 					my_downvoted: result.posts_downvoted,
+					my_comments: result.comments,
+					my_upvoted_comments: result.comments_upvoted,
+					my_downvoted_comments: result.comments_downvoted,
 				});
 			}
 		)
@@ -1579,6 +1611,9 @@ class PostList extends React.Component {
 						isMine={this.state.my_posts.includes(post.id)}
 						upvoted={this.state.my_upvoted.includes(post.id)}
 						downvoted={this.state.my_downvoted.includes(post.id)}
+						my_upvoted={this.state.my_upvoted_comments}
+						my_downvoted={this.state.my_downvoted_comments}
+						my_comments={this.state.my_comments}
 						handleDelete={this.handleDelete}
 						handleOpen={this.handleOpen}
 						handleCollapsed={this.handleCollapsed}

@@ -18,10 +18,12 @@
     <script>
         var netid = "{{ user.get_username }}";
         var userid = "{{ request.user.id }}";
+        var postid = "{{request.path}}";
+        postid = parseInt(postid.split('/')[2])
     </script>
 
-    <div id="post_root">
-        {% render_bundle 'main' %}
+    <div id="root">
+        {% render_bundle 'post' %}
     </div>
 
 </body>

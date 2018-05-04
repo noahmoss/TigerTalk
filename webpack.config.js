@@ -13,6 +13,7 @@ module.exports = {
 	entry: {
 	    main: './assets/js/index.js',
 	    about: './assets/js/about.js',
+		post: './assets/js/post.js',
 	},
 
 	// default to dev mode
