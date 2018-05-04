@@ -1545,9 +1545,9 @@ class PostList extends React.Component {
 	handleCollapsed(id) {
 		let openNode = this.openPost.current;
 		let domNode = ReactDOM.findDOMNode(openNode).firstChild;
-		// if (!this.isElementInViewport(domNode)) {
-		// 	domNode.scrollIntoView({behavior: "smooth"});
-		// }
+		if (!this.isElementInViewport(domNode)) {
+			domNode.scrollIntoView({behavior: "smooth"});
+		}
 	}
 
 	render() {
