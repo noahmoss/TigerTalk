@@ -1536,24 +1536,6 @@ class PostList extends React.Component {
 		)
 	}
 
-	scrollBy(distance, duration) {
-	    var initialY = document.body.scrollTop;
-	    var y = initialY + distance;
-	    var baseY = (initialY + y) * 0.5;
-	    var difference = initialY - baseY;
-	    var startTime = performance.now();
-
-	    function step() {
-	        var normalizedTime = (performance.now() - startTime) / duration;
-	        if (normalizedTime > 1) normalizedTime = 1;
-
-	        window.scrollTo(0, baseY + difference * Math.cos(normalizedTime * Math.PI));
-	        if (normalizedTime < 1) window.requestAnimationFrame(step);
-	    }
-	    window.requestAnimationFrame(step);
-	}
-
-
 	// set openPostID to be the id of the newly opened post, and scroll new
 	// post into view if necessary
 	handleOpen(id) {
@@ -1568,15 +1550,14 @@ class PostList extends React.Component {
 			domNode.scrollIntoView({behavior: "smooth"});
 
 			if(isMobile) {
+				alert("you're on mobile");
 				var navHeight = 60;
 				var scrolledY = window.scrollY;
 				if(scrolledY) {
-					// window.scroll(0, scrolledY - navHeight);
 					window.scroll({
 					  top: scrolledY - navHeight,
-					  behavior: 'smooth'
+					  behavior: 'smooth' // this doesn't seem to work on all mobile browsers
 					});
-
 				}
 			}
 		}
