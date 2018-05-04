@@ -10,33 +10,7 @@
     --form-border: #676767;
 }
 
-body {background-color: var(--main-bg-color)}
-
-/* Navbar background and link colors */
-/* .navbar-default {
-    background-color: var(--nav-bg-color);
-}
-.navbar .nav > li > a {
-    color: var(--nav-text-color);
-}
-.navbar .nav > li > a:hover {
-    color: var(--nav-text-color);
-}
-.navbar .nav > li > a:visited {
-    color: var(--nav-text-color);
-}
-.navbar .nav > li > a:active {
-    color: var(--nav-text-color);
-}
-.navbar .nav > li > a:focus {
-    color: var(--nav-text-color);
-}
-ul.nav.navbar-nav.navbar-right {
-    margin-right: 0px;
-}
-button.navbar-toggle.collapsed {
-    margin-right: 30px;
-} */
+body {background-color: black}
 
 h1 {
 	font-family: Quicksand;
