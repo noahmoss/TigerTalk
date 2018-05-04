@@ -1550,15 +1550,16 @@ class PostList extends React.Component {
 			domNode.scrollIntoView({behavior: "smooth"});
 
 			if(isMobile) {
-				alert("you're on mobile");
-				// var navHeight = 60;
-				// var scrolledY = window.scrollY;
-				// if(scrolledY) {
-				// 	window.scroll({
-				// 	  top: scrolledY - navHeight,
-				// 	  behavior: 'smooth' // this doesn't seem to work on all mobile browsers
-				// 	});
-				// }
+				var navHeight = 60;
+				var scrolledY = window.scrollY;
+				if(scrolledY) {
+					setTimeout(window.scroll(0, scrolledY - navHeight), 100);
+					// window.scroll({
+					//   top: scrolledY - navHeight,
+					//   behavior: 'smooth'
+					// });
+
+				}
 			}
 		}
 	}
