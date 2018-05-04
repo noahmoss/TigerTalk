@@ -5,6 +5,7 @@ import { Navbar, Nav, NavItem } from 'react-bootstrap';
 import { ToggleButton, ButtonToolbar, ToggleButtonGroup, DropdownButton, MenuItem, SplitButton } from 'react-bootstrap';
 import { FormGroup, ControlLabel, FormControl, Button, Collapse } from 'react-bootstrap';
 import { Media } from 'react-bootstrap';
+import { isMobile } from 'react-device-detect';
 
 // Buttons for sorting posts by recent or popular
 class SortBar extends React.Component {
@@ -1548,10 +1549,12 @@ class PostList extends React.Component {
 		if (!this.isElementInViewport(domNode)) {
 			domNode.scrollIntoView({behavior: "smooth"});
 
-			var navHeight = 60;
-			var scrolledY = window.scrollY;
-			if(scrolledY){
-				window.scroll(0, scrolledY - navHeight);
+			if(isMobile) {
+				var navHeight = 60;
+				var scrolledY = window.scrollY;
+				if(scrolledY) {
+					window.scroll(0, scrolledY - navHeight);
+				}
 			}
 		}
 	}
