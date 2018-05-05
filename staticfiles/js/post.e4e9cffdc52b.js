@@ -1,53 +1,27 @@
 var React = require('react')
 var ReactDOM = require('react-dom')
-import { Grid, Row, Col } from 'react-bootstrap'
 import { Navbar, Nav, NavItem } from 'react-bootstrap';
 import { ToggleButton, ButtonToolbar, ToggleButtonGroup, DropdownButton, MenuItem, SplitButton } from 'react-bootstrap';
 import { FormGroup, ControlLabel, FormControl, Button, Collapse } from 'react-bootstrap';
 import { Media } from 'react-bootstrap';
-import { isMobile } from 'react-device-detect';
-import { CopyToClipboard } from 'react-copy-to-clipboard';
 
-// Buttons for sorting posts by recent or popular
-class SortBar extends React.Component {
-	constructor(props, context) {
-		super(props, context);
-		this.state = {
-			value: "recent", // recent or popular
-			isLoaded : true,
-		};
-		this.setRecent = this.setRecent.bind(this);
-		this.setPopular = this.setPopular.bind(this);
-	}
-	setRecent() {
-		if (this.state.value !== "recent") {
-			this.setState({
-				value: "recent",
-			});
-			this.props.toggleSort("recent");
+// get csrf token from cookies
+// from https://stackoverflow.com/questions/35112451/forbidden-csrf-token-missing-or-incorrect-django-error
+function getCookie(name) {
+	var cookieValue = null;
+	if (document.cookie && document.cookie !== '') {
+		var cookies = document.cookie.split(';');
+		for (var i = 0; i < cookies.length; i++) {
+			var cookie = jQuery.trim(cookies[i]);
+			if (cookie.substring(0, name.length + 1) === (name + '=')) {
+				cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+				break;
+			}
 		}
 	}
-	setPopular() {
-		if (this.state.value !== "popular") {
-			this.setState({
-				value: "popular",
-			});
-			this.props.toggleSort("popular");
-		}
-	}
-    render() {
-		return (
-				<div className="sortbar">
-					<ButtonToolbar>
-					  <ToggleButtonGroup defaultValue={"recent"} type="radio" name="sortbar" >
-						<ToggleButton value={"recent"} onClick={this.setRecent} className="sort-button">Recent</ToggleButton>
-						<ToggleButton value={"popular"} onClick={this.setPopular} className="sort-button">Popular</ToggleButton>
-					  </ToggleButtonGroup>
-					</ButtonToolbar>
-				</div>
-		);
-    }
+	return cookieValue;
 }
+var csrftoken = getCookie("csrftoken");
 
 function Chevron_up(props) {
 	return (
@@ -92,24 +66,9 @@ function Chevron_down_clicked(props) {
 class Speech_bubble extends React.Component {
  	render() {
  		return (
- 				<span className="glyphicon glyphicon-comment" aria-hidden="true" style={{"cursor": "pointer"}}></span>
+ 				<span className="glyphicon glyphicon-comment" aria-hidden="true" style={{"cursor": "default"}}></span>
 		);
 	}
-}
-
-class Share_icon extends React.Component {
- 	render() {
- 		return (
- 				<span className="glyphicon glyphicon-send" aria-hidden="true"></span>
-		);
-	}
-}
-
-
-function Refresh_icon(props) {
-	return (
-			<span className="glyphicon glyphicon-refresh" onClick={props.onClick} aria-hidden="true"></span>
-	);
 }
 
 function timestamp(st) {
@@ -380,7 +339,7 @@ class Comment extends React.Component{
 			    	<Media.Body className="commentBody" onClick={this.props.onClick}>
 			    	</Media.Body>
 			    	<Media.Right className="dateString">
-						{date_string}
+			    		{date_string}
 			    	</Media.Right>
 			  	</Media>
 			  	</div>
@@ -624,92 +583,6 @@ class CommentBlock extends React.Component {
 	}
 }
 
-// The textarea and reply button for creating new posts
-class PostEntryForm extends React.Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			value: '',
-			shift: false,
-		};
-		this.handleChange = this.handleChange.bind(this);
-		this.handleSubmit = this.handleSubmit.bind(this);
-		this.onKeyDown = this.onKeyDown.bind(this);
-		this.onKeyUp = this.onKeyUp.bind(this);
-	}
-
-	handleChange(event) {
-		this.setState({value: event.target.value});
-	}
-
-	handleSubmit(event) {
-		if(event) {
-			event.preventDefault();
-			event.stopPropagation();
-		};
-		this.props.onClick(this.state.value)
-		this.setState({value:''});
-	}
-
-	onKeyDown(event: React.KeyboardEvent<HTMLDivElement>) {
-		if (event.key === 'Enter') {
-			event.preventDefault();
-			event.stopPropagation();
-			if (this.state.shift) {
-				this.setState({
-					value:this.state.value+'\n',
-				})
-			}
-			else {
-				this.handleSubmit();
-			}
-		} else if (event.key === 'Shift') {
-				this.setState({
-					shift: true,
-				});
-			}
-		}
-
-	onKeyUp(event: React.KeyboardEvent<HTMLDivElement>) {
-		if (event.key === 'Shift') {
-			this.setState({
-				shift: false,
-			});
-		}
-	}
-
-	render() {
-		return (
-			<div className="container-fluid" id="postContainer">
-			<form onSubmit={this.handleSubmit} onKeyDown={this.onKeyDown} onKeyUp={this.onKeyUp}>
-			<div className="post-container">
-				  <FormControl componentClass="textarea"
-				  			className="posting"
-							  name="entry"
-							  id="maintext"
-							  value={this.state.value}
-							  onChange={this.handleChange}
-							  cols="109"
-							  rows="2"
-							  autoComplete="off"
-							  maxLength="1000"
-							  placeholder="What do you want to talk about?"/>
-					<Media.Body className = "mb">
-						<Button
-							type="submit"
-							id="post"
-							>
-						Post
-						</Button>
-					</Media.Body>
-			</div>
-			</form>
-			</div>
-		);
-	}
-}
-
-
 class Post extends React.Component{
 	constructor(props) {
 		super(props);
@@ -717,16 +590,10 @@ class Post extends React.Component{
 		this.handleUpvoteUnclick = this.handleUpvoteUnclick.bind(this);
 		this.handleDownvoteClick = this.handleDownvoteClick.bind(this);
 		this.handleDownvoteUnclick = this.handleDownvoteUnclick.bind(this);
-		this.handleExpand = this.handleExpand.bind(this);
-		this.cutoffContent = this.cutoffContent.bind(this);
-		this.handleDateClick = this.handleDateClick.bind(this);
 		this.state = {
 			upvoted: this.props.upvoted,
 			downvoted: this.props.downvoted,
 			votes: this.props.votes,
-			needsExpansion: (this.props.content.length > 280
-							|| this.props.content.split(/\r\n|\r|\n/).length > 3),
-			expanded: false,
 			reported: false,
 		};
 	}
@@ -813,13 +680,6 @@ class Post extends React.Component{
 		this.sendVoteToServer("c");
 	}
 
-	handleExpand(e) {
-		e.stopPropagation();
-		this.setState({
-			expanded : !this.state.expanded,
-		})
-	}
-
 	// prevent dropdown close when clicking 'report'
 	// code from https://github.com/react-bootstrap/react-bootstrap/issues/1490
 	dropdownToggle(newValue){
@@ -849,42 +709,10 @@ class Post extends React.Component{
 		});
 	}
 
-	// cut off content to 3 lines or 280 chars, whichever is fewer
-	cutoffContent(content) {
-		let newContent = content;
-		if (newContent.split(/\r\n|\r|\n/).length > 3) {
-			newContent = newContent.split(/\r\n|\r|\n/).slice(0,3).join('\n');
-		}
-		return newContent.slice(0,280)
-
-	}
-
-	renderContent() {
-		let content = this.state.expanded
-							? this.props.content + " "
-							: this.cutoffContent(this.props.content) + " "
-
-
-		return (
-				this.state.needsExpansion
-				? ( this.state.expanded
-					? (<div>{content}<span className="seemore" onClick={this.handleExpand}>see less</span></div>)
-					: (<div>{content}<span className="seemore" onClick={this.handleExpand}>...see more</span></div>)
-				  )
-			    : content
-		);
-	}
-
-	handleDateClick(e) {
-		e.stopPropagation();
-	}
-
 	render () {
 		let date_string = timestamp(this.props.date);
 
-		const postclass = !this.props.color
-					  		? ("post")
-					    	: ("post2")
+		const postclass = "post3";
 
 		return (
 			<div className={postclass}>
@@ -904,8 +732,8 @@ class Post extends React.Component{
 						}
 					 </div>
 			    </Media.Left>
-			    <Media.Body className="wrapText" onClick={this.props.onClick}>
-					{this.renderContent()}
+			    <Media.Body className="wrapText" style={{cursor:"auto"}}>
+					{this.props.content}
 			    </Media.Body>
 				<Media.Right className="dropdown-container">
 					<DropdownButton pullRight
@@ -916,11 +744,6 @@ class Post extends React.Component{
 					   open={this.state.menuOpen}
 					   onToggle={val => this.dropdownToggle(val)}
 					   >
-
-					   <CopyToClipboard text={"https://www.princetontigertalk.herokuapp.com/post/"+this.props.id+"/"}>
-					   <MenuItem pullRight>Copy link</MenuItem>
-					   </CopyToClipboard>
-
 					   { this.props.isMine
 					   		? <MenuItem onClick={this.props.handleDelete}>Delete</MenuItem>
 							: (this.state.reported
@@ -930,12 +753,12 @@ class Post extends React.Component{
 					</DropdownButton>
 				</Media.Right>
 			  </Media>
-			  <Media className="rip">
+			  <Media className="rip" style={{cursor:"default"}}>
 			    <Media.Left>
 			      <div className="iconFirstColumn">
 				  </div>
 			    </Media.Left>
-			    <Media.Body onClick={this.props.onClick} className="bottom">
+			    <Media.Body className="bottom">
 					<Media.Left>
 				      <Speech_bubble />
 				    </Media.Left>
@@ -945,8 +768,8 @@ class Post extends React.Component{
 				    <Media.Right>
 				    </Media.Right>
 			    </Media.Body>
-			    <Media.Right onClick={this.props.onClick} className = "postDateString">
-					<a className="dateString" href={"/post/"+this.props.id+"/"} onClick={this.handleDateClick}>{date_string}</a>
+			    <Media.Right className = "postDateString" style={{cursor:"auto"}}>
+			    	{date_string}
 			    </Media.Right>
 			  </Media>
 		  </div>
@@ -954,41 +777,32 @@ class Post extends React.Component{
 	}
 }
 
-// A post and its associated comments
+// The post and its associated comments
 class PostCommentBlock extends React.Component {
 	constructor(props) {
 		super(props);
-		this.handleClick = this.handleClick.bind(this);
 		this.handleDelete = this.handleDelete.bind(this);
 		this.handleComment = this.handleComment.bind(this);
 		this.handleCommentDelete = this.handleCommentDelete.bind(this);
 		this.refreshComments = this.refreshComments.bind(this);
 		this.loadNewComments = this.loadNewComments.bind(this);
 		this.toggleRefresh = this.toggleRefresh.bind(this);
-		this.handleColorClick = this.handleColorClick.bind(this);
 		this.getUserData = this.getUserData.bind(this);
-		this.handleCollapsed = this.handleCollapsed.bind(this);
 		this.state = {
-			showing: false, // are the comments showing?
+			showing: true, // are the comments showing?
 			isUserDataLoaded: true, // is the updated user data loaded?
 			isLoaded: true, // are the comments loaded?
 			comments: this.props.comments, // current list of comments
 			comment_count: this.props.comment_count,
-			my_comments: this.props.my_comments,
-			my_upvoted: this.props.my_upvoted,
-			my_downvoted: this.props.my_downvoted,
-			colorclick: false,
+			my_comments:  this.props.my_comments,
+			my_upvoted: this.props.my_upvoted_comments,
+			my_downvoted: this.props.my_downvoted_comments,
+			colorclick: true,
 		};
 	}
 
-	componentDidUpdate(prevProps, prevState) {
-		if (prevProps.showing != this.props.showing ) {
-			this.setState({
-				showing:this.props.showing,
-				colorclick:this.props.showing,
-			})
-			this.toggleRefresh(false);
-		}
+	componentDidMount() {
+		this.toggleRefresh(true);
 	}
 
 	// toggle auto-refresh
@@ -1060,54 +874,6 @@ class PostCommentBlock extends React.Component {
 
 	}
 
-	// load comments and user data from API when post is clicked
-	handleClick() {
-		if(!this.state.showing) {
-			// get user data about comments
-			this.setState({
-				isUserDataLoaded: false,
-			})
-			fetch("/api/users/"+userid+"/", {
-				method: 'GET',
-				credentials: "same-origin",
-				headers : new Headers(),
-				headers: {
-					 "X-CSRFToken": csrftoken,
-					 'Accept': 'application/json',
-					 'Content-Type': 'application/json',
-				},
-			})
-			.then(res => res.json())
-			.then(
-				(result) => {
-					this.toggleRefresh(true);
-					this.setState({
-						my_upvoted: result.comments_upvoted,
-						my_downvoted: result.comments_downvoted,
-						my_comments: result.comments,
-						isUserDataLoaded: true,
-					});
-				}
-			)
-			this.setState({
-				showing: true,
-				colorclick: true,
-			});
-			this.props.handleOpen(this.props.id);
-			this.refreshComments();
-		}
-		else {
-			this.toggleRefresh(false);
-			this.setState({
-				showing: false,
-				colorclick:false
-			})
-		}
-	}
-	handleCollapsed() {
-		this.props.handleCollapsed(this.props.id);
-	}
-
 	refreshComments() {
 		this.setState({showing: true, isLoaded: false});
 		fetch("/api/posts/"+this.props.id+"/comments/", {
@@ -1145,6 +911,7 @@ class PostCommentBlock extends React.Component {
 	handleDelete() {
 		this.props.handleDelete(this.props.id);
 	}
+
 	handleComment(id) {
 		var newMyComments = this.state.my_comments.concat(id);
 		this.setState({
@@ -1152,6 +919,7 @@ class PostCommentBlock extends React.Component {
 			my_comments: newMyComments,
 		})
 	}
+
 	handleCommentDelete(id) {
 		var commentsWithoutDeleted = this.state.comments;
 		for (let i = 0; i < this.state.comments.length; i++) {
@@ -1166,11 +934,6 @@ class PostCommentBlock extends React.Component {
 		})
 	}
 
-	handleColorClick() {
-		this.setState({
-			colorclick: !this.state.colorclick,
-		})
-	}
 	renderComments() {
 			return (
 				<CommentBlock id={this.props.id}
@@ -1198,17 +961,16 @@ class PostCommentBlock extends React.Component {
 					  color={this.state.colorclick}
 					  />
 
-				<Collapse in={this.state.showing} onExited={this.handleCollapsed}>
 					<div>
 						{this.renderComments()}
 					</div>
-				</Collapse>
 			</div>
 		);
 	}
 }
 
-// Spinner for loading posts
+
+// Spinner for loading post
 function Spinner() {
 	return (
 		<div style={{}}>
@@ -1222,125 +984,70 @@ function Spinner() {
 	);
 }
 
-// Spinner for loading comments
-// function LilSpinner() {
-// 	return (
-// 		<div style={{}}>
-// 		<div className="lds-css ng-scope">
-// 		<div style={{width:"100%",height:"100%"}} className="lds-dual-ring2">
-// 		<div>
-// 		</div>
-// 		</div>
-// 		</div>
-// 		</div>
-// 	);
-// }
-
-// get csrf token from cookies
-// from https://stackoverflow.com/questions/35112451/forbidden-csrf-token-missing-or-incorrect-django-error
-function getCookie(name) {
-	var cookieValue = null;
-	if (document.cookie && document.cookie !== '') {
-		var cookies = document.cookie.split(';');
-		for (var i = 0; i < cookies.length; i++) {
-			var cookie = jQuery.trim(cookies[i]);
-			if (cookie.substring(0, name.length + 1) === (name + '=')) {
-				cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-				break;
-			}
-		}
+class MainTitle extends React.Component {
+	render() {
+		return (
+			<div>
+				<h3 className="header">TigerTalk</h3>
+				<br />
+				<br />
+				<br />
+			</div>
+		);
 	}
-	return cookieValue;
 }
-var csrftoken = getCookie("csrftoken");
 
-// The main list of posts and associated post entry form (above it)
-// TODO: add error handling ('could not reach server' notification)
-class PostList extends React.Component {
+class NavBar extends React.Component {
+	render() {
+		return (
+			<Navbar fixedTop collapseOnSelect fluid>
+			  <Navbar.Header>
+			    <Navbar.Toggle />
+			  </Navbar.Header>
+			  <Navbar.Collapse>
+			  	<Nav pullLeft>
+					<NavItem style={{ fontFamily: 'Quicksand' }} eventKey={1} href="/">
+						Home
+					</NavItem>
+				</Nav>
+				<Navbar.Text>
+					<Navbar.Link href="https://docs.google.com/forms/d/e/1FAIpQLSeO1FP1ghYFiDi2AKrBsEOxu2b_NXowGbxCfrlHXFmm6b1Fug/viewform?usp=pp_url&entry.1782114317"
+					target="_blank" style={{ color: 'black', textDecoration: 'none', fontFamily: 'Quicksand' }}>Feedback</Navbar.Link>
+				</Navbar.Text>
+			    <Nav pullRight>
+					<NavItem eventKey={3} style={{ fontFamily: 'Quicksand' }} href="/accounts/logout">
+					  Logout ({netid})
+					</NavItem>
+			    </Nav>
+			  </Navbar.Collapse>
+			</Navbar>
+		);
+	}
+}
+
+class App extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			error: null,
-			isLoaded: false, // are any posts loaded?
-			nextPageLoaded: true, // is the next page loaded?
-			morePosts: true, // are there more posts to load?
-			posturl: "/api/posts/",
-			posts: [], // all post objects
-			openPostID: null,
-			newPostCount: 0, // number of posts user has added since refresh
-			my_posts: [], // post ids of user's posts
-			my_upvoted: [], // post ids of user's upvoted posts
-			my_downvoted: [], // post ids of user's downvoted posts
+			isLoaded: false,
+			exists: false,
+			deleted: false,
+			post: null,
+			my_posts: [],
 			my_comments: [],
+			my_upvoted: [],
+			my_downvoted: [],
 			my_upvoted_comments: [],
 			my_downvoted_comments: [],
 		};
-		this.openPost = React.createRef();
-		this.handlePost = this.handlePost.bind(this);
-		this.handleDelete = this.handleDelete.bind(this);
-		this.getFirstPage = this.getFirstPage.bind(this);
-		this.getNextPage = this.getNextPage.bind(this);
-		this.reloadPosts = this.reloadPosts.bind(this);
 		this.getUserData = this.getUserData.bind(this);
-		this.handleOpen = this.handleOpen.bind(this);
-		this.handleCollapsed = this.handleCollapsed.bind(this);
+		this.getPostData = this.getPostData.bind(this);
+		this.handleDelete = this.handleDelete.bind(this);
 	}
 
-	// fetch current posts and comments upon page load
 	componentDidMount() {
-		this.getUserData(); // get current data for user
-		this.reloadPosts(this.state.posturl); // load posts
-
-		if (this.props.sort == "recent") {
-			this.postListTimer = setInterval(
-				() => this.getFirstPage(),
-				15000 // 5 seconds
-			);
-		}
-	}
-
-	// modified from https://stackoverflow.com/questions/123999/how-to-tell-if-a-dom-element-is-visible-in-the-current-viewport/7557433#7557433
-	isElementInViewport(el) {
-	    //special bonus for those using jQuery
-	    if (typeof jQuery === "function" && el instanceof jQuery) {
-	        el = el[0];
-	    }
-
-	    var rect = el.getBoundingClientRect();
-
-	    return (
-	        rect.top >= 0 &&
-	        rect.left >= 0 &&
-	        rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) && /*or $(window).height() */
-	        rect.right <= (window.innerWidth || document.documentElement.clientWidth) /*or $(window).width() */
-	    );
-	}
-
-	componentDidUpdate(prevProps, prevState) {
-
-		// update post list and refresh timer if sort type changed
-		if (prevProps.sort != this.props.sort) {
-		 	this.getUserData();
-		 	this.reloadPosts();
-
-			// start or stop reset timer
-			if (this.props.sort == "popular") {
-				clearInterval(this.postListTimer);
-			}
-			if (this.props.sort == "recent") {
-				this.postListTimer = setInterval(
-					() => this.getFirstPage(),
-					5000
-				);
-			}
-	 	}
-
-		// check if ref to new open post is in view, and scroll if not
-		// if (prevState.openPostID != this.state.openPostID) {
-		// 	let openNode = this.openPost.current;
-		// 	let domNode = ReactDOM.findDOMNode(openNode).firstChild;
-		// 	domNode.scrollIntoView({behavior: "smooth"});
-		// }
+		this.getUserData();
+		this.getPostData();
 	}
 
 	getUserData() {
@@ -1359,9 +1066,9 @@ class PostList extends React.Component {
 			(result) => {
 				this.setState({
 					my_posts: result.posts,
+					my_comments: result.comments,
 					my_upvoted: result.posts_upvoted,
 					my_downvoted: result.posts_downvoted,
-					my_comments: result.comments,
 					my_upvoted_comments: result.comments_upvoted,
 					my_downvoted_comments: result.comments_downvoted,
 				});
@@ -1369,15 +1076,8 @@ class PostList extends React.Component {
 		)
 	}
 
-	reloadPosts() {
-		this.setState({
-			isLoaded: false,
-		})
-
-		let url = "/api/posts" + (this.props.sort === "popular" ? "/popular/" : "/");
-		let curr_sort = this.props.sort;
-
-		fetch(url, {
+	getPostData() {
+		fetch("/api/posts/"+postid+"/", {
 			method: 'GET',
 			credentials: "same-origin",
 			headers : new Headers(),
@@ -1387,154 +1087,35 @@ class PostList extends React.Component {
 				 'Content-Type': 'application/json',
 			},
 		})
-		.then(res => res.json())
-		.then(
-			(result) => {
-				if ((curr_sort === this.props.sort) && !this.state.isLoaded) {
-					this.setState({
-						isLoaded: true,
-						morePosts: result.next !== null,
-						posts: result.results,
-						newPostCount: 0,
-					});
-				} else {
-					if (!this.state.isLoaded) {
-						this.reloadPosts();
-					}
-				};
-			},
-			(error) => {
+		.then(function(response) {
+	        if (!response.ok) {
 				this.setState({
+					exists: false,
 					isLoaded: true,
-					error
-				});
-			}
-		)
-	}
-
-	// get first page of post results and update current post list
-	 getFirstPage() {
-		this.getUserData();
-
-		fetch("/api/posts/", {
-			method: 'GET',
-			credentials: "same-origin",
-			headers : new Headers(),
-			headers: {
-				 "X-CSRFToken": csrftoken,
-				 'Accept': 'application/json',
-				 'Content-Type': 'application/json',
-			},
-		})
-		.then(res => res.json())
-		.then(
-			(result) => {
-				// slice new posts and add to front of current post list
-				let loadedPosts = result.results;
-				let oldPosts = this.state.posts.slice(this.state.newPostCount);
-				for (let i = 0; i < loadedPosts.length; i++) {
-					if (loadedPosts[i].id == oldPosts[0].id) {
-						var firstOldPost = i;
-						break;
-					}
-				}
-				let newPosts = loadedPosts.slice(0,firstOldPost);
-				this.setState({
-					posts : newPosts.concat(oldPosts),
-				});
-			},
-			(error) => {
-				this.setState({
-					error
-				});
-			}
-		)
-	}
-
-	// load the next page of posts from server and add to current post list
-	getNextPage() {
-		// don't try to fetch posts if there are no more
-		if (this.state.morePosts === false) {
-			return;
-		}
-
-		// set state to trigger loading icon
-		this.setState({
-			nextPageLoaded : false,
-		})
-
-		let currentPostCount = this.state.posts.length;
-		var url = "/api/posts" + (this.props.sort === "popular" ? "/popular/" : "/");
-		fetch(url +"?offset="+currentPostCount, {
-			method: 'GET',
-			credentials: "same-origin",
-			headers : new Headers(),
-			headers: {
-				 "X-CSRFToken": csrftoken,
-				 'Accept': 'application/json',
-				 'Content-Type': 'application/json',
-			},
-		})
-		.then(res => res.json())
-		.then(
-			(result) => {
-				var nextPage = result.results;
-				for (let i = 0; i < nextPage.length; i++) {
-					if (nextPage[i].id < this.state.posts[this.state.posts.length-1].id) {
-						var firstNewPostIndex = i;
-						break;
-					}
-				}
-				this.setState({
-					nextPageLoaded: true,
-					morePosts: result.next !== null,
-					posts: this.state.posts.concat(nextPage.slice(firstNewPostIndex)),
-				});
-			},
-			(error) => {
-				this.setState({
-					nextPageLoaded: true,
-					error
-				});
-			}
-		)
-	}
-
-	// add a new post
-	handlePost(text) {
-		if (text.trim() != ''){
-			fetch("/api/posts/", {
-					method: 'POST',
-					credentials: "same-origin",
-					headers : new Headers(),
-					headers: {
-						 "X-CSRFToken": csrftoken,
-						 'Accept': 'application/json',
-						 'Content-Type': 'application/json',
-					},
-					body:JSON.stringify({
-						"content":text,
-					})
 				})
-			.then(res => res.json())
-			.then(
-				(result) => {
-					this.setState({
-						posts : [result].concat(this.state.posts),
-						newPostCount : this.state.newPostCount + 1,
-						my_posts : [result.id].concat(this.state.my_posts),
-					});
-				},
-				(error) => {
-					alert(error);
-				}
-			)
-		}
+	        }
+	        return response;
+	    })
+		.then(res => res.json())
+		.then(
+			(result) => {
+				this.setState({
+					exists: true,
+					isLoaded: true,
+					post: result,
+				})
+			},
+			(error) => {
+				this.setState({
+					exists: false,
+					isLoaded: true,
+				})
+			}
+		)
 	}
 
-	// delete a post by ID
-	handleDelete(id) {
-		fetch("/api/posts/"+id+"/", {
+	handleDelete() {
+		fetch("/api/posts/"+postid+"/", {
 				method: 'DELETE',
 				credentials: "same-origin",
 				headers : new Headers(),
@@ -1547,184 +1128,53 @@ class PostList extends React.Component {
 		)
 		.then(
 			(result) => {
-				var newposts = this.state.posts.filter(
-					function(post) {
-						return post.id !== id;
-					});
 				this.setState({
-					posts : newposts
-				});
+					deleted: true,
+					exists: false,
+				})
 			}
 		)
 	}
 
-	// set openPostID to be the id of the newly opened post, and scroll new
-	// post into view if necessary when old post collapses
-	handleOpen(id) {
-		this.setState({
-			openPostID: id,
-		});
-	}
-	handleCollapsed(id) {
-		let openNode = this.openPost.current;
-		let domNode = ReactDOM.findDOMNode(openNode).firstChild;
-		if (!this.isElementInViewport(domNode)) {
-			// TODO: doesn't seem to work on android
-			domNode.scrollIntoView({behavior: "smooth"});
-			if(isMobile) {
-				var navHeight = 60;
-				var scrolledY = window.scrollY;
-				if(scrolledY) {
-					setTimeout(window.scroll(0, scrolledY - navHeight), 100);
-				}
-			}
+	renderPostCommentBlock() {
+		if (!this.state.isLoaded) {
+			return (
+				<Spinner />
+			)
+		} else if (this.state.exists) {
+			return (
+				<PostCommentBlock
+					id={this.state.post.id}
+					content={this.state.post.content}
+					votes={this.state.post.net_votes}
+					comment_count={this.state.post.comments.length}
+					comments={this.state.post.comments}
+					date={this.state.post.date_created}
+					isMine={this.state.my_posts.includes(this.state.post.id)}
+					upvoted={this.state.my_upvoted.includes(this.state.post.id)}
+					downvoted={this.state.my_downvoted.includes(this.state.post.id)}
+					my_upvoted_comments={this.state.my_upvoted_comments}
+					my_downvoted_comments={this.state.my_downvoted_comments}
+					my_comments={this.state.my_comments}
+					handleDelete={this.handleDelete}
+				/>
+			)
+		} else if (this.state.deleted) {
+			return (<div className="no-post">Post deleted.</div>)
+		} else {
+			return (<div className="no-post"> Post could not be found! </div>)
 		}
 	}
-
-	render() {
-		return (
-			<div>
-			<PostEntryForm onClick={this.handlePost}/>
-			{
-				this.state.isLoaded
-				? this.state.posts.map((post) =>
-	          		<PostCommentBlock
-						ref={post.id==this.state.openPostID ? this.openPost : null}
-			   			key={post.id}
-						id={post.id}
-	                	content={post.content}
-						votes={post.net_votes}
-						comment_count={post.comments.length}
-						comments={post.comments}
-						date={post.date_created}
-						showing={post.id==this.state.openPostID ? true : false}
-						isMine={this.state.my_posts.includes(post.id)}
-						upvoted={this.state.my_upvoted.includes(post.id)}
-						downvoted={this.state.my_downvoted.includes(post.id)}
-						my_upvoted={this.state.my_upvoted_comments}
-						my_downvoted={this.state.my_downvoted_comments}
-						my_comments={this.state.my_comments}
-						handleDelete={this.handleDelete}
-						handleOpen={this.handleOpen}
-						handleCollapsed={this.handleCollapsed}
-						 />)
-				: null
-	        }
-			{
-				this.state.isLoaded && this.state.nextPageLoaded
-				? <InfiniteScroll
-					morePosts={this.state.morePosts}
-					getNextPage={this.getNextPage} />
-				: <Spinner />
-			}
-			</div>
-		);
-	}
-}
-
-class InfiniteScroll extends React.Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			morePosts : this.props.morePosts,
-		}
-		this.onChange = this.onChange.bind(this);
-	}
-
-	onChange(isVisible) {
-		if (isVisible) {
-			this.props.getNextPage();
-		}
-	}
-
-	render () {
-	  var VisibilitySensor = require('react-visibility-sensor');
-
-	  if (!this.state.morePosts) {
-		  return(
-			  <div className="no-more-posts">
-		  			No more posts!
-				</div>
-			);
-	  }
-
-	  return (
-	    <VisibilitySensor partialVisibility={true} onChange={this.onChange} />
-	  );
-	}
-}
-
-class MainTitle extends React.Component {
-	render() {
-		return (
-				<h3 className="header">TigerTalk</h3>
-		);
-	}
-}
-
-class NavBar extends React.Component {
-	render() {
-		return (
-			<Navbar fixedTop collapseOnSelect fluid>
-			  <Navbar.Header>
-			    <Navbar.Toggle />
-			  </Navbar.Header>
-			  <Navbar.Collapse>
-			  	<Nav pullLeft>
-					<NavItem style={{ fontFamily: 'Quicksand' }} eventKey={1} href="/about">
-						About
-					</NavItem>
-				</Nav>
-				<Navbar.Text>
-					<Navbar.Link href="https://docs.google.com/forms/d/e/1FAIpQLSeO1FP1ghYFiDi2AKrBsEOxu2b_NXowGbxCfrlHXFmm6b1Fug/viewform?usp=pp_url&entry.1782114317"
-					target="_blank" style={{ color: 'black', textDecoration: 'none', fontFamily: 'Quicksand' }}>Feedback</Navbar.Link>
-				</Navbar.Text>
-			    <Nav pullRight>
-					<NavItem eventKey={3} style={{ fontFamily: 'Quicksand' }} href="/accounts/logout">
-					  Logout ({netid})
-					</NavItem>
-			    </Nav>
-			  </Navbar.Collapse>
-			</Navbar>
-		);
-	}
-}
-
-// Parent class which is rendered in the Django template
-class App extends React.Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			recent : true,
-		}
-		this.toggleSort = this.toggleSort.bind(this);
-		// this.handleRefresh = this.handleRefresh.bind(this);
-	}
-
-	toggleSort(sort) {
-		this.setState({
-			recent : sort == "recent" ? true : false,
-		});
-	}
-	// handleRefresh() {
-	// 	let curr = this.state.recent;
-	// }
 
 	render() {
 		return (
 			<div>
 				<NavBar />
 				<MainTitle />
-				<SortBar toggleSort={this.toggleSort} handleRefresh={this.handleRefresh}/>
-				{
-					this.state.recent
-					? <PostList sort="recent" />
-					: <PostList sort="popular" />
-				}
+				{this.renderPostCommentBlock()}
 			</div>
-		);
+		)
 	}
 }
 
 ReactDOM.render(<App />, document.getElementById('root'))
-// ReactDOM.render(<SinglePost />, document.getElementById('root'))

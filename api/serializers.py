@@ -8,7 +8,6 @@ class CommentSerializer(serializers.ModelSerializer):
         model = Comment
         fields = (
             'id',
-            'author', # TODO: anonymize
             'date_created',
             'post',
             'content',
