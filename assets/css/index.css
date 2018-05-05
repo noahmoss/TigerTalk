@@ -107,7 +107,7 @@ div.post:hover #dropdown-size-small{
 
 #dropdown-size-small:hover{
   background-color: var(--post-bg-color);
-  border-color: #a6b6bc;
+  border-color: transparent;
 }
 
 textarea.form-control {
@@ -201,35 +201,25 @@ div.mainBody {
 div.wrapText.media-body {
     /* padding-bottom:10px; */
 }
-#dropdown-size-small {
+/* #dropdown-size-small {
+    background-color: var(--post-bg-color)
     z-index: 100;
     margin: auto;
     vertical-align: top;
     border-color: none;
     padding-top: 0px;
     padding-right: 12px;
-}
+} */
 
 div.bottom.media-body {
     padding-top: 10px;
 }
 
-.dropdown-menu {
-    margin-right: 10px;
-}
 .postDropdown {
     background-color: var(--post-bg-color);
 }
 .commentDropdown {
     background-color: var(--comment-bg-color);
-}
-
-div.no-more-posts {
-    font-family: Quicksand;
-    font-size: 16px;
-    text-align: center;
-    margin-top: 40px;
-    margin-bottom: 50px;
 }
 
 
@@ -293,7 +283,6 @@ div.post2 .glyphicon.glyphicon-comment {
 
 div.post2 #dropdown-size-small{
   background-color: var(--post-click-color);
-  border-color: #b0bec5;
 }
 
 div.post2 .dateString.media-right {
@@ -346,17 +335,123 @@ div.post2.mainBody {
     overflow: visible;
     padding-top:5px;
 }
+
+/* post 3 (for individual post pages) */
+/* Post form */
+div.post3.container-fluid {
+    margin-bottom: 15px;
+    padding-left: 0px;
+    padding-right: 0px;
+}
+div.post3.post-container {
+    margin: auto;
+    max-width: 768px;
+    width: 90%;
+}
+
+div.post3.wrapText.media-body {
+  cursor: default;
+}
+
+div.post3.rip.media {
+  cursor: default;
+}
+
+/* react-bootstrap buttons */
+div.post3.btn {
+    border-radius: 5px;
+
+    background-color: var(--post-bg-color);
+    float: right;
+}
+
+div.post3.mb.media-body{
+   z-index: 3;
+   width: 9000px
+}
+
+div.post3.mb2.media-body{
+  z-index: 4;
+  width: 10500px
+}
+
+div.post3 .glyphicon.glyphicon-comment {
+  color: var(--post-bg-color);
+}
+
+div.post3 #dropdown-size-small{
+  background-color: var(--post-bg-color);
+  border-color: var(--post-bg-color);
+}
+
+div.post3 .dateString.media-right {
+  background-color: var(--post-bg-color);
+}
+
+div.post3.commentNum.media-left{
+    position: relative;
+    top: -3.6px;
+    margin-bottom: 0px;
+}
+div.post3.dateString.media-right{
+    position: relative;
+    top: -3.6px;
+    margin-bottom: 0px;
+    width:6000px;
+    text-align: right;
+    position: relative;
+    right: 10px;
+    background-color: var(--post-bg-color);
+}
+
+div.post3.commentdatestring.media-right{
+    position: relative;
+    top: -3.6px;
+    margin-bottom: 0px;
+    width:10000px;
+    text-align: right;
+    position: relative;
+    right: 10px;
+}
+/**/
+/* Post components */
+div.post3 {
+    font-family: Quicksand;
+    background-color: var(--post-bg-color);
+    border-right: 0.2rem solid var(--post-bg-color);
+    border-left: 0.2rem solid var(--post-bg-color);
+    border-top: 0.1rem solid var(--post-bg-color);
+    border-bottom: 0.1rem solid var(--post-bg-color);
+    margin: auto;
+    margin-top: 10px;
+    white-space: pre-wrap;
+    max-width: 768px;
+    width: 90%;
+    border-color: var(--post-bg-color);
+}
+div.post3.mainBody {
+    z-index: 1;
+    overflow: visible;
+    padding-top:5px;
+}
+
+
+div.postDateString > a {
+    color: black;
+}
+
 #dropdown-size-small {
+    background-color: var(--post-bg-color);
     z-index: 100;
     margin: auto;
     vertical-align: top;
-    border-color: var(--post-bg-color);
+    border-color: transparent;
     padding-top: 0px;
     padding-right: 12px;
+    margin-right: 4px;
 }
-
-.dropdown-menu {
-    margin-right: 10px;
+ul.dropdown-menu.dropdown-menu-right {
+    margin-right: 4px;
 }
 
 div.no-more-posts {
@@ -365,6 +460,11 @@ div.no-more-posts {
     text-align: center;
     margin-top: 40px;
     margin-bottom: 50px;
+}
+div.no-post {
+    font-family: Quicksand;
+    font-size: 20px;
+    text-align: center;
 }
 
 .replyContainer {
@@ -639,12 +739,12 @@ span.seemore {
 
 .wrapText {
     white-space: pre-wrap;
-    word-break:break-all;
+    word-break:break-word;
 }
 
 .wrapTextComment {
     white-space: pre-wrap;
-    word-break:break-all;
+    word-break:break-word;
 }
 
 .replyBody {

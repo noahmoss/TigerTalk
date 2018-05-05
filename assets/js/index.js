@@ -6,6 +6,7 @@ import { ToggleButton, ButtonToolbar, ToggleButtonGroup, DropdownButton, MenuIte
 import { FormGroup, ControlLabel, FormControl, Button, Collapse } from 'react-bootstrap';
 import { Media } from 'react-bootstrap';
 import { isMobile } from 'react-device-detect';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 
 // Buttons for sorting posts by recent or popular
 class SortBar extends React.Component {
@@ -187,23 +188,6 @@ class Comment extends React.Component{
 			});
 		}
 	}
-
-
-	// componentDidMount() {
-	// 	this.setState({
-	// 		upvoted: this.props.upvoted,
-	// 		downvoted: this.props.downvoted,
-	// 	})
-	// }
-
-	// componentDidUpdate(prevProps, prevState) {
-	// 	if (this.props.upvoted != this.state.upvoted || this.props.downvoted != this.props.downvoted) {
-	// 		this.setState({
-	// 			upvoted: this.props.upvoted,
-	// 			downvoted: this.props.downvoted,
-	// 		})
-	// 	}
-	// }
 
 	// TODO: think about error handling - i.e. behavior when no server connection
 	sendVoteToServer(tag) {
@@ -396,7 +380,7 @@ class Comment extends React.Component{
 			    	<Media.Body className="commentBody" onClick={this.props.onClick}>
 			    	</Media.Body>
 			    	<Media.Right className="dateString">
-			    		{date_string}
+						{date_string}
 			    	</Media.Right>
 			  	</Media>
 			  	</div>
@@ -513,8 +497,6 @@ class CommentBlock extends React.Component {
 	}
 
 	silentRefreshComments() {
-		this.getUserData();
-
 		fetch("/api/posts/"+this.props.id+"/comments/", {
 			method: 'GET',
 			credentials: "same-origin",
@@ -737,6 +719,7 @@ class Post extends React.Component{
 		this.handleDownvoteUnclick = this.handleDownvoteUnclick.bind(this);
 		this.handleExpand = this.handleExpand.bind(this);
 		this.cutoffContent = this.cutoffContent.bind(this);
+		this.handleDateClick = this.handleDateClick.bind(this);
 		this.state = {
 			upvoted: this.props.upvoted,
 			downvoted: this.props.downvoted,
@@ -892,7 +875,9 @@ class Post extends React.Component{
 		);
 	}
 
-
+	handleDateClick(e) {
+		e.stopPropagation();
+	}
 
 	render () {
 		let date_string = timestamp(this.props.date);
@@ -931,6 +916,11 @@ class Post extends React.Component{
 					   open={this.state.menuOpen}
 					   onToggle={val => this.dropdownToggle(val)}
 					   >
+
+					   <CopyToClipboard text={"https://www.princetontigertalk.herokuapp.com/post/"+this.props.id+"/"}>
+					   <MenuItem pullRight>Copy link</MenuItem>
+					   </CopyToClipboard>
+
 					   { this.props.isMine
 					   		? <MenuItem onClick={this.props.handleDelete}>Delete</MenuItem>
 							: (this.state.reported
@@ -956,7 +946,7 @@ class Post extends React.Component{
 				    </Media.Right>
 			    </Media.Body>
 			    <Media.Right onClick={this.props.onClick} className = "postDateString">
-			    	{date_string}
+					<a className="dateString" href={"/post/"+this.props.id+"/"} onClick={this.handleDateClick}>{date_string}</a>
 			    </Media.Right>
 			  </Media>
 		  </div>
