@@ -1571,10 +1571,12 @@ class PostList extends React.Component {
 		if (!this.isElementInViewport(domNode)) {
 			// TODO: doesn't seem to work on android
 			domNode.scrollIntoView({behavior: "smooth"});
-			var navHeight = 60;
-			var scrolledY = window.scrollY;
-			if(scrolledY) {
-				setTimeout(window.scroll(0, scrolledY - navHeight), 100);
+			if(isMobile) {
+				var navHeight = 60;
+				var scrolledY = window.scrollY;
+				if(scrolledY) {
+					setTimeout(window.scroll(0, scrolledY - navHeight), 100);
+				}
 			}
 		}
 	}
