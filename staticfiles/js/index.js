@@ -946,7 +946,7 @@ class Post extends React.Component{
 				    </Media.Right>
 			    </Media.Body>
 			    <Media.Right onClick={this.props.onClick} className = "postDateString">
-					<a className="dateString" href={"/post/"+this.props.id+"/"} onClick={this.handleDateClick}>{date_string}</a>
+					<a className="dateString" target="_blank" href={"/post/"+this.props.id+"/"} onClick={this.handleDateClick}>{date_string}</a>
 			    </Media.Right>
 			  </Media>
 		  </div>
@@ -1571,12 +1571,10 @@ class PostList extends React.Component {
 		if (!this.isElementInViewport(domNode)) {
 			// TODO: doesn't seem to work on android
 			domNode.scrollIntoView({behavior: "smooth"});
-			if(isMobile) {
-				var navHeight = 60;
-				var scrolledY = window.scrollY;
-				if(scrolledY) {
-					setTimeout(window.scroll(0, scrolledY - navHeight), 100);
-				}
+			var navHeight = 60;
+			var scrolledY = window.scrollY;
+			if(scrolledY) {
+				setTimeout(window.scroll(0, scrolledY - navHeight), 100);
 			}
 		}
 	}
