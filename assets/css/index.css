@@ -43,8 +43,8 @@ button.navbar-toggle {
     background-color: transparent;
 }
 nav.navbar.navbar-default.navbar-fixed-top {
-	padding-left: 5%;
-	padding-right: 5%;
+	padding-left: 10px;
+	padding-right: 10px;
 }
 
 /* Main header (TigerTalk) */
