@@ -35,11 +35,14 @@ body {
 .navbar .nav > li > a:focus {
     color: var(--nav-text-color);
 }
-ul.nav.navbar-nav.navbar-right {
-    margin-right: 0px;
-}
+
 button.navbar-toggle.collapsed {
-    margin-right: 30px;
+    
+}
+
+nav.navbar.navbar-default.navbar-fixed-top {
+	padding-left: 5%;
+	padding-right: 5%;
 }
 
 /* Main header (TigerTalk) */
@@ -771,3 +774,4 @@ div.btn-toolbar {
 button#post.btn.btn-default {
   font-family: Quicksand, serif;
 }
+
