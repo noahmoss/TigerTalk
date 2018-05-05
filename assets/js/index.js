@@ -946,7 +946,7 @@ class Post extends React.Component{
 				    </Media.Right>
 			    </Media.Body>
 			    <Media.Right onClick={this.props.onClick} className = "postDateString">
-					<a className="dateString" href={"/post/"+this.props.id+"/"} onClick={this.handleDateClick}>{date_string}</a>
+					<a className="dateString" target="_blank" href={"/post/"+this.props.id+"/"} onClick={this.handleDateClick}>{date_string}</a>
 			    </Media.Right>
 			  </Media>
 		  </div>
