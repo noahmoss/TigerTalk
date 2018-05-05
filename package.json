@@ -4,7 +4,7 @@
   "description": "Q&A and discussion platform for Princeton students",
   "main": "index.js",
   "scripts": {
-    "postinstall": "python manage.py collecstatic; node_modules/.bin/webpack --config webpack.config.js",
+    "postinstall": "node_modules/.bin/webpack --config webpack.config.js",
   },
   "repository": {
     "type": "git",
