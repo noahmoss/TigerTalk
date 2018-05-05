@@ -36,16 +36,24 @@ h4 {
 	font-family: Quicksand;
 	font-size: 100%;
 	padding-top: 10px;
-	margin-left: auto;
-	margin-right: auto;
+	margin-left: 5%;
+	margin-right: 5%;
 }
 
 .aboutText2 {
 	font-family: Quicksand;
 	font-size: 100%;
 	padding-top: 0px;
-	margin-left: auto;
-	margin-right: auto;
+	margin-left: 5%;
+	margin-right: 5%;
+}
+
+.privacyText {
+	font-family: Quicksand;
+	font-size: 100%;
+	padding-top: 15px;
+	margin-left: 5%;
+	margin-right: 5%;
 }
 
 img {
