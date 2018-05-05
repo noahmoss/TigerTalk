@@ -51,9 +51,23 @@ h4 {
 .privacyText {
 	font-family: Quicksand;
 	font-size: 100%;
-	padding-top: 15px;
+	padding-top: 0px;
 	margin-left: 5%;
 	margin-right: 5%;
+}
+
+.images {
+	float: left;
+	width: 25%;
+	padding-right: 2%;
+	padding-right: 2%;
+}
+
+.caption {
+	padding-top: 5px;
+	font-size: 120%;
+	text-align: center;
+	font-family: Quicksand;
 }
 
 img {
@@ -61,5 +75,7 @@ img {
 }
 
 div.team {
-    margin: auto;
+	padding-top: 20px;
+    margin-left: 3%;
+    margin-right: 1%;
 }
