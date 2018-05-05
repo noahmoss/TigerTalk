@@ -50,17 +50,38 @@ class PostCommentList(generics.ListCreateAPIView):
         return queryset.filter(post=self.kwargs.get('pk'))
 
     def perform_create(self, serializer):
-        serializer.save(author=self.request.user)
+        post = Post.objects.get(id=self.kwargs.get('pk'))
+        post_author = post.author.id
+        comments = Comment.objects.filter(post=self.kwargs.get('pk'))
+        curr_author = self.request.user.id
+        serializer = CommentSerializer(data=self.request.data)
+
+        # see if this author matches a previous commenter
+        is_new = True
+        curr_id = 100
+        if curr_author == post_author:
+            curr_id = 0
+            is_new = False
+        else:
+            for comment in comments:
+                if comment.author.id == curr_author:
+                    curr_id = comment.anon_author
+                    is_new = False
+                    break
+        if is_new:
+            curr_id = post.next_new_commenter
+            post.next_new_commenter += 1
+            post.save()
+
+        if serializer.is_valid():
+            serializer.save(author=self.request.user, anon_author=curr_id)
 
 # list of all comments
 # methods: GET, POST
-class CommentList(generics.ListCreateAPIView):
+class CommentList(generics.ListAPIView):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
     permission_classes = (permissions.IsAuthenticated,)
-
-    def perform_create(self, serializer):
-        serializer.save(author=self.request.user)
 
 # detail for a single comment
 # use PUT to overwrite comment rather than deleting (TODO)

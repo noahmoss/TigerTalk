@@ -5,7 +5,7 @@ import { Navbar, Nav, NavItem } from 'react-bootstrap';
 import { ToggleButton, ButtonToolbar, ToggleButtonGroup, DropdownButton, MenuItem, SplitButton } from 'react-bootstrap';
 import { FormGroup, ControlLabel, FormControl, Button, Collapse } from 'react-bootstrap';
 import { Media } from 'react-bootstrap';
-import { isMobile } from 'react-device-detect';
+import { isMobile, isChrome, isSafari, isFirefox } from 'react-device-detect';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 
 // Buttons for sorting posts by recent or popular
@@ -545,7 +545,7 @@ class CommentBlock extends React.Component {
 	handleComment(text) {
 		this.silentRefreshComments();
 		if (text.trim() != ''){
-			fetch("/api/comments/", {
+			fetch("/api/posts/"+this.props.id+"/comments/", {
 					method: 'POST',
 					credentials: "same-origin",
 					headers : new Headers(),
@@ -917,8 +917,8 @@ class Post extends React.Component{
 					   onToggle={val => this.dropdownToggle(val)}
 					   >
 
-					   <CopyToClipboard text={"https://www.princetontigertalk.herokuapp.com/post/"+this.props.id+"/"}>
-					   <MenuItem pullRight>Copy link</MenuItem>
+					   <CopyToClipboard text={"https://princetontigertalk.herokuapp.com/post/"+this.props.id+"/"}>
+					   <MenuItem >Copy link</MenuItem>
 					   </CopyToClipboard>
 
 					   { this.props.isMine
@@ -1565,16 +1565,27 @@ class PostList extends React.Component {
 			openPostID: id,
 		});
 	}
+	// TODO: debug based on browser
 	handleCollapsed(id) {
 		let openNode = this.openPost.current;
 		let domNode = ReactDOM.findDOMNode(openNode).firstChild;
 		if (!this.isElementInViewport(domNode)) {
 			// TODO: doesn't seem to work on android
 			domNode.scrollIntoView({behavior: "smooth"});
-			var navHeight = 60;
-			var scrolledY = window.scrollY;
-			if(scrolledY) {
-				setTimeout(window.scroll(0, scrolledY - navHeight), 100);
+
+			if (isSafari) {
+				var navHeight = 60;
+				var scrolledY = window.scrollY;
+				if(scrolledY) {
+					setTimeout(window.scroll(0, scrolledY - navHeight,{behavior: "smooth"}), 100);
+				}
+			}
+			if (isFirefox) {
+				var navHeight = 200;
+				var scrolledY = window.scrollY;
+				if(scrolledY) {
+					setTimeout(window.scroll(0, scrolledY - navHeight,{behavior: "smooth"}), 100);
+				}
 			}
 		}
 	}

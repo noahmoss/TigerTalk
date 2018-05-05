@@ -36,10 +36,12 @@ body {
     color: var(--nav-text-color);
 }
 
-button.navbar-toggle.collapsed {
-    
+button.navbar-toggle {
+    background-color: transparent;
 }
-
+.navbar-default .navbar-toggle:focus, .navbar-default .navbar-toggle:hover {
+    background-color: transparent;
+}
 nav.navbar.navbar-default.navbar-fixed-top {
 	padding-left: 5%;
 	padding-right: 5%;
@@ -774,4 +776,3 @@ div.btn-toolbar {
 button#post.btn.btn-default {
   font-family: Quicksand, serif;
 }
-

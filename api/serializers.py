@@ -9,6 +9,7 @@ class CommentSerializer(serializers.ModelSerializer):
         fields = (
             'id',
             'date_created',
+            'anon_author',
             'post',
             'content',
             'net_votes',

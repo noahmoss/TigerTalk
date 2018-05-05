@@ -504,7 +504,7 @@ class CommentBlock extends React.Component {
 	handleComment(text) {
 		this.silentRefreshComments();
 		if (text.trim() != ''){
-			fetch("/api/comments/", {
+			fetch("/api/posts/"+this.props.id+"/comments/", {
 					method: 'POST',
 					credentials: "same-origin",
 					headers : new Headers(),
