@@ -2,7 +2,7 @@ from api.models import Post, Comment
 from api.serializers import PostSerializer, CommentSerializer, UserSerializer
 from api.permissions import IsAuthorOrReadOnly, IsUser
 from django.contrib.auth import get_user_model
-from rest_framework import generics, permissions
+from rest_framework import generics, permissions, status
 from rest_framework.response import Response
 from django.shortcuts import render_to_response
 from django.template import RequestContext
@@ -49,7 +49,7 @@ class PostCommentList(generics.ListCreateAPIView):
         queryset = super(PostCommentList, self).get_queryset()
         return queryset.filter(post=self.kwargs.get('pk'))
 
-    def perform_create(self, serializer):
+    def create(self, request, *args, **kwargs):
         post = Post.objects.get(id=self.kwargs.get('pk'))
         post_author = post.author.id
         comments = Comment.objects.filter(post=self.kwargs.get('pk'))
@@ -73,8 +73,41 @@ class PostCommentList(generics.ListCreateAPIView):
             post.next_new_commenter += 1
             post.save()
 
-        if serializer.is_valid():
-            serializer.save(author=self.request.user, anon_author=curr_id)
+        serializer.is_valid()
+        comment = serializer.save(author=self.request.user, anon_author=curr_id)
+
+        headers = self.get_success_headers(serializer.data)
+        return Response({"post" : post.id, "date_created" : timezone.now(), "anon_author" : curr_id, "id": comment.id },
+                        status=status.HTTP_201_CREATED, headers=headers)
+
+    # def perform_create(self, serializer):
+        # post = Post.objects.get(id=self.kwargs.get('pk'))
+        # post_author = post.author.id
+        # comments = Comment.objects.filter(post=self.kwargs.get('pk'))
+        # curr_author = self.request.user.id
+        # serializer = CommentSerializer(data=self.request.data)
+        #
+        # # see if this author matches a previous commenter
+        # is_new = True
+        # curr_id = 100
+        # if curr_author == post_author:
+        #     curr_id = 0
+        #     is_new = False
+        # else:
+        #     for comment in comments:
+        #         if comment.author.id == curr_author:
+        #             curr_id = comment.anon_author
+        #             is_new = False
+        #             break
+        # if is_new:
+        #     curr_id = post.next_new_commenter
+        #     post.next_new_commenter += 1
+        #     post.save()
+        #
+        # if serializer.is_valid():
+        #     serializer.save(author=self.request.user, anon_author=curr_id)
+        #
+        # return Response({"post" : post.id, "date_created" : timezone.now(), "anon_author" : curr_id})
 
 # list of all comments
 # methods: GET, POST
@@ -84,12 +117,27 @@ class CommentList(generics.ListAPIView):
     permission_classes = (permissions.IsAuthenticated,)
 
 # detail for a single comment
-# use PUT to overwrite comment rather than deleting (TODO)
 # methods: GET, PUT
-class CommentDetail(generics.RetrieveDestroyAPIView):
+class CommentDetail(generics.RetrieveAPIView):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
     permission_classes = (permissions.IsAuthenticated,)
+
+class CommentRemove(generics.ListAPIView):
+        queryset = Comment.objects.all()
+        serializer_class = CommentSerializer
+        permission_classes = (permissions.IsAuthenticated,)
+
+        def list(self, request, pk):
+            user = request.user
+            comment = Comment.objects.get(id=self.kwargs.get('pk'))
+            if user.id != comment.author.id:
+                return Response(status=status.HTTP_401_UNAUTHORIZED)
+
+            comment.content = "[removed]"
+            comment.deleted = True
+            comment.save()
+            return Response({"content":comment.content}, status=status.HTTP_202_ACCEPTED)
 
 # upvote a post based on pk
 # methods: GET
@@ -187,22 +235,8 @@ class CommentReport(generics.ListAPIView):
         comment.save()
         return Response({"reported" : comment.reported})
 
-# list of all users (only available to admins; for debugging purposes)
-# TODO: remove in production
-class UserList(generics.ListAPIView):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
-    permission_classes = (permissions.IsAdminUser,)
-
 # details of single user
 class UserDetail(generics.RetrieveAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_classes = (permissions.IsAuthenticated, IsUser,)
-
-# custom 404 handler
-# def handler404(request):
-#     response = render_to_response('404.html', {},
-#                                   context_instance=RequestContext(request))
-#     response.status_code = 404
-#     return response
