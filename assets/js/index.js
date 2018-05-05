@@ -951,7 +951,7 @@ class Post extends React.Component{
 			  </Media>
 		  </div>
 		);
-	}
+	} 
 }
 
 // A post and its associated comments
