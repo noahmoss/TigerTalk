@@ -134,7 +134,7 @@ class CommentRemove(generics.ListAPIView):
             if user.id != comment.author.id:
                 return Response(status=status.HTTP_401_UNAUTHORIZED)
 
-            comment.content = "[removed]"
+            comment.content = "[deleted]"
             comment.deleted = True
             comment.save()
             return Response({"content":comment.content}, status=status.HTTP_202_ACCEPTED)

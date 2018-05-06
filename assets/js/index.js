@@ -279,7 +279,7 @@ class Comment extends React.Component{
 		this.props.handleDelete(this.props.id);
 		this.setState({
 			deleted: true,
-			content: "[removed]",
+			content: "[deleted]",
 		})
 	}
 
