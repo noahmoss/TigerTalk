@@ -985,6 +985,7 @@ class Post extends React.Component{
 				      {this.props.comment_count}
 				    </Media.Left>
 				    <Media.Right>
+				    	username
 				    </Media.Right>
 			    </Media.Body>
 			    <Media.Right onClick={this.props.onClick} className = "postDateString">
