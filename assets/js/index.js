@@ -984,9 +984,6 @@ class Post extends React.Component{
 				    <Media.Left className = "commentNum">
 				      {this.props.comment_count}
 				    </Media.Left>
-				    <Media.Right>
-				    	username
-				    </Media.Right>
 			    </Media.Body>
 			    <Media.Right onClick={this.props.onClick} className = "postDateString">
 					<a className="dateString" target="_blank" href={"/post/"+this.props.id+"/"} onClick={this.handleDateClick}>{date_string}</a>
