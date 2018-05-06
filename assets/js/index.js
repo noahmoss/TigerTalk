@@ -385,10 +385,10 @@ class Comment extends React.Component{
 				<div className="iconFirstColumn">
 				</div>
 				</Media.Left>
-				<Media.Body className="commentBody" onClick={this.props.onClick}>
-					{this.props.author_id}
+				<Media.Body className="commentBody" onClick={this.props.onClick} style={{color:"#696969"}}>
+					{"― @" + this.props.author_id}
 				</Media.Body>
-				<Media.Right className="dateString">
+				<Media.Right className="dateString" style={{color:"#696969"}}>
 					{date_string}
 				</Media.Right>
 			</div>
@@ -647,7 +647,7 @@ class CommentBlock extends React.Component {
 				{ this.state.comments.map((comment) => (
 						<Comment
 							content={comment.content}
-							author_id={comment.anon_author == 0 ? 'OP' : '@ '+comment.anon_author}
+							author_id={comment.anon_author == 0 ? 'OP' : comment.anon_author}
 							key={"comment" + comment.id}
 							id={comment.id}
 							votes={comment.net_votes}
@@ -985,11 +985,13 @@ class Post extends React.Component{
 				      {this.props.comment_count}
 				    </Media.Left>
 				    <Media.Right>
-				    	username
 				    </Media.Right>
 			    </Media.Body>
 			    <Media.Right onClick={this.props.onClick} className = "postDateString">
-					<a className="dateString" target="_blank" href={"/post/"+this.props.id+"/"} onClick={this.handleDateClick}>{date_string}</a>
+					<a className="dateString" target="_blank"
+						href={"/post/"+this.props.id+"/"}
+						onClick={this.handleDateClick}
+						style={{color:"#696969"}}>{date_string}</a>
 			    </Media.Right>
 			  </Media>
 		  </div>
