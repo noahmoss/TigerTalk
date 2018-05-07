@@ -5,7 +5,7 @@ import { Navbar, Nav, NavItem } from 'react-bootstrap';
 import { ToggleButton, ButtonToolbar, ToggleButtonGroup, DropdownButton, MenuItem, SplitButton } from 'react-bootstrap';
 import { FormGroup, ControlLabel, FormControl, Button, Collapse } from 'react-bootstrap';
 import { Media } from 'react-bootstrap';
-import { isMobile } from 'react-device-detect';
+import { isMobile, isChrome, isSafari, isFirefox } from 'react-device-detect';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 
 // Buttons for sorting posts by recent or popular
@@ -170,6 +170,7 @@ class Comment extends React.Component{
 		this.handleExpand = this.handleExpand.bind(this);
 		this.cutoffContent = this.cutoffContent.bind(this);
 		this.state = {
+			content: this.props.content,
 			upvoted: this.props.upvoted,
 			downvoted: this.props.downvoted,
 			votes: this.props.votes,
@@ -177,6 +178,7 @@ class Comment extends React.Component{
 							|| this.props.content.split(/\r\n|\r|\n/).length > 3),
 			expanded: false, // if the comment needs expansion, is it expanded?
 			reported: false,
+			deleted: this.props.deleted,
 		};
 	}
 
@@ -186,6 +188,12 @@ class Comment extends React.Component{
 				upvoted: nextProps.upvoted,
 				downvoted: nextProps.downvoted,
 			});
+		}
+		if(this.props.deleted != nextProps.deleted) {
+			this.setState({
+				deleted: nextProps.deleted,
+				content: nextProps.content,
+			})
 		}
 	}
 
@@ -269,6 +277,10 @@ class Comment extends React.Component{
 
 	handleDelete() {
 		this.props.handleDelete(this.props.id);
+		this.setState({
+			deleted: true,
+			content: "[deleted]",
+		})
 	}
 
 	handleExpand(e) {
@@ -329,61 +341,79 @@ class Comment extends React.Component{
 			    : content
 		);
 	}
-
-	render() {
+	renderVotes() {
+		return(
+			<div className="arrowBox">
+				{
+					this.state.upvoted
+					? <Chevron_up_clicked onClick={this.handleUpvoteUnclick}/>
+					: <Chevron_up onClick={this.handleUpvoteClick}/>
+				}
+	    		{this.state.votes}
+				{
+					this.state.downvoted
+					? <Chevron_down_clicked onClick={this.handleDownvoteUnclick}/>
+					: <Chevron_down onClick={this.handleDownvoteClick}/>
+				}
+			</div>
+		);
+	}
+	renderDropdown() {
+		return(
+			<DropdownButton pullRight
+				className="commentDropdown"
+				bsSize="small"
+				title=""
+				id="dropdown-size-small"
+				open={this.state.menuOpen}
+				onToggle={val => this.dropdownToggle(val)}
+			>
+				{ this.props.isMine
+					? <MenuItem onClick={this.handleDelete}>Delete</MenuItem>
+					: (this.state.reported
+						? <MenuItem>Reported ✔</MenuItem>
+						: <MenuItem onClick={() => this.menuItemClickedThatShouldntCloseDropdown()}>Report</MenuItem>)
+				}
+			</DropdownButton>
+		);
+	}
+	renderIconline() {
 		let date_string = timestamp(this.props.date);
+		return(
+			<div>
+				<Media.Left>
+				<div className="iconFirstColumn">
+				</div>
+				</Media.Left>
+				<Media.Body className="commentBody" onClick={this.props.onClick}>
+					{this.props.author_id}
+				</Media.Body>
+				<Media.Right className="dateString">
+					{date_string}
+				</Media.Right>
+			</div>
+		);
+	}
+	render() {
 		return (
 				<div className="replyContainer">
 				<div className="replyBody">
 				<Media>
 				    <Media.Left>
-				    <div className="arrowBox">
-								{
-									this.state.upvoted
-									? <Chevron_up_clicked onClick={this.handleUpvoteUnclick}/>
-									: <Chevron_up onClick={this.handleUpvoteClick}/>
-								}
-					    		{this.state.votes}
-								{
-									this.state.downvoted
-									? <Chevron_down_clicked onClick={this.handleDownvoteUnclick}/>
-									: <Chevron_down onClick={this.handleDownvoteClick}/>
-								}
-					</div>
+						{!this.state.deleted ? this.renderVotes() : null}
 				    </Media.Left>
 				    <Media.Body className="wrapTextComment" onClick={this.props.onClick}>
-								{this.renderContent()}
+						{!this.state.deleted ? this.renderContent()
+										     : (<div className="deletedText">{this.state.content}</div>)}
 				   	</Media.Body>
 				   	<Media.Right className="dropdown-container">
-							<DropdownButton pullRight
-								className="commentDropdown"
-					   			bsSize="small"
-					   			title=""
-					   			id="dropdown-size-small"
-								open={this.state.menuOpen}
-								onToggle={val => this.dropdownToggle(val)}
-					   		>
-								{ this.props.isMine
-									? <MenuItem onClick={this.handleDelete}>Delete</MenuItem>
-									: (this.state.reported
-										? <MenuItem>Reported ✔</MenuItem>
-										: <MenuItem onClick={() => this.menuItemClickedThatShouldntCloseDropdown()}>Report</MenuItem>)
-		 				   		}
-							</DropdownButton>
+						{!this.state.deleted ? this.renderDropdown() : null}
 				   	</Media.Right>
 				</Media>
-				<Media className="replyIconLine">
-					<Media.Left>
-			      	<div className="iconFirstColumn">
-				  	</div>
-			    	</Media.Left>
-			    	<Media.Body className="commentBody" onClick={this.props.onClick}>
-			    	</Media.Body>
-			    	<Media.Right className="dateString">
-						{date_string}
-			    	</Media.Right>
-			  	</Media>
 			  	</div>
+					<Media className="replyIconLine">
+						{!this.state.deleted ? this.renderIconline() : null}
+					</Media>
 			  	</div>
 		);
 	}
@@ -543,9 +573,9 @@ class CommentBlock extends React.Component {
 
 	// add a new comment
 	handleComment(text) {
-		this.silentRefreshComments();
+		// this.silentRefreshComments();
 		if (text.trim() != ''){
-			fetch("/api/comments/", {
+			fetch("/api/posts/"+this.props.id+"/comments/", {
 					method: 'POST',
 					credentials: "same-origin",
 					headers : new Headers(),
@@ -562,10 +592,13 @@ class CommentBlock extends React.Component {
 			.then(res => res.json())
 			.then(
 				(result) => {
+					result.content = text;
+					result.net_votes = 0;
 					this.setState({
 						comments: this.state.comments.concat([result]),
 						my_comments: this.state.my_comments.concat(result.id),
 					});
+					this.props.handleComment(this.props.id);
 				},
 				(error) => {
 					alert(error);
@@ -576,8 +609,8 @@ class CommentBlock extends React.Component {
 
 	// delete a comment by ID
 	handleDelete(id) {
-		fetch("/api/comments/"+id+"/", {
-				method: 'DELETE',
+		fetch("/api/comments/"+id+"/del/", {
+				method: 'GET',
 				credentials: "same-origin",
 				headers : new Headers(),
 				headers: {
@@ -589,14 +622,21 @@ class CommentBlock extends React.Component {
 		)
 		.then(
 			(result) => {
-				var newcomments = this.state.comments.filter(
-					function(comment) {
-						return comment.id !== id;
-					});
+				// var newcomments = this.state.comments.filter(
+				// 	function(comment) {
+				// 		return comment.id !== id;
+				// 	});
+				var newcomments = this.state.comments;
+				for (let i = 0; i < newcomments.length; i++) {
+					if (newcomments[i].id == id) {
+						newcomments[i].content = result.content;
+						break;
+					}
+				}
 				this.setState({
 					comments : newcomments
 				});
-				this.props.handleCommentDelete(id);
+				// this.props.handleCommentDelete(id);
 			}
 		)
 	}
@@ -607,13 +647,15 @@ class CommentBlock extends React.Component {
 				{ this.state.comments.map((comment) => (
 						<Comment
 							content={comment.content}
-							key={comment.id}
+							author_id={comment.anon_author == 0 ? 'OP' : '@ '+comment.anon_author}
+							key={"comment" + comment.id}
 							id={comment.id}
 							votes={comment.net_votes}
 							date={comment.date_created}
 							isMine={this.state.my_comments.includes(comment.id)}
 							upvoted={this.state.my_upvoted.includes(comment.id)}
 							downvoted={this.state.my_downvoted.includes(comment.id)}
+							deleted={comment.deleted}
 							handleDelete={this.handleDelete}
 						/>)
 					)
@@ -917,8 +959,8 @@ class Post extends React.Component{
 					   onToggle={val => this.dropdownToggle(val)}
 					   >
 
-					   <CopyToClipboard text={"https://www.princetontigertalk.herokuapp.com/post/"+this.props.id+"/"}>
-					   <MenuItem pullRight>Copy link</MenuItem>
+					   <CopyToClipboard text={"https://princetontigertalk.herokuapp.com/post/"+this.props.id+"/"}>
+					   <MenuItem >Copy link</MenuItem>
 					   </CopyToClipboard>
 
 					   { this.props.isMine
@@ -942,8 +984,6 @@ class Post extends React.Component{
 				    <Media.Left className = "commentNum">
 				      {this.props.comment_count}
 				    </Media.Left>
-				    <Media.Right>
-				    </Media.Right>
 			    </Media.Body>
 			    <Media.Right onClick={this.props.onClick} className = "postDateString">
 					<a className="dateString" target="_blank" href={"/post/"+this.props.id+"/"} onClick={this.handleDateClick}>{date_string}</a>
@@ -961,7 +1001,7 @@ class PostCommentBlock extends React.Component {
 		this.handleClick = this.handleClick.bind(this);
 		this.handleDelete = this.handleDelete.bind(this);
 		this.handleComment = this.handleComment.bind(this);
-		this.handleCommentDelete = this.handleCommentDelete.bind(this);
+		// this.handleCommentDelete = this.handleCommentDelete.bind(this);
 		this.refreshComments = this.refreshComments.bind(this);
 		this.loadNewComments = this.loadNewComments.bind(this);
 		this.toggleRefresh = this.toggleRefresh.bind(this);
@@ -1152,19 +1192,19 @@ class PostCommentBlock extends React.Component {
 			my_comments: newMyComments,
 		})
 	}
-	handleCommentDelete(id) {
-		var commentsWithoutDeleted = this.state.comments;
-		for (let i = 0; i < this.state.comments.length; i++) {
-			if (this.state.comments[i].id == id) {
-				commentsWithoutDeleted.splice(i, 1);
-				break;
-			}
-		}
-		this.setState({
-			comments: commentsWithoutDeleted,
-			comment_count: this.state.comment_count - 1,
-		})
-	}
+	// handleCommentDelete(id) {
+	// 	var commentsWithoutDeleted = this.state.comments;
+	// 	for (let i = 0; i < this.state.comments.length; i++) {
+	// 		if (this.state.comments[i].id == id) {
+	// 			commentsWithoutDeleted.splice(i, 1);
+	// 			break;
+	// 		}
+	// 	}
+	// 	this.setState({
+	// 		comments: commentsWithoutDeleted,
+	// 		comment_count: this.state.comment_count - 1,
+	// 	})
+	// }
 
 	handleColorClick() {
 		this.setState({
@@ -1179,7 +1219,7 @@ class PostCommentBlock extends React.Component {
 							my_upvoted={this.state.my_upvoted}
 							my_downvoted={this.state.my_downvoted}
 							handleComment={this.handleComment}
-							handleCommentDelete={this.handleCommentDelete}/>
+						/>
 			);
 	}
 	render() {
@@ -1565,16 +1605,27 @@ class PostList extends React.Component {
 			openPostID: id,
 		});
 	}
+	// TODO: debug based on browser
 	handleCollapsed(id) {
 		let openNode = this.openPost.current;
 		let domNode = ReactDOM.findDOMNode(openNode).firstChild;
 		if (!this.isElementInViewport(domNode)) {
 			// TODO: doesn't seem to work on android
 			domNode.scrollIntoView({behavior: "smooth"});
-			var navHeight = 60;
-			var scrolledY = window.scrollY;
-			if(scrolledY) {
-				setTimeout(window.scroll(0, scrolledY - navHeight), 100);
+
+			if (isSafari) {
+				var navHeight = 60;
+				var scrolledY = window.scrollY;
+				if(scrolledY) {
+					setTimeout(window.scroll(0, scrolledY - navHeight,{behavior: "smooth"}), 100);
+				}
+			}
+			if (isFirefox) {
+				var navHeight = 200;
+				var scrolledY = window.scrollY;
+				if(scrolledY) {
+					setTimeout(window.scroll(0, scrolledY - navHeight,{behavior: "smooth"}), 100);
+				}
 			}
 		}
 	}
@@ -1588,7 +1639,7 @@ class PostList extends React.Component {
 				? this.state.posts.map((post) =>
 	          		<PostCommentBlock
 						ref={post.id==this.state.openPostID ? this.openPost : null}
-			   			key={post.id}
+			   			key={"post"+ post.id}
 						id={post.id}
 	                	content={post.content}
 						votes={post.net_votes}
@@ -1669,16 +1720,16 @@ class NavBar extends React.Component {
 			  </Navbar.Header>
 			  <Navbar.Collapse>
 			  	<Nav pullLeft>
-					<NavItem style={{ fontFamily: 'Quicksand' }} eventKey={1} href="/about">
+					<NavItem style={{ fontFamily: 'Quicksand' }} href="/about">
 						About
 					</NavItem>
+					<NavItem href="https://docs.google.com/forms/d/e/1FAIpQLSeO1FP1ghYFiDi2AKrBsEOxu2b_NXowGbxCfrlHXFmm6b1Fug/viewform?usp=pp_url&entry.1782114317"
+					target="_blank" style={{ fontFamily: 'Quicksand' }} >
+						Feedback
+					</NavItem>
 				</Nav>
-				<Navbar.Text>
-					<Navbar.Link href="https://docs.google.com/forms/d/e/1FAIpQLSeO1FP1ghYFiDi2AKrBsEOxu2b_NXowGbxCfrlHXFmm6b1Fug/viewform?usp=pp_url&entry.1782114317"
-					target="_blank" style={{ color: 'black', textDecoration: 'none', fontFamily: 'Quicksand' }}>Feedback</Navbar.Link>
-				</Navbar.Text>
 			    <Nav pullRight>
-					<NavItem eventKey={3} style={{ fontFamily: 'Quicksand' }} href="/accounts/logout">
+					<NavItem style={{ fontFamily: 'Quicksand' }} href="/accounts/logout">
 					  Logout ({netid})
 					</NavItem>
 			    </Nav>

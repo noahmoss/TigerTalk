@@ -19,7 +19,7 @@ urlpatterns = [
     path('comments/<int:pk>/d/', views.CommentDownvote.as_view()),
     path('comments/<int:pk>/c/', views.CommentClearVote.as_view()),
     path('comments/<int:pk>/r/', views.CommentReport.as_view()),
-    path('users/', views.UserList.as_view()),
+    path('comments/<int:pk>/del/', views.CommentRemove.as_view()),
     path('users/<int:pk>/', views.UserDetail.as_view()),
 ]
 

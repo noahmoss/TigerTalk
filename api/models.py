@@ -8,6 +8,7 @@ from rest_framework.authtoken.models import Token
 
 class Post(models.Model):
     author = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='posts', on_delete=None)
+    next_new_commenter = models.IntegerField(default=1) # anonymous id of the next new commenter
     content = models.TextField(max_length=5000)
     date_created = models.DateTimeField(auto_now_add=True)
     reported = models.BooleanField(default=False)
@@ -25,11 +26,13 @@ class Post(models.Model):
 
 class Comment(models.Model):
     author = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='comments', on_delete=None)
+    anon_author = models.IntegerField(default=-1) # anonymous id of the author
     content = models.CharField(max_length=2000)
     date_created = models.DateTimeField(auto_now_add=True)
     reported = models.BooleanField(default=False)
     post = models.ForeignKey(Post, related_name='comments', on_delete=models.CASCADE)
-
+    deleted = models.BooleanField(default=False)
+    
     readonly_fields=('author', 'date_created', 'post')
 
     def net_votes(self):

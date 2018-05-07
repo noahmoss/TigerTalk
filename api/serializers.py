@@ -9,10 +9,12 @@ class CommentSerializer(serializers.ModelSerializer):
         fields = (
             'id',
             'date_created',
+            'anon_author',
             'post',
             'content',
             'net_votes',
             'reported',
+            'deleted',
         )
         read_only_fields = ('id','author','date_created',)
 
