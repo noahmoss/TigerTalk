@@ -2,6 +2,8 @@
 {% load render_bundle from webpack_loader %}
 {% load static %}
 
+<!-- Adapted from Recourse -->
+
 <html>
 <head>
 	<title>TigerTalk</title>
@@ -21,78 +23,39 @@
 	</script>
 
 	<div id="root">
-        {% render_bundle 'splash' %}
+    {% render_bundle 'navbar' %}
+  </div>
+
+  <section class="mainSection">
+    <div class="header-content">
+      <div class="header-content-inner">
+        <h1 class="splashHeading">TigerTalk</h1>
+          <hr>
+            <a href="/" class="btn btn-primary btn-xl page-scroll">Login to start talking.</a>
+      </div>
     </div>
+  </section>
 
-    <nav id="mainNav" class="navbar navbar-default navbar-fixed-top">
-        <div class="container-fluid">
-              <!-- Brand and toggle get grouped for better mobile display -->
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                    <span class="sr-only">Toggle navigation</span> Menu <i class="fa fa-bars"></i>
-                </button>
-                <a class="navbar-brand page-scroll" href="#page-top" style="font-weight: 500; text-transform: none;">
-                    ReCourse — Princeton University
-                </a>
-            </div>
-
-              <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <ul class="nav navbar-nav navbar-right">
-                    <li>
-                        <a class="page-scroll" href="#about" style="padding-right: 50px">About</a>
-                    </li>
-                    <li>
-                        <a class="page-scroll" href="/main/" style="padding-right: 50px">Login</a>
-                    </li>
-                </ul>
-            </div>
-              <!-- /.navbar-collapse -->
+  <section class="aboutSection">
+    <div class="container" style="text-align: center;">
+      <div class="row">
+        <div class="col-lg-8 col-lg-offset-2 text-center">
+          <h2 class="sectionHeading">Welcome to TigerTalk!</h2>
+          <hr class="light">
+          <p class="aboutText" style="font-family: 'Quicksand'">
+            TigerTalk is a semi-anonymous discussion platform exclusive to the Princeton University community. So what are you waiting for? Start talking!
         </div>
-          <!-- /.container-fluid -->
-    </nav>
+      </div>
+    </div>
+  </section>
 
-    <header>
-        <div class="header-content">
-            <div class="header-content-inner">
-                <h1 id="homeHeading" style="font-weight: 300; text-transform: none;">TigerTalk</h1>
-                <hr>
-                <a href="/main/" class="btn btn-primary btn-xl page-scroll">Login to start talking.</a>
-            </div>
-        </div>
-    </header>
-
-    <section class="bg-primary" id="about" style="padding-bottom: 0px">
-        <div class="container" style="text-align: center;">
-            <div class="row">
-                <div class="col-lg-8 col-lg-offset-2 text-center">
-                    <h2 class="section-heading">Find the courses that matter to you.</h2>
-                    <hr class="light">
-                    <p class="text-faded" style="font-family: 'Open Sans','Helvetica Neue',Arial,sans-serif; font-size: 21px">
-                        Our goal is to provide a wider array of search options.
-                    	<br>
-                    	<br>
-                    	<u>Search By:</u>
-                    	<br>
-                    	avoids time conflicts with other classes <span class="label label-success">New!</span>
-                    	<br>
-                    	fulfills certificate requirements <span class="label label-success">New!</span>
-                    	<br>
-                    	PDF-only / PDF-able / auditable courses
-                    </p>
-                  </div>
-              </div>
-          </div>
-      </section>
-
-      <section id="services">
-          <div class="container text-center">
-              <h3>Made by</h3>
-              <p class="text-muted">Noah Moss '19, Oğulcan Bayol '18, Devina Singh '19, Ryan Gizzie '19.
-                <br>A COS 333 project advised by Lance Goodridge.
-              </p>
-              </p>
-          </div>
-</section>
+  <section id="services">
+    <div class="container text-center">
+      <h3>Made by</h3>
+      <p class="text-muted">Noah Moss '19, Oğulcan Bayol '18, Devina Singh '19, Ryan Gizzie '19.
+      <br>A COS 333 project advised by Lance Goodridge.
+      </p>
+    </div>
+  </section>
 </body>
 </html>
