@@ -11,7 +11,7 @@
 }
 
 .mainSection {
-	background-image: url("https://i.imgur.com/rizBiR1.png");
+	background-image: url("https://i.imgur.com/CGT4dQk.jpg");
     background-attachment: fixed;
     background-position: center;
     background-repeat: no-repeat;
@@ -65,11 +65,10 @@ h3 {
 .signature {
 	background-color: var(--nav-bg-color);
 	font-family: Quicksand;
-	height: 10vw;
+	height: 20vw;
 }
 
 .madeBy {
-    padding-top: 10px;
 	font-size: 160%;
 	font-family: Quicksand;
 }
