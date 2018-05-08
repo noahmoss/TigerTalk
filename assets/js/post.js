@@ -804,7 +804,7 @@ class Post extends React.Component{
 					<Media.Left>
 				      <Speech_bubble />
 				    </Media.Left>
-				    <Media.Left className = "commentNum">
+				    <Media.Left className = "commentNum" >
 				      {this.props.comment_count}
 				    </Media.Left>
 				    <Media.Right>

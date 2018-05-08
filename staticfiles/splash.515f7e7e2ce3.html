@@ -17,10 +17,19 @@
 	<link rel="stylesheet" href="{% static 'css/index.css' %}">
 </head>
 <body>
+	<script>
+		var netid = "{{ user.get_username }}";
+		var userid = "{{ request.user.id }}";
+	</script>
+
+	<div id="root">
+    {% render_bundle 'splash' %}
+  </div>
+
   <section class="mainSection">
     <h1 align="center">TigerTalk</h1>
     <div align="center" class="login">
-    <a href="/main/" class="btn btn-primary btn-lg" align="center">Login to start talking</a>
+    <a href="/" class="btn btn-primary btn-lg" align="center">Login to start talking</a>
     </div>
   </section>
 
