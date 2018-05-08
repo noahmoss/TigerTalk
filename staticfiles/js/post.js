@@ -1,9 +1,11 @@
 var React = require('react')
 var ReactDOM = require('react-dom')
+var shuffleSeed = require('shuffle-seed')
 import { Navbar, Nav, NavItem } from 'react-bootstrap';
 import { ToggleButton, ButtonToolbar, ToggleButtonGroup, DropdownButton, MenuItem, SplitButton } from 'react-bootstrap';
 import { FormGroup, ControlLabel, FormControl, Button, Collapse } from 'react-bootstrap';
 import { Media } from 'react-bootstrap';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 
 // get csrf token from cookies
 // from https://stackoverflow.com/questions/35112451/forbidden-csrf-token-missing-or-incorrect-django-error
@@ -238,7 +240,7 @@ class Comment extends React.Component{
 		this.props.handleDelete(this.props.id);
 		this.setState({
 			deleted: true,
-			content: "[removed]",
+			content: "[deleted]",
 		})
 	}
 
@@ -352,10 +354,12 @@ class Comment extends React.Component{
 			</div>
 		);
 	}
+
+
 	render() {
 		return (
 				<div className="replyContainer">
-				<div className="replyBody" style={{border: "30px solid green"}}>
+				<div className="replyBody" style={{borderLeft: "solid 4px", borderLeftColor: this.props.color}}>
 				<Media>
 				    <Media.Left>
 						{!this.state.deleted ? this.renderVotes() : null}
@@ -369,14 +373,13 @@ class Comment extends React.Component{
 				   	</Media.Right>
 				</Media>
 			  	</div>
-					<Media className="replyIconLine">
+					<Media className="replyIconLine" style={{borderLeft: "solid 4px", borderLeftColor: this.props.color}}>
 						{!this.state.deleted ? this.renderIconline() : null}
 					</Media>
 			  	</div>
 		);
 	}
 }
-
 
 // The textarea and reply button underneath every group of comments
 class CommentEntryForm extends React.Component {
@@ -479,7 +482,6 @@ class CommentBlock extends React.Component {
 				comments: this.props.comments,
 				my_upvoted: this.props.my_upvoted,
 				my_downvoted: this.props.my_downvoted,
-				my_comments: this.props.my_comments,
 			})
 		}
 	}
@@ -552,11 +554,11 @@ class CommentBlock extends React.Component {
 				(result) => {
 					result.content = text;
 					result.net_votes = 0;
+					this.props.handleComment(this.props.id);
 					this.setState({
 						comments: this.state.comments.concat([result]),
 						my_comments: this.state.my_comments.concat(result.id),
 					});
-					this.props.handleComment(this.props.id);
 				},
 				(error) => {
 					alert(error);
@@ -580,10 +582,6 @@ class CommentBlock extends React.Component {
 		)
 		.then(
 			(result) => {
-				// var newcomments = this.state.comments.filter(
-				// 	function(comment) {
-				// 		return comment.id !== id;
-				// 	});
 				var newcomments = this.state.comments;
 				for (let i = 0; i < newcomments.length; i++) {
 					if (newcomments[i].id == id) {
@@ -594,7 +592,6 @@ class CommentBlock extends React.Component {
 				this.setState({
 					comments : newcomments
 				});
-				// this.props.handleCommentDelete(id);
 			}
 		)
 	}
@@ -604,8 +601,10 @@ class CommentBlock extends React.Component {
 			<div className='commentBlock'>
 				{ this.state.comments.map((comment) => (
 						<Comment
+							color={comment.anon_author == 0
+										? "#f19143"
+										: this.props.color_list[comment.anon_author-1]}
 							content={comment.content}
-							author_id={comment.anon_author == 0 ? 'OP' : comment.anon_author}
 							key={"comment" + comment.id}
 							id={comment.id}
 							votes={comment.net_votes}
@@ -624,6 +623,92 @@ class CommentBlock extends React.Component {
 	}
 }
 
+// The textarea and reply button for creating new posts
+class PostEntryForm extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			value: '',
+			shift: false,
+		};
+		this.handleChange = this.handleChange.bind(this);
+		this.handleSubmit = this.handleSubmit.bind(this);
+		this.onKeyDown = this.onKeyDown.bind(this);
+		this.onKeyUp = this.onKeyUp.bind(this);
+	}
+
+	handleChange(event) {
+		this.setState({value: event.target.value});
+	}
+
+	handleSubmit(event) {
+		if(event) {
+			event.preventDefault();
+			event.stopPropagation();
+		};
+		this.props.onClick(this.state.value)
+		this.setState({value:''});
+	}
+
+	onKeyDown(event: React.KeyboardEvent<HTMLDivElement>) {
+		if (event.key === 'Enter') {
+			event.preventDefault();
+			event.stopPropagation();
+			if (this.state.shift) {
+				this.setState({
+					value:this.state.value+'\n',
+				})
+			}
+			else {
+				this.handleSubmit();
+			}
+		} else if (event.key === 'Shift') {
+				this.setState({
+					shift: true,
+				});
+			}
+		}
+
+	onKeyUp(event: React.KeyboardEvent<HTMLDivElement>) {
+		if (event.key === 'Shift') {
+			this.setState({
+				shift: false,
+			});
+		}
+	}
+
+	render() {
+		return (
+			<div className="container-fluid" id="postContainer">
+			<form onSubmit={this.handleSubmit} onKeyDown={this.onKeyDown} onKeyUp={this.onKeyUp}>
+			<div className="post-container">
+				  <FormControl componentClass="textarea"
+				  			className="posting"
+							  name="entry"
+							  id="maintext"
+							  value={this.state.value}
+							  onChange={this.handleChange}
+							  cols="109"
+							  rows="2"
+							  autoComplete="off"
+							  maxLength="1000"
+							  placeholder="What do you want to talk about?"/>
+					<Media.Body className = "mb">
+						<Button
+							type="submit"
+							id="post"
+							>
+						Post
+						</Button>
+					</Media.Body>
+			</div>
+			</form>
+			</div>
+		);
+	}
+}
+
+
 class Post extends React.Component{
 	constructor(props) {
 		super(props);
@@ -631,10 +716,16 @@ class Post extends React.Component{
 		this.handleUpvoteUnclick = this.handleUpvoteUnclick.bind(this);
 		this.handleDownvoteClick = this.handleDownvoteClick.bind(this);
 		this.handleDownvoteUnclick = this.handleDownvoteUnclick.bind(this);
+		this.handleExpand = this.handleExpand.bind(this);
+		this.cutoffContent = this.cutoffContent.bind(this);
+		this.handleDateClick = this.handleDateClick.bind(this);
 		this.state = {
 			upvoted: this.props.upvoted,
 			downvoted: this.props.downvoted,
 			votes: this.props.votes,
+			needsExpansion: (this.props.content.length > 280
+							|| this.props.content.split(/\r\n|\r|\n/).length > 3),
+			expanded: false,
 			reported: false,
 		};
 	}
@@ -721,6 +812,13 @@ class Post extends React.Component{
 		this.sendVoteToServer("c");
 	}
 
+	handleExpand(e) {
+		e.stopPropagation();
+		this.setState({
+			expanded : !this.state.expanded,
+		})
+	}
+
 	// prevent dropdown close when clicking 'report'
 	// code from https://github.com/react-bootstrap/react-bootstrap/issues/1490
 	dropdownToggle(newValue){
@@ -750,14 +848,46 @@ class Post extends React.Component{
 		});
 	}
 
+	// cut off content to 3 lines or 280 chars, whichever is fewer
+	cutoffContent(content) {
+		let newContent = content;
+		if (newContent.split(/\r\n|\r|\n/).length > 3) {
+			newContent = newContent.split(/\r\n|\r|\n/).slice(0,3).join('\n');
+		}
+		return newContent.slice(0,280)
+
+	}
+
+	renderContent() {
+		let content = this.state.expanded
+							? this.props.content + " "
+							: this.cutoffContent(this.props.content) + " "
+
+
+		return (
+				this.state.needsExpansion
+				? ( this.state.expanded
+					? (<div>{content}<span className="seemore" onClick={this.handleExpand}>see less</span></div>)
+					: (<div>{content}<span className="seemore" onClick={this.handleExpand}>...see more</span></div>)
+				  )
+			    : content
+		);
+	}
+
+	handleDateClick(e) {
+		e.stopPropagation();
+	}
+
 	render () {
 		let date_string = timestamp(this.props.date);
 
-		const postclass = "post3";
+		const postclass = !this.props.color
+					  		? ("post")
+					    	: ("post2")
 
 		return (
-			<div className={postclass}>
-			  <Media className="mainBody">
+			<div className={postclass} style={{borderLeft: "solid 4px", borderLeftColor: "#f19143"}}>
+			  <Media className="mainBody" >
 			    <Media.Left>
 			    	<div className="arrowBox">
 						{
@@ -773,8 +903,8 @@ class Post extends React.Component{
 						}
 					 </div>
 			    </Media.Left>
-			    <Media.Body className="wrapText" style={{cursor:"auto"}}>
-					{this.props.content}
+			    <Media.Body className="wrapText" onClick={this.props.onClick}>
+					{this.renderContent()}
 			    </Media.Body>
 				<Media.Right className="dropdown-container">
 					<DropdownButton pullRight
@@ -785,6 +915,11 @@ class Post extends React.Component{
 					   open={this.state.menuOpen}
 					   onToggle={val => this.dropdownToggle(val)}
 					   >
+
+					   <CopyToClipboard text={"https://princetontigertalk.herokuapp.com/post/"+this.props.id+"/"}>
+					   <MenuItem >Copy link</MenuItem>
+					   </CopyToClipboard>
+
 					   { this.props.isMine
 					   		? <MenuItem onClick={this.props.handleDelete}>Delete</MenuItem>
 							: (this.state.reported
@@ -794,23 +929,26 @@ class Post extends React.Component{
 					</DropdownButton>
 				</Media.Right>
 			  </Media>
-			  <Media className="rip" style={{cursor:"default"}}>
+			  <Media className="rip">
 			    <Media.Left>
 			      <div className="iconFirstColumn">
 				  </div>
 			    </Media.Left>
-			    <Media.Body className="bottom">
+			    <Media.Body onClick={this.props.onClick} className="bottom">
 					<Media.Left>
 				      <Speech_bubble />
 				    </Media.Left>
-				    <Media.Left className = "commentNum" >
+				    <Media.Left className = "commentNum">
 				      {this.props.comment_count}
 				    </Media.Left>
 				    <Media.Right>
 				    </Media.Right>
 			    </Media.Body>
-			    <Media.Right className = "postDateString" style={{cursor:"auto", color:"#696969"}}>
-			    	{date_string}
+			    <Media.Right onClick={this.props.onClick} className = "postDateString">
+					<a className="dateString" target="_blank"
+						href={"/post/"+this.props.id+"/"}
+						onClick={this.handleDateClick}
+						style={{color:"#696969"}}>{date_string}</a>
 			    </Media.Right>
 			  </Media>
 		  </div>
@@ -976,15 +1114,26 @@ class PostCommentBlock extends React.Component {
 	// }
 
 	renderComments() {
-			return (
-				<CommentBlock id={this.props.id}
-							comments={this.state.comments}
-							my_comments={this.state.my_comments}
-							my_upvoted={this.state.my_upvoted}
-							my_downvoted={this.state.my_downvoted}
-							handleComment={this.handleComment}
-						/>
-			);
+		let color_list = ["#ffcdd2", "#e57373", "#af4448", "#f44336", "#7f0000",
+							"#b71c1c", "#FF0000", " #FF00FF", "#c722d6", "#f06292",
+							"#e91e63"," #880e4f", "#ff80ab", "#efcbff", "#8eafd6",
+							"#b2d677", "#ce93d8", "#ab47bc",  "#6a1b9a", "#5c6bc0",
+							"#bbdefb",  "#64b5f6", "#1565c0", "#26c6da", "#808000",
+							"#008080", "#004cff", "#00cb8a", "#80cbc4", "#81c784",
+							"#388e3c", "#1b5e20", "#76ff03", "#ffeb3b", "#ffecb3",
+							"#fbc02d", "#a1887f", "#D2B48C", "#A0522D", "#6d4c41", "#212121"]
+		color_list = shuffleSeed.shuffle(color_list, this.props.id);
+		return (
+			<CommentBlock
+		 				color_list = {color_list}
+						id={this.props.id}
+						comments={this.state.comments}
+						my_comments={this.state.my_comments}
+						my_upvoted={this.state.my_upvoted}
+						my_downvoted={this.state.my_downvoted}
+						handleComment={this.handleComment}
+					/>
+		);
 	}
 	render() {
 		return (
