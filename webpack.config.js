@@ -15,6 +15,7 @@ module.exports = {
 	    about: './assets/js/about.js',
 		post: './assets/js/post.js',
 		navbar: './assets/js/navbar.js',
+		splash: './assets/js/splash.js',
 	},
 
 	// default to dev mode

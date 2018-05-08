@@ -23,39 +23,35 @@
 	</script>
 
 	<div id="root">
-    {% render_bundle 'navbar' %}
+    {% render_bundle 'splash' %}
   </div>
 
   <section class="mainSection">
-    <div class="header-content">
-      <div class="header-content-inner">
-        <h1 class="splashHeading">TigerTalk</h1>
-          <hr>
-            <a href="/" class="btn btn-primary btn-xl page-scroll">Login to start talking.</a>
-      </div>
+    <h1 align="center">TigerTalk</h1>
+    <div align="center" class="login">
+    <a href="/" class="btn btn-primary btn-lg" align="center">Login to start talking</a>
     </div>
   </section>
 
   <section class="aboutSection">
-    <div class="container" style="text-align: center;">
-      <div class="row">
-        <div class="col-lg-8 col-lg-offset-2 text-center">
-          <h2 class="sectionHeading">Welcome to TigerTalk!</h2>
+    <!-- <div class="container" style="text-align: center;"> -->
+      <!-- <div class="row"> -->
+        <!-- <div class="col-lg-8 col-lg-offset-2 text-center"> -->
+          <h2 align="center">Welcome to TigerTalk!</h2>
           <hr class="light">
-          <p class="aboutText" style="font-family: 'Quicksand'">
+          <p align="center" class="aboutText">
             TigerTalk is a semi-anonymous discussion platform exclusive to the Princeton University community. So what are you waiting for? Start talking!
-        </div>
-      </div>
-    </div>
+          </p>
+        <!-- </div> -->
+      <!-- </div> -->
+    <!-- </div> -->
   </section>
 
-  <section id="services">
-    <div class="container text-center">
-      <h3>Made by</h3>
-      <p class="text-muted">Noah Moss '19, Oğulcan Bayol '18, Devina Singh '19, Ryan Gizzie '19.
+  <section class="signature">
+      <p align="center" class="madeBy">Made by</p>
+      <p align="center" class="signatureText">Noah Moss '19, Oğulcan Bayol '18, Devina Singh '19, Ryan Gizzie '19.
       <br>A COS 333 project advised by Lance Goodridge.
       </p>
-    </div>
   </section>
 </body>
 </html>
