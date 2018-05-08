@@ -198,7 +198,7 @@ div.post {
     white-space: pre-wrap;
     max-width: 768px;
     width: 90%;
-    border-radius: 5px;
+    
 }
 div.mainBody {
     z-index: 1;
@@ -341,7 +341,7 @@ div.post2 {
     max-width: 768px;
     width: 90%;
     border-color: var(--post-click-color);
-    border-radius: 5px;
+    
 }
 div.post2.mainBody {
     z-index: 1;
@@ -441,7 +441,7 @@ div.post3 {
     max-width: 768px;
     width: 90%;
     border-color: var(--post-bg-color);
-    border-radius: 5px;
+    
 }
 div.post3.mainBody {
     z-index: 1;
