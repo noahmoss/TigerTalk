@@ -394,6 +394,8 @@ class Comment extends React.Component{
 			</div>
 		);
 	}
+
+
 	render() {
 		return (
 				<div className="replyContainer">
