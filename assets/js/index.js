@@ -523,7 +523,6 @@ class CommentBlock extends React.Component {
 				comments: this.props.comments,
 				my_upvoted: this.props.my_upvoted,
 				my_downvoted: this.props.my_downvoted,
-				my_comments: this.props.my_comments,
 			})
 		}
 	}
@@ -596,11 +595,11 @@ class CommentBlock extends React.Component {
 				(result) => {
 					result.content = text;
 					result.net_votes = 0;
+					this.props.handleComment(this.props.id);
 					this.setState({
 						comments: this.state.comments.concat([result]),
 						my_comments: this.state.my_comments.concat(result.id),
 					});
-					this.props.handleComment(this.props.id);
 				},
 				(error) => {
 					alert(error);
