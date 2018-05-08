@@ -28,8 +28,12 @@ h2 {
 	margin-right:auto;
 }
 
-h4 {
+h3 {
 	font-family: Quicksand;
+	font-size: 300%;
+	padding-top:25px;
+	margin-left:auto;
+	margin-right:auto;
 }
 
 .aboutText1 {
@@ -75,7 +79,24 @@ img {
 }
 
 div.team {
-	padding-top: 20px;
+	padding-top: 25px;
     margin-left: 3%;
     margin-right: 1%;
+}
+
+.name {
+	font-family: Quicksand;
+	font-size: 150%;
+	padding-top:10px;
+	margin-left:auto;
+	margin-right:auto;
+}
+
+.title {
+	font-family: Quicksand;
+	font-size: 125%;
+	padding-top:-5px;
+	margin-left:auto;
+	margin-right:auto;
+	color: var(--nav-bg-color);
 }
