@@ -1319,7 +1319,7 @@ class PostList extends React.Component {
 		this.openPost = React.createRef();
 		this.handlePost = this.handlePost.bind(this);
 		this.handleDelete = this.handleDelete.bind(this);
-		this.getFirstPage = this.getFirstPage.bind(this);
+		this.refreshPosts = this.refreshPosts.bind(this);
 		this.getNextPage = this.getNextPage.bind(this);
 		this.reloadPosts = this.reloadPosts.bind(this);
 		this.getUserData = this.getUserData.bind(this);
@@ -1334,8 +1334,8 @@ class PostList extends React.Component {
 
 		if (this.props.sort == "recent") {
 			this.postListTimer = setInterval(
-				() => this.getFirstPage(),
-				15000 // 5 seconds
+				() => this.refreshPosts(),
+				15000 // 15 seconds
 			);
 		}
 	}
@@ -1370,8 +1370,8 @@ class PostList extends React.Component {
 			}
 			if (this.props.sort == "recent") {
 				this.postListTimer = setInterval(
-					() => this.getFirstPage(),
-					5000
+					() => this.refreshPosts(),
+					15000
 				);
 			}
 	 	}
@@ -1454,10 +1454,11 @@ class PostList extends React.Component {
 	}
 
 	// get first page of post results and update current post list
-	 getFirstPage() {
+	 refreshPosts() {
 		this.getUserData();
+		let loaded_count = this.state.posts.length + 10;
 
-		fetch("/api/posts/", {
+		fetch("/api/posts/?limit="+loaded_count, {
 			method: 'GET',
 			credentials: "same-origin",
 			headers : new Headers(),
@@ -1470,18 +1471,19 @@ class PostList extends React.Component {
 		.then(res => res.json())
 		.then(
 			(result) => {
-				// slice new posts and add to front of current post list
 				let loadedPosts = result.results;
-				let oldPosts = this.state.posts.slice(this.state.newPostCount);
+
+				let last_post_id = this.state.posts[this.state.posts.length-1].id;
+
+				let newPosts = [];
 				for (let i = 0; i < loadedPosts.length; i++) {
-					if (loadedPosts[i].id == oldPosts[0].id) {
-						var firstOldPost = i;
-						break;
+					if (loadedPosts[i].id >= last_post_id) {
+						newPosts.push(loadedPosts[i])
 					}
 				}
-				let newPosts = loadedPosts.slice(0,firstOldPost);
+				console.log(newPosts);
 				this.setState({
-					posts : newPosts.concat(oldPosts),
+					posts : newPosts,
 				});
 			},
 			(error) => {
