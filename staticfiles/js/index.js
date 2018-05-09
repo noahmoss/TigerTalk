@@ -1,5 +1,6 @@
 var React = require('react')
 var ReactDOM = require('react-dom')
+var shuffleSeed = require('shuffle-seed')
 import { Grid, Row, Col } from 'react-bootstrap'
 import { Navbar, Nav, NavItem } from 'react-bootstrap';
 import { ToggleButton, ButtonToolbar, ToggleButtonGroup, DropdownButton, MenuItem, SplitButton } from 'react-bootstrap';
@@ -386,7 +387,6 @@ class Comment extends React.Component{
 				</div>
 				</Media.Left>
 				<Media.Body className="commentBody" onClick={this.props.onClick} style={{color:"#696969"}}>
-					{"― @" + this.props.author_id}
 				</Media.Body>
 				<Media.Right className="dateString" style={{color:"#696969"}}>
 					{date_string}
@@ -394,10 +394,12 @@ class Comment extends React.Component{
 			</div>
 		);
 	}
+
+
 	render() {
 		return (
 				<div className="replyContainer">
-				<div className="replyBody">
+				<div className="replyBody" style={{borderLeft: "solid 4px", borderLeftColor: this.props.color}}>
 				<Media>
 				    <Media.Left>
 						{!this.state.deleted ? this.renderVotes() : null}
@@ -411,7 +413,7 @@ class Comment extends React.Component{
 				   	</Media.Right>
 				</Media>
 			  	</div>
-					<Media className="replyIconLine">
+					<Media className="replyIconLine" style={{borderLeft: "solid 4px", borderLeftColor: this.props.color}}>
 						{!this.state.deleted ? this.renderIconline() : null}
 					</Media>
 			  	</div>
@@ -521,7 +523,6 @@ class CommentBlock extends React.Component {
 				comments: this.props.comments,
 				my_upvoted: this.props.my_upvoted,
 				my_downvoted: this.props.my_downvoted,
-				my_comments: this.props.my_comments,
 			})
 		}
 	}
@@ -594,11 +595,11 @@ class CommentBlock extends React.Component {
 				(result) => {
 					result.content = text;
 					result.net_votes = 0;
+					this.props.handleComment(this.props.id);
 					this.setState({
 						comments: this.state.comments.concat([result]),
 						my_comments: this.state.my_comments.concat(result.id),
 					});
-					this.props.handleComment(this.props.id);
 				},
 				(error) => {
 					alert(error);
@@ -622,10 +623,6 @@ class CommentBlock extends React.Component {
 		)
 		.then(
 			(result) => {
-				// var newcomments = this.state.comments.filter(
-				// 	function(comment) {
-				// 		return comment.id !== id;
-				// 	});
 				var newcomments = this.state.comments;
 				for (let i = 0; i < newcomments.length; i++) {
 					if (newcomments[i].id == id) {
@@ -636,7 +633,6 @@ class CommentBlock extends React.Component {
 				this.setState({
 					comments : newcomments
 				});
-				// this.props.handleCommentDelete(id);
 			}
 		)
 	}
@@ -646,8 +642,10 @@ class CommentBlock extends React.Component {
 			<div className='commentBlock'>
 				{ this.state.comments.map((comment) => (
 						<Comment
+							color={comment.anon_author == 0
+										? "#f19143"
+										: this.props.color_list[comment.anon_author-1]}
 							content={comment.content}
-							author_id={comment.anon_author == 0 ? 'OP' : comment.anon_author}
 							key={"comment" + comment.id}
 							id={comment.id}
 							votes={comment.net_votes}
@@ -929,8 +927,8 @@ class Post extends React.Component{
 					    	: ("post2")
 
 		return (
-			<div className={postclass}>
-			  <Media className="mainBody">
+			<div className={postclass} style={{borderLeft: "solid 4px", borderLeftColor: "#f19143"}}>
+			  <Media className="mainBody" >
 			    <Media.Left>
 			    	<div className="arrowBox">
 						{
@@ -1197,19 +1195,6 @@ class PostCommentBlock extends React.Component {
 			my_comments: newMyComments,
 		})
 	}
-	// handleCommentDelete(id) {
-	// 	var commentsWithoutDeleted = this.state.comments;
-	// 	for (let i = 0; i < this.state.comments.length; i++) {
-	// 		if (this.state.comments[i].id == id) {
-	// 			commentsWithoutDeleted.splice(i, 1);
-	// 			break;
-	// 		}
-	// 	}
-	// 	this.setState({
-	// 		comments: commentsWithoutDeleted,
-	// 		comment_count: this.state.comment_count - 1,
-	// 	})
-	// }
 
 	handleColorClick() {
 		this.setState({
@@ -1217,15 +1202,26 @@ class PostCommentBlock extends React.Component {
 		})
 	}
 	renderComments() {
-			return (
-				<CommentBlock id={this.props.id}
-							comments={this.state.comments}
-							my_comments={this.state.my_comments}
-							my_upvoted={this.state.my_upvoted}
-							my_downvoted={this.state.my_downvoted}
-							handleComment={this.handleComment}
-						/>
-			);
+		let color_list = ["#ffcdd2", "#e57373", "#af4448", "#f44336", "#7f0000",
+							"#b71c1c", "#FF0000", " #FF00FF", "#c722d6", "#f06292",
+							"#e91e63"," #880e4f", "#ff80ab", "#efcbff", "#8eafd6",
+							"#b2d677", "#ce93d8", "#ab47bc",  "#6a1b9a", "#5c6bc0",
+							"#bbdefb",  "#64b5f6", "#1565c0", "#26c6da", "#808000",
+							"#008080", "#004cff", "#00cb8a", "#80cbc4", "#81c784",
+							"#388e3c", "#1b5e20", "#76ff03", "#ffeb3b", "#ffecb3",
+							"#fbc02d", "#a1887f", "#D2B48C", "#A0522D", "#6d4c41", "#212121"]
+		color_list = shuffleSeed.shuffle(color_list, this.props.id);
+		return (
+			<CommentBlock
+		 				color_list = {color_list}
+						id={this.props.id}
+						comments={this.state.comments}
+						my_comments={this.state.my_comments}
+						my_upvoted={this.state.my_upvoted}
+						my_downvoted={this.state.my_downvoted}
+						handleComment={this.handleComment}
+					/>
+		);
 	}
 	render() {
 		return (
@@ -1752,7 +1748,6 @@ class App extends React.Component {
 			recent : true,
 		}
 		this.toggleSort = this.toggleSort.bind(this);
-		// this.handleRefresh = this.handleRefresh.bind(this);
 	}
 
 	toggleSort(sort) {
@@ -1760,9 +1755,6 @@ class App extends React.Component {
 			recent : sort == "recent" ? true : false,
 		});
 	}
-	// handleRefresh() {
-	// 	let curr = this.state.recent;
-	// }
 
 	render() {
 		return (
