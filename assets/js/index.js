@@ -8,6 +8,7 @@ import { FormGroup, ControlLabel, FormControl, Button, Collapse } from 'react-bo
 import { Media } from 'react-bootstrap';
 import { isMobile, isChrome, isSafari, isFirefox } from 'react-device-detect';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
+import { Modal } from 'react-bootstrap';
 
 // Buttons for sorting posts by recent or popular
 class SortBar extends React.Component {
@@ -112,6 +113,8 @@ function Refresh_icon(props) {
 			<span className="glyphicon glyphicon-refresh" onClick={props.onClick} aria-hidden="true"></span>
 	);
 }
+
+
 
 function timestamp(st) {
 		var moment = require('moment');
@@ -523,6 +526,7 @@ class CommentBlock extends React.Component {
 				comments: this.props.comments,
 				my_upvoted: this.props.my_upvoted,
 				my_downvoted: this.props.my_downvoted,
+				my_comments: this.props.my_comments,
 			})
 		}
 	}
@@ -595,11 +599,11 @@ class CommentBlock extends React.Component {
 				(result) => {
 					result.content = text;
 					result.net_votes = 0;
-					this.props.handleComment(this.props.id);
 					this.setState({
 						comments: this.state.comments.concat([result]),
 						my_comments: this.state.my_comments.concat(result.id),
 					});
+					this.props.handleComment(this.props.id);
 				},
 				(error) => {
 					alert(error);
@@ -760,6 +764,8 @@ class Post extends React.Component{
 		this.handleExpand = this.handleExpand.bind(this);
 		this.cutoffContent = this.cutoffContent.bind(this);
 		this.handleDateClick = this.handleDateClick.bind(this);
+		this.handleShowReportWindow = this.handleShowReportWindow.bind(this);
+		this.handleCloseReportWindow = this.handleCloseReportWindow.bind(this);
 		this.state = {
 			upvoted: this.props.upvoted,
 			downvoted: this.props.downvoted,
@@ -768,6 +774,7 @@ class Post extends React.Component{
 							|| this.props.content.split(/\r\n|\r|\n/).length > 3),
 			expanded: false,
 			reported: false,
+			reportWindow: false,
 		};
 	}
 
@@ -872,7 +879,7 @@ class Post extends React.Component{
 	}
 	menuItemClickedThatShouldntCloseDropdown(){
 	    this._forceOpen = true;
-
+	    this.handleShowReportWindow();
 		fetch("/api/posts/"+this.props.id+"/r/", {
 			method: 'GET',
 			credentials: "same-origin",
@@ -918,6 +925,15 @@ class Post extends React.Component{
 	handleDateClick(e) {
 		e.stopPropagation();
 	}
+
+
+   handleCloseReportWindow() {
+    	this.setState({ reportWindow: false });
+  	}
+
+  handleShowReportWindow() {
+    	this.setState({ reportWindow: true });
+  }
 
 	render () {
 		let date_string = timestamp(this.props.date);
@@ -968,6 +984,17 @@ class Post extends React.Component{
 								: <MenuItem onClick={() => this.menuItemClickedThatShouldntCloseDropdown()}>Report</MenuItem>)
 				   		}
 					</DropdownButton>
+					<Modal show={this.state.reportWindow} onHide={this.handleCloseReportWindow}>
+			          <Modal.Header closeButton>
+			            <Modal.Title>Reported!</Modal.Title>
+			          </Modal.Header>
+			          <Modal.Body>
+			            <h4>Thanks for reporting. Our team will soon review this post.</h4>
+			          </Modal.Body>
+			          <Modal.Footer>
+			          	<Button onClick={this.handleCloseReportWindow}>Close</Button>
+			          </Modal.Footer>
+			        </Modal>
 				</Media.Right>
 			  </Media>
 			  <Media className="rip">
@@ -1011,6 +1038,7 @@ class PostCommentBlock extends React.Component {
 		this.handleColorClick = this.handleColorClick.bind(this);
 		this.getUserData = this.getUserData.bind(this);
 		this.handleCollapsed = this.handleCollapsed.bind(this);
+		
 		this.state = {
 			showing: false, // are the comments showing?
 			isUserDataLoaded: true, // is the updated user data loaded?
@@ -1021,8 +1049,10 @@ class PostCommentBlock extends React.Component {
 			my_upvoted: this.props.my_upvoted,
 			my_downvoted: this.props.my_downvoted,
 			colorclick: false,
+			
 		};
 	}
+
 
 	componentDidUpdate(prevProps, prevState) {
 		if (prevProps.showing != this.props.showing ) {
