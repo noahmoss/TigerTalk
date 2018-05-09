@@ -2,8 +2,11 @@
 :root {
   --main-bg-color: #fefcfb;
   --post-bg-color: #e5e7e8;
-  --post-hover-color: #d9dee0;
-  --post-click-color: #d4dde2;
+  --post-hover-color: #d9dee0; 
+ /* --post-click-color: #d4dde2; */
+ /*--post-click-color: #ced5d7;*/
+ --post-click-color: #d2dbe0; 
+
   --comment-bg-color: #e5e7e8;
   --nav-bg-color: #f19143;
   --nav-text-color: black;
