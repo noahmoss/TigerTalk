@@ -33,8 +33,9 @@ body {background-color: black}
 	font-family: Quicksand;
 	font-size: 300%;
 	padding-top:50px;
-	margin-left:auto;
-	margin-right:auto;
+    text-align: center;
+	/* margin-left:auto; */
+	/* margin-right:auto; */
 }
 
 .aboutText1 {
