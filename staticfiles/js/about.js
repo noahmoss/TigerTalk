@@ -11,7 +11,7 @@ class NavBar extends React.Component {
 			  </Navbar.Header>
 			  <Navbar.Collapse>
 			  	<Nav pullLeft>
-					<NavItem style={{ fontFamily: 'Quicksand' }} eventKey={1} href="/">
+					<NavItem style={{ fontFamily: 'Quicksand' }} eventKey={1} href="/main/">
 						Home
 					</NavItem>
 				</Nav>

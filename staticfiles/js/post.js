@@ -6,6 +6,7 @@ import { ToggleButton, ButtonToolbar, ToggleButtonGroup, DropdownButton, MenuIte
 import { FormGroup, ControlLabel, FormControl, Button, Collapse } from 'react-bootstrap';
 import { Media } from 'react-bootstrap';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
+import { Modal } from 'react-bootstrap';
 
 // get csrf token from cookies
 // from https://stackoverflow.com/questions/35112451/forbidden-csrf-token-missing-or-incorrect-django-error
@@ -130,6 +131,8 @@ class Comment extends React.Component{
 		this.handleDelete = this.handleDelete.bind(this);
 		this.handleExpand = this.handleExpand.bind(this);
 		this.cutoffContent = this.cutoffContent.bind(this);
+		this.handleShowReportWindow = this.handleShowReportWindow.bind(this);
+		this.handleCloseReportWindow = this.handleCloseReportWindow.bind(this);
 		this.state = {
 			content: this.props.content,
 			upvoted: this.props.upvoted,
@@ -140,6 +143,7 @@ class Comment extends React.Component{
 			expanded: false, // if the comment needs expansion, is it expanded?
 			reported: false,
 			deleted: this.props.deleted,
+			reportWindow: false,
 		};
 	}
 
@@ -262,7 +266,7 @@ class Comment extends React.Component{
 	}
 	menuItemClickedThatShouldntCloseDropdown(){
 	    this._forceOpen = true;
-
+	    this.handleShowReportWindow();
 		fetch("/api/comments/"+this.props.id+"/r/", {
 			method: 'GET',
 			credentials: "same-origin",
@@ -277,6 +281,8 @@ class Comment extends React.Component{
 		this.setState({
 			reported: true,
 		});
+
+
 	}
 
 	// cut off content to 3 lines or 280 chars, whichever is fewer
@@ -355,6 +361,14 @@ class Comment extends React.Component{
 		);
 	}
 
+	handleCloseReportWindow() {
+    	this.setState({ reportWindow: false });
+  	}
+
+  	handleShowReportWindow() {
+    	this.setState({ reportWindow: true });
+  	}
+
 
 	render() {
 		return (
@@ -371,6 +385,17 @@ class Comment extends React.Component{
 				   	<Media.Right className="dropdown-container">
 						{!this.state.deleted ? this.renderDropdown() : null}
 				   	</Media.Right>
+				   	<Modal show={this.state.reportWindow} onHide={this.handleCloseReportWindow}>
+			          <Modal.Header closeButton>
+			            <Modal.Title>Reported!</Modal.Title>
+			          </Modal.Header>
+			          <Modal.Body>
+			            <h4>Thanks for reporting. Our team will soon review this comment.</h4>
+			          </Modal.Body>
+			          <Modal.Footer>
+			          	<Button onClick={this.handleCloseReportWindow}>Close</Button>
+			          </Modal.Footer>
+			        </Modal>
 				</Media>
 			  	</div>
 					<Media className="replyIconLine" style={{borderLeft: "solid 4px", borderLeftColor: this.props.color}}>
@@ -380,6 +405,7 @@ class Comment extends React.Component{
 		);
 	}
 }
+
 
 // The textarea and reply button underneath every group of comments
 class CommentEntryForm extends React.Component {
@@ -482,6 +508,7 @@ class CommentBlock extends React.Component {
 				comments: this.props.comments,
 				my_upvoted: this.props.my_upvoted,
 				my_downvoted: this.props.my_downvoted,
+				my_comments: this.props.my_comments,
 			})
 		}
 	}
@@ -554,11 +581,11 @@ class CommentBlock extends React.Component {
 				(result) => {
 					result.content = text;
 					result.net_votes = 0;
-					this.props.handleComment(this.props.id);
 					this.setState({
 						comments: this.state.comments.concat([result]),
 						my_comments: this.state.my_comments.concat(result.id),
 					});
+					this.props.handleComment(this.props.id);
 				},
 				(error) => {
 					alert(error);
@@ -719,6 +746,8 @@ class Post extends React.Component{
 		this.handleExpand = this.handleExpand.bind(this);
 		this.cutoffContent = this.cutoffContent.bind(this);
 		this.handleDateClick = this.handleDateClick.bind(this);
+		this.handleShowReportWindow = this.handleShowReportWindow.bind(this);
+		this.handleCloseReportWindow = this.handleCloseReportWindow.bind(this);
 		this.state = {
 			upvoted: this.props.upvoted,
 			downvoted: this.props.downvoted,
@@ -727,6 +756,7 @@ class Post extends React.Component{
 							|| this.props.content.split(/\r\n|\r|\n/).length > 3),
 			expanded: false,
 			reported: false,
+			reportWindow: false,
 		};
 	}
 
@@ -819,6 +849,14 @@ class Post extends React.Component{
 		})
 	}
 
+	handleCopy(e) {
+		this._forceOpen = true;
+
+		this.setState({
+			copied: true,
+		});
+	}
+
 	// prevent dropdown close when clicking 'report'
 	// code from https://github.com/react-bootstrap/react-bootstrap/issues/1490
 	dropdownToggle(newValue){
@@ -829,9 +867,9 @@ class Post extends React.Component{
 	        this.setState({ menuOpen: newValue });
 	    }
 	}
-	menuItemClickedThatShouldntCloseDropdown(){
+	handleReport(){
 	    this._forceOpen = true;
-
+	    this.handleShowReportWindow();
 		fetch("/api/posts/"+this.props.id+"/r/", {
 			method: 'GET',
 			credentials: "same-origin",
@@ -878,6 +916,15 @@ class Post extends React.Component{
 		e.stopPropagation();
 	}
 
+
+   handleCloseReportWindow() {
+    	this.setState({ reportWindow: false });
+  	}
+
+  handleShowReportWindow() {
+    	this.setState({ reportWindow: true });
+  }
+
 	render () {
 		let date_string = timestamp(this.props.date);
 
@@ -917,16 +964,29 @@ class Post extends React.Component{
 					   >
 
 					   <CopyToClipboard text={"https://princetontigertalk.herokuapp.com/post/"+this.props.id+"/"}>
-					   <MenuItem >Copy link</MenuItem>
+					   {this.state.copied
+						   ? (<MenuItem>Copy link ✔</MenuItem>)
+						   : (<MenuItem onClick={() => this.handleCopy()}>Copy link</MenuItem>)}
 					   </CopyToClipboard>
 
 					   { this.props.isMine
 					   		? <MenuItem onClick={this.props.handleDelete}>Delete</MenuItem>
 							: (this.state.reported
 								? <MenuItem>Reported ✔</MenuItem>
-								: <MenuItem onClick={() => this.menuItemClickedThatShouldntCloseDropdown()}>Report</MenuItem>)
+								: <MenuItem onClick={() => this.handleReport()}>Report</MenuItem>)
 				   		}
 					</DropdownButton>
+					<Modal show={this.state.reportWindow} onHide={this.handleCloseReportWindow}>
+			          <Modal.Header closeButton>
+			            <Modal.Title>Reported!</Modal.Title>
+			          </Modal.Header>
+			          <Modal.Body>
+			            <h4>Thanks for reporting. Our team will soon review this post.</h4>
+			          </Modal.Body>
+			          <Modal.Footer>
+			          	<Button onClick={this.handleCloseReportWindow}>Close</Button>
+			          </Modal.Footer>
+			        </Modal>
 				</Media.Right>
 			  </Media>
 			  <Media className="rip">
@@ -955,6 +1015,7 @@ class Post extends React.Component{
 		);
 	}
 }
+
 
 // The post and its associated comments
 class PostCommentBlock extends React.Component {
@@ -1121,7 +1182,7 @@ class PostCommentBlock extends React.Component {
 							"#bbdefb",  "#64b5f6", "#1565c0", "#26c6da", "#808000",
 							"#008080", "#004cff", "#00cb8a", "#80cbc4", "#81c784",
 							"#388e3c", "#1b5e20", "#76ff03", "#ffeb3b", "#ffecb3",
-							"#fbc02d", "#a1887f", "#D2B48C", "#A0522D", "#6d4c41", "#212121"]
+							"#fbc02d", "#a1887f", "#D2B48C", "#A0522D", "#6d4c41", "#808080"]
 		color_list = shuffleSeed.shuffle(color_list, this.props.id);
 		return (
 			<CommentBlock
@@ -1196,7 +1257,7 @@ class NavBar extends React.Component {
 			  </Navbar.Header>
 			  <Navbar.Collapse>
 			  	<Nav pullLeft>
-					<NavItem style={{ fontFamily: 'Quicksand' }} href="/">
+					<NavItem style={{ fontFamily: 'Quicksand' }} href="/main/">
 						Home
 					</NavItem>
 					<NavItem href="https://docs.google.com/forms/d/e/1FAIpQLSeO1FP1ghYFiDi2AKrBsEOxu2b_NXowGbxCfrlHXFmm6b1Fug/viewform?usp=pp_url&entry.1782114317"

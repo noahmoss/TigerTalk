@@ -8,6 +8,7 @@ import { FormGroup, ControlLabel, FormControl, Button, Collapse } from 'react-bo
 import { Media } from 'react-bootstrap';
 import { isMobile, isChrome, isSafari, isFirefox } from 'react-device-detect';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
+import { Modal } from 'react-bootstrap';
 
 // Buttons for sorting posts by recent or popular
 class SortBar extends React.Component {
@@ -113,6 +114,8 @@ function Refresh_icon(props) {
 	);
 }
 
+
+
 function timestamp(st) {
 		var moment = require('moment');
 		var postDatetime = moment(st, moment.ISO_8601);
@@ -170,6 +173,8 @@ class Comment extends React.Component{
 		this.handleDelete = this.handleDelete.bind(this);
 		this.handleExpand = this.handleExpand.bind(this);
 		this.cutoffContent = this.cutoffContent.bind(this);
+		this.handleShowReportWindow = this.handleShowReportWindow.bind(this);
+		this.handleCloseReportWindow = this.handleCloseReportWindow.bind(this);
 		this.state = {
 			content: this.props.content,
 			upvoted: this.props.upvoted,
@@ -180,6 +185,7 @@ class Comment extends React.Component{
 			expanded: false, // if the comment needs expansion, is it expanded?
 			reported: false,
 			deleted: this.props.deleted,
+			reportWindow: false,
 		};
 	}
 
@@ -302,7 +308,7 @@ class Comment extends React.Component{
 	}
 	menuItemClickedThatShouldntCloseDropdown(){
 	    this._forceOpen = true;
-
+	    this.handleShowReportWindow();
 		fetch("/api/comments/"+this.props.id+"/r/", {
 			method: 'GET',
 			credentials: "same-origin",
@@ -317,6 +323,8 @@ class Comment extends React.Component{
 		this.setState({
 			reported: true,
 		});
+
+
 	}
 
 	// cut off content to 3 lines or 280 chars, whichever is fewer
@@ -395,6 +403,14 @@ class Comment extends React.Component{
 		);
 	}
 
+	handleCloseReportWindow() {
+    	this.setState({ reportWindow: false });
+  	}
+
+  	handleShowReportWindow() {
+    	this.setState({ reportWindow: true });
+  	}
+
 
 	render() {
 		return (
@@ -411,6 +427,17 @@ class Comment extends React.Component{
 				   	<Media.Right className="dropdown-container">
 						{!this.state.deleted ? this.renderDropdown() : null}
 				   	</Media.Right>
+				   	<Modal show={this.state.reportWindow} onHide={this.handleCloseReportWindow}>
+			          <Modal.Header closeButton>
+			            <Modal.Title>Reported!</Modal.Title>
+			          </Modal.Header>
+			          <Modal.Body>
+			            <h4>Thanks for reporting. Our team will soon review this comment.</h4>
+			          </Modal.Body>
+			          <Modal.Footer>
+			          	<Button onClick={this.handleCloseReportWindow}>Close</Button>
+			          </Modal.Footer>
+			        </Modal>
 				</Media>
 			  	</div>
 					<Media className="replyIconLine" style={{borderLeft: "solid 4px", borderLeftColor: this.props.color}}>
@@ -523,6 +550,7 @@ class CommentBlock extends React.Component {
 				comments: this.props.comments,
 				my_upvoted: this.props.my_upvoted,
 				my_downvoted: this.props.my_downvoted,
+				my_comments: this.props.my_comments,
 			})
 		}
 	}
@@ -595,11 +623,11 @@ class CommentBlock extends React.Component {
 				(result) => {
 					result.content = text;
 					result.net_votes = 0;
-					this.props.handleComment(this.props.id);
 					this.setState({
 						comments: this.state.comments.concat([result]),
 						my_comments: this.state.my_comments.concat(result.id),
 					});
+					this.props.handleComment(this.props.id);
 				},
 				(error) => {
 					alert(error);
@@ -760,6 +788,8 @@ class Post extends React.Component{
 		this.handleExpand = this.handleExpand.bind(this);
 		this.cutoffContent = this.cutoffContent.bind(this);
 		this.handleDateClick = this.handleDateClick.bind(this);
+		this.handleShowReportWindow = this.handleShowReportWindow.bind(this);
+		this.handleCloseReportWindow = this.handleCloseReportWindow.bind(this);
 		this.state = {
 			upvoted: this.props.upvoted,
 			downvoted: this.props.downvoted,
@@ -768,6 +798,7 @@ class Post extends React.Component{
 							|| this.props.content.split(/\r\n|\r|\n/).length > 3),
 			expanded: false,
 			reported: false,
+			reportWindow: false,
 		};
 	}
 
@@ -860,6 +891,14 @@ class Post extends React.Component{
 		})
 	}
 
+	handleCopy(e) {
+		this._forceOpen = true;
+
+		this.setState({
+			copied: true,
+		});
+	}
+
 	// prevent dropdown close when clicking 'report'
 	// code from https://github.com/react-bootstrap/react-bootstrap/issues/1490
 	dropdownToggle(newValue){
@@ -870,9 +909,9 @@ class Post extends React.Component{
 	        this.setState({ menuOpen: newValue });
 	    }
 	}
-	menuItemClickedThatShouldntCloseDropdown(){
+	handleReport(){
 	    this._forceOpen = true;
-
+	    this.handleShowReportWindow();
 		fetch("/api/posts/"+this.props.id+"/r/", {
 			method: 'GET',
 			credentials: "same-origin",
@@ -919,6 +958,15 @@ class Post extends React.Component{
 		e.stopPropagation();
 	}
 
+
+   handleCloseReportWindow() {
+    	this.setState({ reportWindow: false });
+  	}
+
+  handleShowReportWindow() {
+    	this.setState({ reportWindow: true });
+  }
+
 	render () {
 		let date_string = timestamp(this.props.date);
 
@@ -958,16 +1006,29 @@ class Post extends React.Component{
 					   >
 
 					   <CopyToClipboard text={"https://princetontigertalk.herokuapp.com/post/"+this.props.id+"/"}>
-					   <MenuItem >Copy link</MenuItem>
+					   {this.state.copied
+						   ? (<MenuItem>Copy link ✔</MenuItem>)
+						   : (<MenuItem onClick={() => this.handleCopy()}>Copy link</MenuItem>)}
 					   </CopyToClipboard>
 
 					   { this.props.isMine
 					   		? <MenuItem onClick={this.props.handleDelete}>Delete</MenuItem>
 							: (this.state.reported
 								? <MenuItem>Reported ✔</MenuItem>
-								: <MenuItem onClick={() => this.menuItemClickedThatShouldntCloseDropdown()}>Report</MenuItem>)
+								: <MenuItem onClick={() => this.handleReport()}>Report</MenuItem>)
 				   		}
 					</DropdownButton>
+					<Modal show={this.state.reportWindow} onHide={this.handleCloseReportWindow}>
+			          <Modal.Header closeButton>
+			            <Modal.Title>Reported!</Modal.Title>
+			          </Modal.Header>
+			          <Modal.Body>
+			            <h4>Thanks for reporting. Our team will soon review this post.</h4>
+			          </Modal.Body>
+			          <Modal.Footer>
+			          	<Button onClick={this.handleCloseReportWindow}>Close</Button>
+			          </Modal.Footer>
+			        </Modal>
 				</Media.Right>
 			  </Media>
 			  <Media className="rip">
@@ -1011,6 +1072,7 @@ class PostCommentBlock extends React.Component {
 		this.handleColorClick = this.handleColorClick.bind(this);
 		this.getUserData = this.getUserData.bind(this);
 		this.handleCollapsed = this.handleCollapsed.bind(this);
+
 		this.state = {
 			showing: false, // are the comments showing?
 			isUserDataLoaded: true, // is the updated user data loaded?
@@ -1021,8 +1083,10 @@ class PostCommentBlock extends React.Component {
 			my_upvoted: this.props.my_upvoted,
 			my_downvoted: this.props.my_downvoted,
 			colorclick: false,
+
 		};
 	}
+
 
 	componentDidUpdate(prevProps, prevState) {
 		if (prevProps.showing != this.props.showing ) {
@@ -1209,7 +1273,7 @@ class PostCommentBlock extends React.Component {
 							"#bbdefb",  "#64b5f6", "#1565c0", "#26c6da", "#808000",
 							"#008080", "#004cff", "#00cb8a", "#80cbc4", "#81c784",
 							"#388e3c", "#1b5e20", "#76ff03", "#ffeb3b", "#ffecb3",
-							"#fbc02d", "#a1887f", "#D2B48C", "#A0522D", "#6d4c41", "#212121"]
+							"#fbc02d", "#a1887f", "#D2B48C", "#A0522D", "#6d4c41", "#808080"]
 		color_list = shuffleSeed.shuffle(color_list, this.props.id);
 		return (
 			<CommentBlock
@@ -1319,7 +1383,7 @@ class PostList extends React.Component {
 		this.openPost = React.createRef();
 		this.handlePost = this.handlePost.bind(this);
 		this.handleDelete = this.handleDelete.bind(this);
-		this.getFirstPage = this.getFirstPage.bind(this);
+		this.refreshPosts = this.refreshPosts.bind(this);
 		this.getNextPage = this.getNextPage.bind(this);
 		this.reloadPosts = this.reloadPosts.bind(this);
 		this.getUserData = this.getUserData.bind(this);
@@ -1334,8 +1398,8 @@ class PostList extends React.Component {
 
 		if (this.props.sort == "recent") {
 			this.postListTimer = setInterval(
-				() => this.getFirstPage(),
-				15000 // 5 seconds
+				() => this.refreshPosts(),
+				15000 // 15 seconds
 			);
 		}
 	}
@@ -1370,8 +1434,8 @@ class PostList extends React.Component {
 			}
 			if (this.props.sort == "recent") {
 				this.postListTimer = setInterval(
-					() => this.getFirstPage(),
-					5000
+					() => this.refreshPosts(),
+					15000
 				);
 			}
 	 	}
@@ -1454,10 +1518,11 @@ class PostList extends React.Component {
 	}
 
 	// get first page of post results and update current post list
-	 getFirstPage() {
+	 refreshPosts() {
 		this.getUserData();
+		let loaded_count = this.state.posts.length + 10;
 
-		fetch("/api/posts/", {
+		fetch("/api/posts/?limit="+loaded_count, {
 			method: 'GET',
 			credentials: "same-origin",
 			headers : new Headers(),
@@ -1470,18 +1535,18 @@ class PostList extends React.Component {
 		.then(res => res.json())
 		.then(
 			(result) => {
-				// slice new posts and add to front of current post list
 				let loadedPosts = result.results;
-				let oldPosts = this.state.posts.slice(this.state.newPostCount);
+
+				let last_post_id = this.state.posts[this.state.posts.length-1].id;
+
+				let newPosts = [];
 				for (let i = 0; i < loadedPosts.length; i++) {
-					if (loadedPosts[i].id == oldPosts[0].id) {
-						var firstOldPost = i;
-						break;
+					if (loadedPosts[i].id >= last_post_id) {
+						newPosts.push(loadedPosts[i])
 					}
 				}
-				let newPosts = loadedPosts.slice(0,firstOldPost);
 				this.setState({
-					posts : newPosts.concat(oldPosts),
+					posts : newPosts,
 				});
 			},
 			(error) => {
