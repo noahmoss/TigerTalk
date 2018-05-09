@@ -173,6 +173,8 @@ class Comment extends React.Component{
 		this.handleDelete = this.handleDelete.bind(this);
 		this.handleExpand = this.handleExpand.bind(this);
 		this.cutoffContent = this.cutoffContent.bind(this);
+		this.handleShowReportWindow = this.handleShowReportWindow.bind(this);
+		this.handleCloseReportWindow = this.handleCloseReportWindow.bind(this);
 		this.state = {
 			content: this.props.content,
 			upvoted: this.props.upvoted,
@@ -183,6 +185,7 @@ class Comment extends React.Component{
 			expanded: false, // if the comment needs expansion, is it expanded?
 			reported: false,
 			deleted: this.props.deleted,
+			reportWindow: false,
 		};
 	}
 
@@ -305,7 +308,7 @@ class Comment extends React.Component{
 	}
 	menuItemClickedThatShouldntCloseDropdown(){
 	    this._forceOpen = true;
-
+	    this.handleShowReportWindow();
 		fetch("/api/comments/"+this.props.id+"/r/", {
 			method: 'GET',
 			credentials: "same-origin",
@@ -320,6 +323,8 @@ class Comment extends React.Component{
 		this.setState({
 			reported: true,
 		});
+
+		
 	}
 
 	// cut off content to 3 lines or 280 chars, whichever is fewer
@@ -398,6 +403,14 @@ class Comment extends React.Component{
 		);
 	}
 
+	handleCloseReportWindow() {
+    	this.setState({ reportWindow: false });
+  	}
+
+  	handleShowReportWindow() {
+    	this.setState({ reportWindow: true });
+  	}
+
 
 	render() {
 		return (
@@ -414,6 +427,17 @@ class Comment extends React.Component{
 				   	<Media.Right className="dropdown-container">
 						{!this.state.deleted ? this.renderDropdown() : null}
 				   	</Media.Right>
+				   	<Modal show={this.state.reportWindow} onHide={this.handleCloseReportWindow}>
+			          <Modal.Header closeButton>
+			            <Modal.Title>Reported!</Modal.Title>
+			          </Modal.Header>
+			          <Modal.Body>
+			            <h4>Thanks for reporting. Our team will soon review this comment.</h4>
+			          </Modal.Body>
+			          <Modal.Footer>
+			          	<Button onClick={this.handleCloseReportWindow}>Close</Button>
+			          </Modal.Footer>
+			        </Modal>
 				</Media>
 			  	</div>
 					<Media className="replyIconLine" style={{borderLeft: "solid 4px", borderLeftColor: this.props.color}}>
