@@ -65,7 +65,10 @@ h3 {
 .signature {
 	background-color: var(--nav-bg-color);
 	font-family: Quicksand;
-	height: 10vw;
+	height: 10vh;
+	position: fixed;
+	bottom: 0;
+	/*margin-bottom: 0px;*/
 }
 
 .madeBy {
