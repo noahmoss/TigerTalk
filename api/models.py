@@ -46,6 +46,7 @@ class Comment(models.Model):
         ordering = ['date_created']
 
 class User(AbstractUser):
+    first_login = models.BooleanField(default=True)
     posts_upvoted = models.ManyToManyField(Post, related_name='users_upvoted', default=None, blank=True)
     posts_downvoted = models.ManyToManyField(Post, related_name='users_downvoted', default=None, blank=True)
     comments_upvoted = models.ManyToManyField(Comment, related_name='users_upvoted', default=None, blank=True)

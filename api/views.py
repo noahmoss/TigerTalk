@@ -10,6 +10,7 @@ from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.utils import timezone
 import datetime
+import smtplib
 User = get_user_model()
 
 # list of all posts
@@ -60,7 +61,7 @@ class PostCommentList(generics.ListCreateAPIView):
 
         # see if this author matches a previous commenter
         is_new = True
-        curr_id = 100
+        curr_id = -1
         if curr_author == post_author:
             curr_id = 0
             is_new = False
@@ -82,34 +83,6 @@ class PostCommentList(generics.ListCreateAPIView):
         return Response({"post" : post.id, "date_created" : timezone.now(), "anon_author" : curr_id, "id": comment.id },
                         status=status.HTTP_201_CREATED, headers=headers)
 
-    # def perform_create(self, serializer):
-        # post = Post.objects.get(id=self.kwargs.get('pk'))
-        # post_author = post.author.id
-        # comments = Comment.objects.filter(post=self.kwargs.get('pk'))
-        # curr_author = self.request.user.id
-        # serializer = CommentSerializer(data=self.request.data)
-        #
-        # # see if this author matches a previous commenter
-        # is_new = True
-        # curr_id = 100
-        # if curr_author == post_author:
-        #     curr_id = 0
-        #     is_new = False
-        # else:
-        #     for comment in comments:
-        #         if comment.author.id == curr_author:
-        #             curr_id = comment.anon_author
-        #             is_new = False
-        #             break
-        # if is_new:
-        #     curr_id = post.next_new_commenter
-        #     post.next_new_commenter += 1
-        #     post.save()
-        #
-        # if serializer.is_valid():
-        #     serializer.save(author=self.request.user, anon_author=curr_id)
-        #
-        # return Response({"post" : post.id, "date_created" : timezone.now(), "anon_author" : curr_id})
 
 # list of all comments
 # methods: GET, POST
@@ -215,6 +188,24 @@ class CommentClearVote(generics.ListAPIView):
         user.comments_upvoted.remove(comment)
         return Response({"net_votes" : comment.net_votes()})
 
+# adapted from
+# https://stackoverflow.com/questions/10147455/how-to-send-an-email-with-gmail-as-provider-using-python/12424439#12424439
+def send_email(user, pwd, recipient, subject, body):
+    FROM = user
+    TO = recipient if isinstance(recipient, list) else [recipient]
+    SUBJECT = subject
+    TEXT = body
+
+    # Prepare actual message
+    message = """From: %s\nTo: %s\nSubject: %s\n\n%s
+    """ % (FROM, ", ".join(TO), SUBJECT, TEXT)
+    server = smtplib.SMTP("smtp.gmail.com", 587)
+    server.ehlo()
+    server.starttls()
+    server.login(user, pwd)
+    server.sendmail(FROM, TO, message)
+    server.close()
+
 class PostReport(generics.ListAPIView):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
@@ -224,6 +215,20 @@ class PostReport(generics.ListAPIView):
         post = Post.objects.get(id=self.kwargs.get('pk'))
         post.reported = True
         post.save()
+
+        superusers = User.objects.filter(is_superuser=True)
+        superuser_emails = [superuser.username + "@princeton.edu" for superuser in superusers]
+        subject = 'TigerTalk post ' + str(post.id) + ' has been reported.'
+        message = 'Post #' + str(post.id) + ' with content below was reported on ' + str(timezone.now()) + '.'
+        message += '\n\n\"' + post.content + '\"'
+        message += '\n\n\n=====================================================\n'
+        message += ("This email was sent because your TigerTalk account is "
+                    "designated as a superuser.\nTo no longer receive "
+                    "these emails, log on to the admin page and change your "
+                    "account status.")
+
+        send_email("noreply.tigertalk", "tigertalk333", superuser_emails, subject, message)
+
         return Response({"reported" : post.reported})
 
 class CommentReport(generics.ListAPIView):
@@ -235,6 +240,20 @@ class CommentReport(generics.ListAPIView):
         comment = Comment.objects.get(id=self.kwargs.get('pk'))
         comment.reported = True
         comment.save()
+
+        superusers = User.objects.filter(is_superuser=True)
+        superuser_emails = [superuser.username + "@princeton.edu" for superuser in superusers]
+        subject = 'TigerTalk comment ' + str(comment.id) + ' has been reported.'
+        message = 'Comment #' + str(comment.id) + ' on post #' + str(comment.post.id) + ' with content below was reported on ' + str(timezone.now()) + '.'
+        message += '\n\n\"' + comment.content + '\"'
+        message += '\n\n\n=====================================================\n'
+        message += ("This email was sent because your TigerTalk account is "
+                    "designated as a superuser.\nTo no longer receive "
+                    "these emails, log on to the admin page and change your "
+                    "account status.")
+
+        send_email("noreply.tigertalk", "tigertalk333", superuser_emails, subject, message)
+
         return Response({"reported" : comment.reported})
 
 # details of single user
@@ -242,3 +261,14 @@ class UserDetail(generics.RetrieveAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_classes = (permissions.IsAuthenticated, IsUser,)
+
+class UserToggleFirstTime(generics.ListAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = (permissions.IsAuthenticated, IsUser,)
+
+    def list(self, request):
+        user = request.user
+        user.first_login = False
+        user.save()
+        return Response({"first_login" : False})

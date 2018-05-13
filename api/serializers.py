@@ -18,7 +18,6 @@ class CommentSerializer(serializers.ModelSerializer):
         )
         read_only_fields = ('id','author','date_created',)
 
-# TODO: figure out way to just pass # of comments
 class PostSerializer(serializers.ModelSerializer):
     comments = CommentSerializer(many=True, read_only=True)
 
@@ -34,12 +33,12 @@ class PostSerializer(serializers.ModelSerializer):
         )
 
 class UserSerializer(serializers.ModelSerializer):
-    # posts = PostSerializer(many=True)
     class Meta:
         model = User
         fields = (
             'id',
             'username',
+            'first_login',
             'posts',
             'comments',
             'posts_upvoted',

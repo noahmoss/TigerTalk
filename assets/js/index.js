@@ -1792,12 +1792,10 @@ class NavBar extends React.Component {
 			<Navbar fixedTop collapseOnSelect fluid>
 			  <Navbar.Header>
 				<Navbar.Brand>
-				<span>
 				  TigerTalk
 				  <form id="demo-2">
 					  <input type="search" placeholder="Search"/>
 				  </form>
-			  </span>
 				</Navbar.Brand>
 			    <Navbar.Toggle />
 			  </Navbar.Header>
@@ -1825,10 +1823,7 @@ class NavBar extends React.Component {
 class Initialpopup extends React.Component {
 	 constructor(props, context) {
 	    super(props, context);
-
-	    this.handleShow = this.handleShow.bind(this);
 	    this.handleClose = this.handleClose.bind(this);
-
 	    this.state = {
 	      show: this.props.show,
 	    };
@@ -1836,10 +1831,16 @@ class Initialpopup extends React.Component {
 
 	  handleClose() {
 	    this.setState({ show: false });
-	  }
-
-	  handleShow() {
-	    this.setState({ show: true });
+		fetch("/api/welcome/", {
+			method: 'GET',
+			credentials: "same-origin",
+			headers : new Headers(),
+			headers: {
+				 "X-CSRFToken": csrftoken,
+				 'Accept': 'application/json',
+				 'Content-Type': 'application/json',
+			},
+		})
 	  }
 
 	render() {
@@ -1851,17 +1852,19 @@ class Initialpopup extends React.Component {
 				      <Modal.Title>Welcome to TigerTalk!</Modal.Title>
 				    </Modal.Header>
 				    <Modal.Body>
+						<p>
+							We&#39;re glad to have you here! Since it&#39;s your first time, we want to make sure you know the ground rules.
+						</p>
 					    <p>
-					    	As this is your first time visiting the site - we wanted to take a moment to share our privacy policy.
+						    TigerTalk is a <b>semi-anonymous</b> forum for Princeton students: your identity is tied to your posts and comments, but this is never available to other users and would only be accessed under extreme circumstances.
+							We&#39;re relying on the community to keep things civil. Please don&#39;t incite or threaten violence, release private information about other students, or do anything that might violate the law or University policies.
 					    </p>
-					    <p>
-						    TigerTalk is semi-anonymous: your posts and comments are recorded in our database with your netID, but this is stored securely and is never available to other users.
-						    We will never access this information unless a user threatens violence, reveals sensitive information about other students, or otherwise violates University policies.
-						    Feel free to reach out to a member of our team if you have any questions or concerns! We hope you enjoy the site!
-					    </p>
+						<p>
+							Now start talking! (We won&#39;t show you this message again.)
+						</p>
 					</Modal.Body>
 				    <Modal.Footer>
-				      <Button onClick={this.handleClose}>Close</Button>
+				      <Button onClick={this.handleClose}>Got it!</Button>
 				    </Modal.Footer>
 
 				</Modal>
@@ -1889,7 +1892,7 @@ class App extends React.Component {
 	render() {
 		return (
 			<div>
-				<Initialpopup show= {true}/>
+				<Initialpopup show={first_login == 'True'}/>
 				<NavBar />
 				<MainTitle />
 				<SortBar toggleSort={this.toggleSort} handleRefresh={this.handleRefresh}/>
