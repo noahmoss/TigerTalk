@@ -22,20 +22,19 @@ TA: Lance Goodridge
   * ~~Continue developing MVP front-end~~
   * ~~Create basic API with Django REST framework and deploy on Heroku~~
 * 4/9
-  * Link front-end with API to provide MVP functionality
-  * Continue to build the UI to match design specs
-  * Add voting, reports, and comments to database
-  * Implement user authentication (probably via CAS) and create a splash page
+  * ~~Link front-end with API to provide MVP functionality~~
+  * ~~Continue to build the UI to match design specs~~
+  * ~~Add voting, reports, and comments to database~~
+  * ~~Implement user authentication (probably via CAS) and create a splash page~~
 * 4/16
-  * Implement user features (user settings, viewing one’s own posts, etc) and test them by creating our own accounts
-  * Continue adding stretch features and fixing bugs
-  * Begin recruiting alpha testers
+  * ~~Implement user features (posting, deleting, post ownership) and test them by creating our own accounts~~
+  * ~~Continue adding stretch features and fixing bugs~~
+  * ~~Begin recruiting alpha testers~~
 * 4/23
-  * Deploy alpha for alpha test on 4/27
-  * Get our friends to join, test the site, and report any issues
-  * Continue working on stretch features and fixing alpha issues
+  * ~~Deploy alpha for alpha test on 4/27~~
+  * ~~Get our friends to join, test the site, and report any issues~~
+  * ~~Continue working on stretch features and fixing alpha issues~~
 * 4/30
-  * Tie up any loose ends from alpha feedback
-  * Launch beta and recruit users from the campus community
-  * Beta test on 5/4
-  * Create and practice demo
+  * ~~Tie up any loose ends from alpha feedback~~
+  * ~~Launch beta~~
+  * ~~Create and practice demo~~

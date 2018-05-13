@@ -596,6 +596,13 @@ div.no-more-posts {
     margin-top: 40px;
     margin-bottom: 50px;
 }
+div.search-results-count {
+    font-family: Quicksand;
+    font-size: 16px;
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
 div.no-post {
     font-family: Quicksand;
     font-size: 20px;

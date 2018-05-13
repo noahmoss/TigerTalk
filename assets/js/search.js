@@ -1583,7 +1583,7 @@ class PostList extends React.Component {
 			<div>
 			{this.state.isLoaded
 				? (
-					<div className="searchResultDescription">
+					<div className="search-results-count">
 					{this.state.post_count} results for search query: "{query}"
 					</div>
 				) : null
