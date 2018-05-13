@@ -9,6 +9,8 @@ import { Media } from 'react-bootstrap';
 import { isMobile, isChrome, isSafari, isFirefox } from 'react-device-detect';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { Modal } from 'react-bootstrap';
+import {Popover} from 'react-bootstrap';
+import {OverlayTrigger} from 'react-bootstrap';
 
 // Buttons for sorting posts by recent or popular
 class SortBar extends React.Component {
@@ -959,7 +961,14 @@ class Post extends React.Component{
     	this.setState({ reportWindow: true });
   }
 
+ 
+ 	
+
 	render () {
+		const popoverRight = (
+		  <Popover id="popover-positioned-right" title="Link Copied!">
+		  </Popover>
+		);
 		let date_string = timestamp(this.props.date);
 
 		const postclass = !this.props.color
@@ -998,7 +1007,10 @@ class Post extends React.Component{
 					   >
 
 					   <CopyToClipboard text={"https://princetontigertalk.herokuapp.com/post/"+this.props.id+"/"}>
-					   <MenuItem >Copy link</MenuItem>
+					   	<OverlayTrigger trigger="click" placement="right" overlay={popoverRight}>
+					 	  <MenuItem >Copy link
+					   	  </MenuItem>
+					    </OverlayTrigger>
 					   </CopyToClipboard>
 
 					   { this.props.isMine
@@ -1782,6 +1794,11 @@ class NavBar extends React.Component {
 					target="_blank" style={{ fontFamily: 'Quicksand' }} >
 						Feedback
 					</NavItem>
+					<NavItem>
+						<form id="demo-2">
+							<input type="search" placeholder="Search"/>
+						</form>
+					</NavItem>
 				</Nav>
 			    <Nav pullRight>
 					<NavItem style={{ fontFamily: 'Quicksand' }} href="/accounts/logout">
@@ -1790,6 +1807,54 @@ class NavBar extends React.Component {
 			    </Nav>
 			  </Navbar.Collapse>
 			</Navbar>
+		);
+	}
+}
+
+class Initialpopup extends React.Component {
+	 constructor(props, context) {
+	    super(props, context);
+
+	    this.handleShow = this.handleShow.bind(this);
+	    this.handleClose = this.handleClose.bind(this);
+
+	    this.state = {
+	      show: this.props.show,
+	    };
+	  }
+
+	  handleClose() {
+	    this.setState({ show: false });
+	  }
+
+	  handleShow() {
+	    this.setState({ show: true });
+	  }
+
+	render() {
+		return(
+			<div className="static-modal">
+				<Modal show={this.state.show} onHide={this.handleClose}>
+				  
+				    <Modal.Header>
+				      <Modal.Title>Welcome to TigerTalk!</Modal.Title>
+				    </Modal.Header>
+				    <Modal.Body>
+					    <p>
+					    	As this is your first time visiting the site - we wanted to take a moment to share our privacy policy. 
+					    </p>
+					    <p>
+						    TigerTalk is semi-anonymous: your posts and comments are recorded in our database with your netID, but this is stored securely and is never available to other users. 
+						    We will never access this information unless a user threatens violence, reveals sensitive information about other students, or otherwise violates University policies. 
+						    Feel free to reach out to a member of our team if you have any questions or concerns! We hope you enjoy the site!
+					    </p>
+					</Modal.Body>
+				    <Modal.Footer>
+				      <Button onClick={this.handleClose}>Close</Button>
+				    </Modal.Footer>
+			
+				</Modal>
+			</div>
 		);
 	}
 }
@@ -1813,6 +1878,7 @@ class App extends React.Component {
 	render() {
 		return (
 			<div>
+				<Initialpopup show= {true}/>
 				<NavBar />
 				<MainTitle />
 				<SortBar toggleSort={this.toggleSort} handleRefresh={this.handleRefresh}/>
