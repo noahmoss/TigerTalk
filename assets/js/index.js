@@ -18,7 +18,7 @@ class SortBar extends React.Component {
 		super(props, context);
 		this.state = {
 			value: "recent", // recent or popular
-			isLoaded : true,
+			isLoaded : true, // are the posts loaded?
 		};
 		this.setRecent = this.setRecent.bind(this);
 		this.setPopular = this.setPopular.bind(this);
@@ -53,6 +53,7 @@ class SortBar extends React.Component {
     }
 }
 
+// black upvote arrow
 function Chevron_up(props) {
 	return (
 		<span className="glyphicon glyphicon-menu-up"
@@ -63,6 +64,7 @@ function Chevron_up(props) {
 	);
 }
 
+// orange upvote arrow
 function Chevron_up_clicked(props) {
 	return (
 		<span className="glyphicon glyphicon-menu-up"
@@ -73,6 +75,7 @@ function Chevron_up_clicked(props) {
 	);
 }
 
+// black downvote arrow
 function Chevron_down(props) {
 	return (
 		<span className="glyphicon glyphicon-menu-down"
@@ -83,6 +86,7 @@ function Chevron_down(props) {
 	)
 }
 
+// orange downvote arrow
 function Chevron_down_clicked(props) {
 	return (
 		<span className="glyphicon glyphicon-menu-down"
@@ -93,6 +97,7 @@ function Chevron_down_clicked(props) {
 	)
 }
 
+// comment count icon
 class Speech_bubble extends React.Component {
  	render() {
  		return (
@@ -101,23 +106,8 @@ class Speech_bubble extends React.Component {
 	}
 }
 
-class Share_icon extends React.Component {
- 	render() {
- 		return (
- 				<span className="glyphicon glyphicon-send" aria-hidden="true"></span>
-		);
-	}
-}
-
-
-function Refresh_icon(props) {
-	return (
-			<span className="glyphicon glyphicon-refresh" onClick={props.onClick} aria-hidden="true"></span>
-	);
-}
-
-
-
+// Takes a ISO timestamp and returns a timestamp in the format "x minutes ago",
+// "x hours ago", etc, based on the current time
 function timestamp(st) {
 		var moment = require('moment');
 		var postDatetime = moment(st, moment.ISO_8601);
@@ -179,11 +169,14 @@ class Comment extends React.Component{
 		this.handleCloseReportWindow = this.handleCloseReportWindow.bind(this);
 		this.state = {
 			content: this.props.content,
-			upvoted: this.props.upvoted,
-			downvoted: this.props.downvoted,
-			votes: this.props.votes,
+			upvoted: this.props.upvoted, // boolean
+			downvoted: this.props.downvoted, // boolean
+			votes: this.props.votes, // int
+
+			// does the comment length warrent expansion/contraction?
 			needsExpansion: (this.props.content.length > 280
 							|| this.props.content.split(/\r\n|\r|\n/).length > 3),
+
 			expanded: false, // if the comment needs expansion, is it expanded?
 			reported: false,
 			deleted: this.props.deleted,
@@ -191,6 +184,7 @@ class Comment extends React.Component{
 		};
 	}
 
+	// ensure that the component updates state when props change
 	componentWillReceiveProps(nextProps) {
 		if(this.props.upvoted != nextProps.upvoted) {
 			this.setState({
