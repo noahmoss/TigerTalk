@@ -11,34 +11,34 @@ class NavBar extends React.Component {
 	}
 
 	handleChange(event) {
-      this.setState({value: event.target.value});
-    }
+		this.setState({value: event.target.value});
+	}
 
 	render() {
 		return (
 			<Navbar fixedTop collapseOnSelect fluid>
-			  <Navbar.Header>
-				<Navbar.Brand>
-				  TigerTalk
-				  <form id="demo-2" action={!this.state.value ? "#" : "/posts"} >
-					  <input id="searchbox" type="search" name="q" value={this.state.value} onChange={this.handleChange}/>
-				  </form>
-				</Navbar.Brand>
-			    <Navbar.Toggle />
-			  </Navbar.Header>
-			  <Navbar.Collapse>
-			  <Nav pullRight>
-					<NavItem style={{ fontFamily: 'Quicksand' }} href="/main">
-						Home
-					</NavItem>
-					<NavItem href="https://docs.google.com/forms/d/e/1FAIpQLSeO1FP1ghYFiDi2AKrBsEOxu2b_NXowGbxCfrlHXFmm6b1Fug/viewform?usp=pp_url&entry.1782114317"
-					target="_blank" style={{ fontFamily: 'Quicksand' }} >
-						Feedback
-					</NavItem>
-					<NavItem style={{ fontFamily: 'Quicksand' }} href="/accounts/logout">
-					  Logout ({netid})
-					</NavItem>
-			    </Nav>
+				<Navbar.Header>
+					<Navbar.Brand>
+						TigerTalk
+						<form id="demo-2" action={!this.state.value ? "#" : "/posts"} >
+							<input id="searchbox" type="search" name="q" value={this.state.value} onChange={this.handleChange}/>
+						</form>
+					</Navbar.Brand>
+					<Navbar.Toggle />
+				</Navbar.Header>
+				<Navbar.Collapse>
+					<Nav pullRight>
+						<NavItem style={{ fontFamily: 'Quicksand' }} href="/main">
+							Home
+						</NavItem>
+						<NavItem href="https://docs.google.com/forms/d/e/1FAIpQLSeO1FP1ghYFiDi2AKrBsEOxu2b_NXowGbxCfrlHXFmm6b1Fug/viewform?usp=pp_url&entry.1782114317"
+							target="_blank" style={{ fontFamily: 'Quicksand' }} >
+							Feedback
+						</NavItem>
+						<NavItem style={{ fontFamily: 'Quicksand' }} href="/accounts/logout">
+							Logout ({netid})
+						</NavItem>
+					</Nav>
 				</Navbar.Collapse>
 			</Navbar>
 		);

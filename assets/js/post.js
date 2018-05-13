@@ -162,7 +162,6 @@ class Comment extends React.Component{
 		}
 	}
 
-	// TODO: think about error handling - i.e. behavior when no server connection
 	sendVoteToServer(tag) {
 		fetch("/api/comments/"+this.props.id+"/"+tag+"/", {
 			method: 'GET',
@@ -532,6 +531,9 @@ class CommentBlock extends React.Component {
 					comment_count: result.length,
 				});
 			},
+			(error) => {
+				alert("Issue reaching server. Check your connection and refresh.");
+			}
 		);
 	}
 
@@ -588,7 +590,7 @@ class CommentBlock extends React.Component {
 					this.props.handleComment(this.props.id);
 				},
 				(error) => {
-					alert(error);
+					alert("Issue reaching server. Check your connection and refresh.");
 				}
 			)
 		}
@@ -619,6 +621,9 @@ class CommentBlock extends React.Component {
 				this.setState({
 					comments : newcomments
 				});
+			},
+			(error) => {
+				alert("Issue reaching server. Check your connection and refresh.");
 			}
 		)
 	}
@@ -760,7 +765,6 @@ class Post extends React.Component{
 		};
 	}
 
-	// TODO: think about error handling - i.e. behavior when no server connection
 	sendVoteToServer(tag) {
 		fetch("/api/posts/"+this.props.id+"/"+tag+"/", {
 			method: 'GET',
@@ -1106,9 +1110,7 @@ class PostCommentBlock extends React.Component {
 				});
 			},
 			(error) => {
-				this.setState({
-					error
-				});
+				alert("Issue reaching server. Check your connection and refresh.");
 			}
 		)
 
@@ -1338,6 +1340,9 @@ class App extends React.Component {
 					my_upvoted_comments: result.comments_upvoted,
 					my_downvoted_comments: result.comments_downvoted,
 				});
+			},
+			(error) => {
+				alert("Issue reaching server. Check your connection and refresh.");
 			}
 		)
 	}
@@ -1372,10 +1377,7 @@ class App extends React.Component {
 				})
 			},
 			(error) => {
-				this.setState({
-					exists: false,
-					isLoaded: true,
-				})
+				alert("Issue reaching server. Check your connection and refresh.");
 			}
 		)
 	}

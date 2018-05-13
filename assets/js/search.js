@@ -124,6 +124,7 @@ class Comment extends React.Component{
 		this.handleDelete = this.handleDelete.bind(this);
 		this.handleExpand = this.handleExpand.bind(this);
 		this.cutoffContent = this.cutoffContent.bind(this);
+		this.handleReport = this.handleReport.bind(this);
 		this.handleShowReportWindow = this.handleShowReportWindow.bind(this);
 		this.handleCloseReportWindow = this.handleCloseReportWindow.bind(this);
 		this.state = {
@@ -247,7 +248,7 @@ class Comment extends React.Component{
 		})
 	}
 
-	// toggle "see more"/"see less" of comment text
+	// toggle "see more" and "see less" of comment text
 	handleExpand(e) {
 		this.setState({
 			expanded : !this.state.expanded,
@@ -255,7 +256,7 @@ class Comment extends React.Component{
 	}
 
 	// prevent dropdown close when clicking 'report'
-	// code from https://github.com/react-bootstrap/react-bootstrap/issues/1490
+	// code adapted from https://github.com/react-bootstrap/react-bootstrap/issues/1490
 	dropdownToggle(newValue){
 	    if (this._forceOpen){
 	        this.setState({ menuOpen: true });
@@ -293,6 +294,8 @@ class Comment extends React.Component{
 		}
 		return newContent.slice(0,280)
 	}
+
+	// render methods for individual parts of the post
 	renderContent() {
 		let content = this.state.expanded
 							? this.props.content + " "
@@ -420,6 +423,7 @@ class CommentEntryForm extends React.Component {
 		this.onKeyUp = this.onKeyUp.bind(this);
 	}
 
+	// update state value whenever a character is entered
 	handleChange(event) {
 		this.setState({value: event.target.value});
 	}
@@ -433,6 +437,7 @@ class CommentEntryForm extends React.Component {
 		this.setState({value:''});
 	}
 
+	// enter for submit, shift-enter for newline
 	onKeyDown(event: React.KeyboardEvent<HTMLDivElement>) {
 		if (event.key === 'Enter') {
 			event.preventDefault();
@@ -502,6 +507,7 @@ class CommentBlock extends React.Component {
 		this.handleDelete = this.handleDelete.bind(this);
 	}
 
+	// update comment and user state data based on current props
 	componentDidUpdate(prevProps, prevState) {
 		if (this.props.comments != prevProps.comments) {
 			this.setState({
@@ -513,6 +519,7 @@ class CommentBlock extends React.Component {
 		}
 	}
 
+	// re-fetch comments associated with current post
 	silentRefreshComments() {
 		fetch("/api/posts/"+this.props.id+"/comments/", {
 			method: 'GET',
@@ -532,9 +539,13 @@ class CommentBlock extends React.Component {
 					comment_count: result.length,
 				});
 			},
+			(error) => {
+				alert("Issue reaching server. Check your connection and refresh.");
+			}
 		);
 	}
 
+	// get user's comments and votes
 	getUserData() {
 		fetch("/api/users/"+userid+"/", {
 			method: 'GET',
@@ -554,13 +565,15 @@ class CommentBlock extends React.Component {
 					my_upvoted: result.comments_upvoted,
 					my_downvoted: result.comments_downvoted,
 				});
+			},
+			(error) => {
+				alert("Issue reaching server. Check your connection and refresh.");
 			}
 		)
 	}
 
 	// add a new comment
 	handleComment(text) {
-		// this.silentRefreshComments();
 		if (text.trim() != ''){
 			fetch("/api/posts/"+this.props.id+"/comments/", {
 					method: 'POST',
@@ -588,7 +601,7 @@ class CommentBlock extends React.Component {
 					this.props.handleComment(this.props.id);
 				},
 				(error) => {
-					alert(error);
+					alert("Issue reaching server. Check your connection and refresh.");
 				}
 			)
 		}
@@ -619,6 +632,9 @@ class CommentBlock extends React.Component {
 				this.setState({
 					comments : newcomments
 				});
+			},
+			(error) => {
+				alert("Issue reaching server. Check your connection and refresh.");
 			}
 		)
 	}
@@ -760,7 +776,6 @@ class Post extends React.Component{
 		};
 	}
 
-	// TODO: think about error handling - i.e. behavior when no server connection
 	sendVoteToServer(tag) {
 		fetch("/api/posts/"+this.props.id+"/"+tag+"/", {
 			method: 'GET',
@@ -1311,7 +1326,6 @@ function getCookie(name) {
 var csrftoken = getCookie("csrftoken");
 
 // The main list of posts and associated post entry form (above it)
-// TODO: add error handling ('could not reach server' notification)
 class PostList extends React.Component {
 	constructor(props) {
 		super(props);
@@ -1322,6 +1336,7 @@ class PostList extends React.Component {
 			morePosts: true, // are there more posts to load?
 			posturl: "/api/posts/",
 			posts: [], // all post objects
+			post_count: 0,
 			openPostID: null,
 			newPostCount: 0, // number of posts user has added since refresh
 			my_posts: [], // post ids of user's posts
@@ -1394,7 +1409,7 @@ class PostList extends React.Component {
 			isLoaded: false,
 		})
 
-		let url = "/api/posts/?search=" + query;
+		let url = "/api/posts/?search=" + encodeURIComponent(query);
 
 		fetch(url, {
 			method: 'GET',
@@ -1414,6 +1429,7 @@ class PostList extends React.Component {
 						morePosts: result.next !== null,
 						posts: result.results,
 						newPostCount: 0,
+						post_count: result.count,
 					});
 				},
 			(error) => {
@@ -1500,7 +1516,7 @@ class PostList extends React.Component {
 					});
 				},
 				(error) => {
-					alert(error);
+					alert("Issue reaching server. Check your connection and refresh.");
 				}
 			)
 		}
@@ -1539,12 +1555,10 @@ class PostList extends React.Component {
 			openPostID: id,
 		});
 	}
-	// TODO: debug based on browser
 	handleCollapsed(id) {
 		let openNode = this.openPost.current;
 		let domNode = ReactDOM.findDOMNode(openNode).firstChild;
 		if (!this.isElementInViewport(domNode)) {
-			// TODO: doesn't seem to work on android
 			domNode.scrollIntoView({behavior: "smooth"});
 
 			if (isSafari) {
@@ -1567,6 +1581,14 @@ class PostList extends React.Component {
 	render() {
 		return (
 			<div>
+			{this.state.isLoaded
+				? (
+					<div className="searchResultDescription">
+					{this.state.post_count} results for search query: "{query}"
+					</div>
+				) : null
+			}
+
 			{
 				this.state.isLoaded
 				? this.state.posts.map((post) =>
@@ -1623,21 +1645,21 @@ class InfiniteScroll extends React.Component {
 	render () {
 	  var VisibilitySensor = require('react-visibility-sensor');
 
-	  if (!this.props.hasPosts) {
-		  return(
-			  <div className="no-more-posts">
-					No search results for query: "{query}"
-				</div>
-			);
-	  }
-
-	  if (!this.state.morePosts) {
-		  return(
-			  <div className="no-more-posts">
-		  			No more posts!
-				</div>
-			);
-	  }
+	  // if (!this.props.hasPosts) {
+		//   return(
+		// 	  <div className="no-more-posts">
+		// 			No search results for query: "{query}"
+		// 		</div>
+		// 	);
+	  // }
+	  //
+	  // if (!this.state.morePosts) {
+		//   return(
+		// 	  <div className="no-more-posts">
+		//   			No more posts!
+		// 		</div>
+		// 	);
+	  // }
 
 	  return (
 	    <VisibilitySensor partialVisibility={true} onChange={this.onChange} />

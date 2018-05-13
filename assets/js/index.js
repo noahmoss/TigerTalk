@@ -751,7 +751,7 @@ class PostEntryForm extends React.Component {
 	}
 }
 
-
+// a single post
 class Post extends React.Component{
 	constructor(props) {
 		super(props);
@@ -768,15 +768,16 @@ class Post extends React.Component{
 			upvoted: this.props.upvoted,
 			downvoted: this.props.downvoted,
 			votes: this.props.votes,
+
+			// does the post length warrent expansion/contraction?
 			needsExpansion: (this.props.content.length > 280
 							|| this.props.content.split(/\r\n|\r|\n/).length > 3),
-			expanded: false,
+			expanded: false, // current expansion state
 			reported: false,
 			reportWindow: false,
 		};
 	}
 
-	// TODO: think about error handling - i.e. behavior when no server connection
 	sendVoteToServer(tag) {
 		fetch("/api/posts/"+this.props.id+"/"+tag+"/", {
 			method: 'GET',
@@ -1046,7 +1047,6 @@ class PostCommentBlock extends React.Component {
 		this.handleClick = this.handleClick.bind(this);
 		this.handleDelete = this.handleDelete.bind(this);
 		this.handleComment = this.handleComment.bind(this);
-		// this.handleCommentDelete = this.handleCommentDelete.bind(this);
 		this.refreshComments = this.refreshComments.bind(this);
 		this.loadNewComments = this.loadNewComments.bind(this);
 		this.toggleRefresh = this.toggleRefresh.bind(this);
@@ -1063,7 +1063,7 @@ class PostCommentBlock extends React.Component {
 			my_comments: this.props.my_comments,
 			my_upvoted: this.props.my_upvoted,
 			my_downvoted: this.props.my_downvoted,
-			colorclick: false,
+			colorclick: false, // is the post clicked?
 
 		};
 	}
@@ -1113,10 +1113,14 @@ class PostCommentBlock extends React.Component {
 					my_upvoted: result.comments_upvoted,
 					my_downvoted: result.comments_downvoted,
 				});
+			},
+			(error) => {
+				alert("Issue reaching server. Check your connection and refresh.");
 			}
 		)
 	}
 
+	// refresh comments for a single post
 	loadNewComments() {
 		this.getUserData();
 
@@ -1140,15 +1144,13 @@ class PostCommentBlock extends React.Component {
 				});
 			},
 			(error) => {
-				this.setState({
-					error
-				});
+				alert("Issue reaching server. Check your connection and refresh.");
 			}
 		)
 
 	}
 
-	// load comments and user data from API when post is clicked
+	// load both comments and user data from API when post is clicked
 	handleClick() {
 		if(!this.state.showing) {
 			// get user data about comments
@@ -1175,6 +1177,9 @@ class PostCommentBlock extends React.Component {
 						my_comments: result.comments,
 						isUserDataLoaded: true,
 					});
+				},
+				(error) => {
+					alert("Issue reaching server. Check your connection and refresh.");
 				}
 			)
 			this.setState({
@@ -1222,10 +1227,7 @@ class PostCommentBlock extends React.Component {
 				}
 			},
 			(error) => {
-				this.setState({
-					isLoaded: true,
-					error
-				});
+				alert("Issue reaching server. Check your connection and refresh.");
 			}
 		)
 	}
@@ -1247,6 +1249,7 @@ class PostCommentBlock extends React.Component {
 		})
 	}
 	renderComments() {
+		// list of colors for users
 		let color_list = ["#ffcdd2", "#e57373", "#f44336", "#7f0000",
 							"#b71c1c", "#FF0000", " #FF00FF", "#c722d6", "#f06292",
 							"#e91e63"," #880e4f", "#ff80ab", "#efcbff", "#8eafd6",
@@ -1327,7 +1330,6 @@ function getCookie(name) {
 var csrftoken = getCookie("csrftoken");
 
 // The main list of posts and associated post entry form (above it)
-// TODO: add error handling ('could not reach server' notification)
 class PostList extends React.Component {
 	constructor(props) {
 		super(props);
@@ -1406,13 +1408,6 @@ class PostList extends React.Component {
 				);
 			}
 	 	}
-
-		// check if ref to new open post is in view, and scroll if not
-		// if (prevState.openPostID != this.state.openPostID) {
-		// 	let openNode = this.openPost.current;
-		// 	let domNode = ReactDOM.findDOMNode(openNode).firstChild;
-		// 	domNode.scrollIntoView({behavior: "smooth"});
-		// }
 	}
 
 	getUserData() {
@@ -1437,6 +1432,9 @@ class PostList extends React.Component {
 					my_upvoted_comments: result.comments_upvoted,
 					my_downvoted_comments: result.comments_downvoted,
 				});
+			},
+			(error) => {
+				alert("Issue reaching server. Check your connection and refresh.");
 			}
 		)
 	}
@@ -1476,10 +1474,7 @@ class PostList extends React.Component {
 				};
 			},
 			(error) => {
-				this.setState({
-					isLoaded: true,
-					error
-				});
+				alert("Issue reaching server. Check your connection and refresh.");
 			}
 		)
 	}
@@ -1517,9 +1512,7 @@ class PostList extends React.Component {
 				});
 			},
 			(error) => {
-				this.setState({
-					error
-				});
+				alert("Issue reaching server. Check your connection and refresh.");
 			}
 		)
 	}
@@ -1638,12 +1631,10 @@ class PostList extends React.Component {
 			openPostID: id,
 		});
 	}
-	// TODO: debug based on browser
 	handleCollapsed(id) {
 		let openNode = this.openPost.current;
 		let domNode = ReactDOM.findDOMNode(openNode).firstChild;
 		if (!this.isElementInViewport(domNode)) {
-			// TODO: doesn't seem to work on android
 			domNode.scrollIntoView({behavior: "smooth"});
 
 			if (isSafari) {
@@ -1803,7 +1794,7 @@ class NavBar extends React.Component {
 			  <Navbar.Header>
 				<Navbar.Brand>
 				  TigerTalk
-				  <form id="demo-2" action={!this.state.value ? "#" : "/posts"} >
+				  <form id="demo-2" action={"/posts"} >
 					  <input id="searchbox"
 					  		 type="search"
 							 name="q"
@@ -1921,4 +1912,3 @@ class App extends React.Component {
 }
 
 ReactDOM.render(<App />, document.getElementById('root'))
-// ReactDOM.render(<SinglePost />, document.getElementById('root'))
