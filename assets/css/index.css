@@ -50,7 +50,10 @@ nav.navbar.navbar-default.navbar-fixed-top {
 	padding-right: 10px;
 }
 
-
+#root > div > nav > div > div.navbar-header > span {
+  font-family: Quicksand;
+  color: black;
+}
 
 /* Main header (TigerTalk) */
 h3 {
@@ -847,7 +850,7 @@ input::-webkit-input-placeholder {
   height: 15px;
 
   margin: auto;
-  border-color: #bbbbbb;
+  border-color: #00000070;
 }
 #demo-2 input[type=search]:hover {
   background-color: #fff;
@@ -892,6 +895,15 @@ input::-webkit-input-placeholder {
   top: -26px;
   right: -90px;
   width: 100px;
+}
+
+#root > div > nav > div > div.navbar-collapse.collapse > ul > li:nth-child(1) > a {
+  width: 60px;
+}
+
+
+#root > div > nav > div > div.navbar-collapse.collapse > ul > li:nth-child(2) > a {
+  width: 82px;
 }
 
 /* #root > div > nav > div > div.navbar-collapse.collapse.in{
