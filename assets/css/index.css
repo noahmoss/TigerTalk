@@ -867,11 +867,11 @@ input::-webkit-input-placeholder {
 }
 
 #root > div > nav > div > div.navbar-header {
-  width: 100px;
+  /* width: 100px; */
 }
 
 #root > div > nav > div > div.navbar-header > span {
-  width: 100px;
+  /* width: 100px; */
   float: left;
   position: relative;
 }
@@ -884,7 +884,7 @@ input::-webkit-input-placeholder {
 
 #root > div > nav > div > div.navbar-collapse.collapse {
   /*height: 0px;*/
-  float: right;
+  /* float: right; */
 }
 
 #demo-2 {
@@ -894,12 +894,10 @@ input::-webkit-input-placeholder {
   width: 100px;
 }
 
-#root > div > nav > div > div.navbar-collapse.collapse.in{
-
-  
+/* #root > div > nav > div > div.navbar-collapse.collapse.in{
   float: right;
 }
 
 .nav {
   text-align: right;
-}
+} */
