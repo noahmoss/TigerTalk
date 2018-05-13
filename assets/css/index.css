@@ -1,12 +1,11 @@
 /* Document-wide style */
 :root {
+
+  /* Main colors used through webapp */
   --main-bg-color: #fefcfb;
   --post-bg-color: #e5e7e8;
   --post-hover-color: #d9dee0;
- /* --post-click-color: #d4dde2; */
- /*--post-click-color: #ced5d7;*/
- --post-click-color: #d2dbe0;
-
+  --post-click-color: #d2dbe0;
   --comment-bg-color: #e5e7e8;
   --nav-bg-color: #f19143;
   --nav-text-color: black;
@@ -54,6 +53,132 @@ nav.navbar.navbar-default.navbar-fixed-top {
   font-family: Quicksand;
   color: black;
 }
+/* toggle drop down menu on navbar when clicked */
+.navbar-default .navbar-toggle .icon-bar {
+  background-color: black;
+}
+
+.navbar-toggle.collapsed {
+  border-color: black;
+}
+
+div.btn-toolbar {
+    font-family: Quicksand, serif;
+}
+
+button#post.btn.btn-default {
+  font-family: Quicksand, serif;
+}
+
+/* Search Bar: code adapted from https://codepen.io/912lab/pen/LsplC */
+
+/* text input for search bar */
+input {
+  outline: none;
+}
+input[type=search] {
+  -webkit-appearance: textfield;
+  -webkit-box-sizing: content-box;
+  font-family: inherit;
+  font-size: 100%;
+}
+input::-webkit-search-decoration,
+input::-webkit-search-cancel-button {
+  display: none;
+}
+
+/* use round bar shape */
+input[type=search] {
+  background: #f19143 url(https://static.tumblr.com/ftv85bp/MIXmud4tx/search-icon.png) no-repeat 9px center;
+  border: solid 1px #ccc;
+  padding: 9px 10px 9px 32px;
+  width: 55px;
+
+  -webkit-border-radius: 10em;
+  -moz-border-radius: 10em;
+  border-radius: 10em;
+
+  -webkit-transition: all .5s;
+  -moz-transition: all .5s;
+  transition: all .5s;
+}
+
+/* change color on hover and focus */
+input[type=search]:focus {
+  width: 130px;
+  background-color: #fff;
+  border-color: #66CC75;
+
+  -webkit-box-shadow: 0 0 5px rgba(109,207,246,.5);
+  -moz-box-shadow: 0 0 5px rgba(109,207,246,.5);
+  box-shadow: 0 0 5px rgba(109,207,246,.5);
+}
+
+
+input:-moz-placeholder {
+  color: #999;
+}
+input::-webkit-input-placeholder {
+  color: #999;
+}
+
+/* Search icon and bar */
+#demo-2 input[type=search] {
+  width: 15px;
+  padding-left: 10px;
+  color: transparent;
+  cursor: pointer;
+  height: 15px;
+
+  margin: auto;
+  border-color: #00000070;
+}
+#demo-2 input[type=search]:hover {
+  background-color: #fff;
+}
+#demo-2 input[type=search]:focus {
+  width: 130px;
+  padding-left: 32px;
+  color: #000;
+  background-color: #fff;
+  cursor: auto;
+}
+#demo-2 input:-moz-placeholder {
+  color: transparent;
+}
+#demo-2 input::-webkit-input-placeholder {
+  color: transparent;
+}
+
+/* position search abr in left corner of navbar */
+#root > div > nav > div > div.navbar-header > span {
+  float: left;
+  position: relative;
+}
+
+
+#root > div > nav > div > div.navbar-header > button {
+  position: absolute;
+  right: -0%;
+}
+
+/* position search bar to be in line with other navbar elements */
+#demo-2 {
+  position: relative;
+  top: -28px;
+  right: -90px;
+  width: 100px;
+}
+
+/* padding around nav bar elements */
+#root > div > nav > div > div.navbar-collapse.collapse > ul > li:nth-child(1) > a {
+  width: 60px;
+}
+
+
+#root > div > nav > div > div.navbar-collapse.collapse > ul > li:nth-child(2) > a {
+  width: 82px;
+}
 
 /* Main header (TigerTalk) */
 h3 {
@@ -64,7 +189,7 @@ h3 {
   text-align: center;
 }
 
-/* Sort bar -- TODO: redo with react-bootstrap buttons*/
+/* Sort bar */
 div.sortbar {
     display: flex;
     justify-content: center;
@@ -72,7 +197,7 @@ div.sortbar {
     overflow: hidden;
     margin: auto;
     width: 200px;
-    right: -2px; /* change this when adding back refresh */
+    right: -2px;
     position: relative;
 }
 .sort-button {
@@ -100,7 +225,7 @@ div.post-container {
     width: 90%;
 
 }
-
+/* change post color on hover */
 div.post:hover {
     background-color: var(--post-hover-color);
     border-color: var(--post-hover-color);
@@ -122,7 +247,7 @@ div.post:hover #dropdown-size-small{
   background-color: var(--post-bg-color);
   border-color: transparent;
 }
-
+/* post content */
 textarea.form-control {
     margin: auto;
     resize: vertical;
@@ -155,7 +280,7 @@ div.rip.media {
     background-color: var(--post-bg-color);
     float: right;
 }
-
+/* change position of comment bubble */
 div.mb.media-body{
    z-index: 3;
    width: 9000px
@@ -165,12 +290,14 @@ div.mb2.media-body{
   z-index: 4;
   width: 10500px
 }
-
+/* comment number */
 div.commentNum.media-left{
     position: relative;
     top: -3.6px;
     margin-bottom: 0px;
 }
+
+/* timestamp */
 div.dateString.media-right{
     position: relative;
     top: -3.6px;
@@ -213,19 +340,8 @@ div.mainBody {
     overflow: visible;
     padding-top:5px;
 }
-div.wrapText.media-body {
-    /* padding-bottom:10px; */
-}
-/* #dropdown-size-small {
-    background-color: var(--post-bg-color)
-    z-index: 100;
-    margin: auto;
-    vertical-align: top;
-    border-color: none;
-    padding-top: 0px;
-    padding-right: 12px;
-} */
 
+/* drop down menu for copy link/report/delete */
 div.bottom.media-body {
     padding-top: 10px;
 }
@@ -243,9 +359,8 @@ div.deletedText {
     margin-left: 35px;
 }
 
-/*post 2*/
 
-/* Post form */
+/* Posts - different colors when clicked*/
 div.post2.container-fluid {
     margin-bottom: 15px;
     padding-left: 0px;
@@ -257,7 +372,6 @@ div.post2.post-container {
     width: 90%;
 
 }
-
 
 textarea.post2.form-control {
     margin: auto;
@@ -279,10 +393,9 @@ div.post2.rip.media {
   cursor: pointer;
 }
 
-/* react-bootstrap buttons */
+/* background color of post components changed */
 div.post2.btn {
     border-radius: 5px;
-
     background-color: var(--post-click-color);
     float: right;
 }
@@ -334,7 +447,7 @@ div.post2.commentdatestring.media-right{
     position: relative;
     right: 10px;
 }
-/**/
+
 /* Post components */
 div.post2 {
     font-family: Quicksand;
@@ -434,7 +547,7 @@ div.post3.commentdatestring.media-right{
     position: relative;
     right: 10px;
 }
-/**/
+
 /* Post components */
 div.post3 {
     font-family: Quicksand;
@@ -475,7 +588,7 @@ div.postDateString > a {
 ul.dropdown-menu.dropdown-menu-right {
     margin-right: 4px;
 }
-
+/* No posts at bottom of infinite scroll */
 div.no-more-posts {
     font-family: Quicksand;
     font-size: 16px;
@@ -489,6 +602,7 @@ div.no-post {
     text-align: center;
 }
 
+/* comment reply box */
 .replyContainer {
   max-width: 768px;
   width: 90%;
@@ -500,6 +614,7 @@ div.no-post {
     padding-top: 5px;
 }
 
+/* comments */
 .reply {
     padding-top:5px;
     font-family: Quicksand, serif;
@@ -509,7 +624,7 @@ div.no-post {
     white-space: pre-wrap;
     max-width: 768px;
 }
-
+/* comment icons */
 .replyIconLine {
     font-family: Quicksand, serif;
     margin: auto;
@@ -531,12 +646,11 @@ div.no-post {
 .replyBody {
   padding-top: 5px;
 }
-
+/* padding comments */
 #commentContainer {
   max-width: 150px;
   padding-left: 46px;
 }
-
 
 .row {
   margin-left: 0px;
@@ -573,6 +687,8 @@ div.no-post {
     transform: rotate(360deg);
   }
 }
+
+/* spinner icon */
 .lds-dual-ring {
   margin: auto;
   position: relative;
@@ -641,6 +757,7 @@ div.no-post {
 }
 
 /* Icons */
+/* set the icon for drop down menu to "..." */
 .caret {
   width: 10px;
   height: 10px;
@@ -651,14 +768,15 @@ div.no-post {
   content:"\e234";
 }
 
+/* allign drop down menu */
 .arrowBox {
   padding-left: 10px;
   padding-right: 10px;
   text-align: center;
   margin: auto;
-  /*position: relative;*/
 }
 
+/* position post icons to bottom left */
 .iconFirstColumn {
   padding-left: 17px;
   padding-right: 17px;
@@ -666,15 +784,16 @@ div.no-post {
   margin: auto;
 }
 
+/* comment bubble icon */
 .glyphicon-comment {
     color: var(--post-bg-color);
     text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
     margin-left: 4px;
     top: -1px;
     margin-bottom: 0px;
-    /* cursor: pointer; */
 }
 
+/* send bubble icon */
 .glyphicon-send {
     color:#cfd8dc;
     text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
@@ -684,6 +803,7 @@ div.no-post {
     cursor: pointer;
 }
 
+/* More comment padding */
 #commentContainer {
   max-width: 768px;
   width: 90%;
@@ -699,6 +819,7 @@ div.no-post {
   margin-top: 7px;
 }
 
+/* Upvote icon */
 .Chevron_up_clicked  glyphicon-chevron-up {
   color: #0000FF;
 
@@ -708,35 +829,31 @@ div.no-post {
   cursor: pointer;
 }
 
+/* downvote icon */
 .glyphicon-chevron-down {
   cursor: pointer;
 }
 
+/* refresh icon */
 .glyphicon-refresh {
-  /*left: -605px;*/
-
-  /*right: -1%; */ /* or right 50% */
-  /*top: 19px;*/
   font-size: 1.7em;
   color: #AAB3B7;
   z-index: 1000;
   cursor: pointer;
   margin: auto;
-
-
 }
 
+/* see more option to wrap posts */
 span.seemore {
     cursor:pointer;
-    /* text-decoration:underline; */
     color: #787878;
 }
 
+/* comment and post padding */
 .replyOffset {
   padding-right: 23px;
   padding-left: 23px;
 }
-
 
 .commentBody {
     font-family: Quicksand, serif;
@@ -759,6 +876,7 @@ span.seemore {
   word-wrap:break-word;
 }
 
+/* wrap text around a space */
 .wrapText {
     white-space: pre-wrap;
     word-break:break-word;
@@ -777,139 +895,3 @@ span.seemore {
 .replyContainer {
   margin-top: 5px;
 }
-
-.navbar-default .navbar-toggle .icon-bar {
-  background-color: black;
-}
-
-.navbar-toggle.collapsed {
-  border-color: black;
-}
-
-div.btn-toolbar {
-    font-family: Quicksand, serif;
-}
-
-button#post.btn.btn-default {
-  font-family: Quicksand, serif;
-}
-
-input {
-  outline: none;
-}
-input[type=search] {
-  -webkit-appearance: textfield;
-  -webkit-box-sizing: content-box;
-  font-family: inherit;
-  font-size: 100%;
-}
-input::-webkit-search-decoration,
-input::-webkit-search-cancel-button {
-  display: none;
-}
-
-
-input[type=search] {
-  background: #f19143 url(https://static.tumblr.com/ftv85bp/MIXmud4tx/search-icon.png) no-repeat 9px center;
-  border: solid 1px #ccc;
-  padding: 9px 10px 9px 32px;
-  width: 55px;
-
-  -webkit-border-radius: 10em;
-  -moz-border-radius: 10em;
-  border-radius: 10em;
-
-  -webkit-transition: all .5s;
-  -moz-transition: all .5s;
-  transition: all .5s;
-}
-input[type=search]:focus {
-  width: 130px;
-  background-color: #fff;
-  border-color: #66CC75;
-
-  -webkit-box-shadow: 0 0 5px rgba(109,207,246,.5);
-  -moz-box-shadow: 0 0 5px rgba(109,207,246,.5);
-  box-shadow: 0 0 5px rgba(109,207,246,.5);
-}
-
-
-input:-moz-placeholder {
-  color: #999;
-}
-input::-webkit-input-placeholder {
-  color: #999;
-}
-
-/* Demo 2 */
-#demo-2 input[type=search] {
-  width: 15px;
-  padding-left: 10px;
-  color: transparent;
-  cursor: pointer;
-  height: 15px;
-
-  margin: auto;
-  border-color: #00000070;
-}
-#demo-2 input[type=search]:hover {
-  background-color: #fff;
-}
-#demo-2 input[type=search]:focus {
-  width: 130px;
-  padding-left: 32px;
-  color: #000;
-  background-color: #fff;
-  cursor: auto;
-}
-#demo-2 input:-moz-placeholder {
-  color: transparent;
-}
-#demo-2 input::-webkit-input-placeholder {
-  color: transparent;
-}
-
-#root > div > nav > div > div.navbar-header {
-  /* width: 100px; */
-}
-
-#root > div > nav > div > div.navbar-header > span {
-  /* width: 100px; */
-  float: left;
-  position: relative;
-}
-
-
-#root > div > nav > div > div.navbar-header > button {
-  position: absolute;
-  right: -0%;
-}
-
-#root > div > nav > div > div.navbar-collapse.collapse {
-  /*height: 0px;*/
-  /* float: right; */
-}
-
-#demo-2 {
-  position: relative;
-  top: -28px;
-  right: -90px;
-  width: 100px;
-}
-
-#root > div > nav > div > div.navbar-collapse.collapse > ul > li:nth-child(1) > a {
-  width: 60px;
-}
-
-
-#root > div > nav > div > div.navbar-collapse.collapse > ul > li:nth-child(2) > a {
-  width: 82px;
-}
-
-/* #root > div > nav > div > div.navbar-collapse.collapse.in{
-  float: right;
-}
-
-.nav {
-  text-align: right;
-} */
