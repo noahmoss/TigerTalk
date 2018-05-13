@@ -1266,7 +1266,7 @@ class PostCommentBlock extends React.Component {
 		})
 	}
 	renderComments() {
-		let color_list = ["#ffcdd2", "#e57373", "#af4448", "#f44336", "#7f0000",
+		let color_list = ["#ffcdd2", "#e57373", "#f44336", "#7f0000",
 							"#b71c1c", "#FF0000", " #FF00FF", "#c722d6", "#f06292",
 							"#e91e63"," #880e4f", "#ff80ab", "#efcbff", "#8eafd6",
 							"#b2d677", "#ce93d8", "#ab47bc",  "#6a1b9a", "#5c6bc0",

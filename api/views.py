@@ -2,6 +2,8 @@ from api.models import Post, Comment
 from api.serializers import PostSerializer, CommentSerializer, UserSerializer
 from api.permissions import IsAuthorOrReadOnly, IsUser
 from django.contrib.auth import get_user_model
+from django.core.mail import send_mail
+from django.conf import settings
 from rest_framework import generics, permissions, status
 from rest_framework.response import Response
 from django.shortcuts import render_to_response

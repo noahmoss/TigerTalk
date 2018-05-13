@@ -32,7 +32,7 @@ class Comment(models.Model):
     reported = models.BooleanField(default=False)
     post = models.ForeignKey(Post, related_name='comments', on_delete=models.CASCADE)
     deleted = models.BooleanField(default=False)
-    
+
     readonly_fields=('author', 'date_created', 'post')
 
     def net_votes(self):
