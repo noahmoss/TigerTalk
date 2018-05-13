@@ -50,6 +50,8 @@ nav.navbar.navbar-default.navbar-fixed-top {
 	padding-right: 10px;
 }
 
+
+
 /* Main header (TigerTalk) */
 h3 {
   margin-top: 150px;
@@ -864,13 +866,44 @@ input::-webkit-input-placeholder {
   color: transparent;
 }
 
-.navbar-nav>li {
-  height:40px;
+#root > div > nav > div > div.navbar-header {
+  width: 100px;
+}
+
+#root > div > nav > div > div.navbar-header > span {
+  width: 100px;
+  float: left;
+  position: relative;
 }
 
 
-
-#root > div > nav > div > div.navbar-collapse.collapse > ul.nav.navbar-nav.navbar-left > li:nth-child(3) > a {
-  padding: 8px;
+#root > div > nav > div > div.navbar-header > button {
+  position: absolute;
+  right: -0%;
 }
+
+#root > div > nav > div > div.navbar-collapse.collapse {
+  width: 300px;
+  float: right;
+  height: 0px;
+}
+
+#demo-2 {
+  position: relative;
+  top: -26px;
+  right: -90px;
+  width: 100px;
+}
+
+#root > div > nav > div > div.navbar-collapse.collapse.in{
+
+  width: 300px;
+  float: right;
+}
+
+.nav {
+  text-align: right;
+}
+
+
 
