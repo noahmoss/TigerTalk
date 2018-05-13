@@ -1791,10 +1791,16 @@ class NavBar extends React.Component {
 		return (
 			<Navbar fixedTop collapseOnSelect fluid>
 			  <Navbar.Header>
+				<Navbar.Brand>
+				  TigerTalk
+				  <form id="demo-2">
+					  <input type="search" placeholder="Search"/>
+				  </form>
+				</Navbar.Brand>
 			    <Navbar.Toggle />
 			  </Navbar.Header>
 			  <Navbar.Collapse>
-			  	<Nav pullLeft>
+			  <Nav pullRight>
 					<NavItem style={{ fontFamily: 'Quicksand' }} href="/about">
 						About
 					</NavItem>
@@ -1802,22 +1808,17 @@ class NavBar extends React.Component {
 					target="_blank" style={{ fontFamily: 'Quicksand' }} >
 						Feedback
 					</NavItem>
-					<NavItem>
-						<form id="demo-2">
-							<input type="search" placeholder="Search"/>
-						</form>
-					</NavItem>
-				</Nav>
-			    <Nav pullRight>
 					<NavItem style={{ fontFamily: 'Quicksand' }} href="/accounts/logout">
 					  Logout ({netid})
 					</NavItem>
 			    </Nav>
-			  </Navbar.Collapse>
+				</Navbar.Collapse>
 			</Navbar>
 		);
 	}
 }
+
+
 
 class Initialpopup extends React.Component {
 	 constructor(props, context) {
