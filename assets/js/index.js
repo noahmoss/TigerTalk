@@ -1799,6 +1799,7 @@ class NavBar extends React.Component {
 							<input type="search" placeholder="Search"/>
 						</form>
 					</NavItem>
+				
 				</Nav>
 			    <Nav pullRight>
 					<NavItem style={{ fontFamily: 'Quicksand' }} href="/accounts/logout">
