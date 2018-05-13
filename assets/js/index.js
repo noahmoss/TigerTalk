@@ -1792,10 +1792,12 @@ class NavBar extends React.Component {
 			<Navbar fixedTop collapseOnSelect fluid>
 			  <Navbar.Header>
 				<Navbar.Brand>
+				<span>
 				  TigerTalk
 				  <form id="demo-2">
 					  <input type="search" placeholder="Search"/>
 				  </form>
+			  </span>
 				</Navbar.Brand>
 			    <Navbar.Toggle />
 			  </Navbar.Header>
