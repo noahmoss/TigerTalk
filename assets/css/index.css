@@ -885,7 +885,6 @@ input::-webkit-input-placeholder {
 #root > div > nav > div > div.navbar-collapse.collapse {
   width: 300px;
   float: right;
-  height: 0px;
 }
 
 #demo-2 {
