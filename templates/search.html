@@ -18,11 +18,11 @@
     <script>
         var netid = "{{ user.get_username }}";
         var userid = "{{ request.user.id }}";
-        var first_login = "{{ request.user.first_login }}"
+		var query = "{{request.GET.q}}";
     </script>
 
     <div id="root">
-        {% render_bundle 'main' %}
+        {% render_bundle 'search' %}
     </div>
 
     <br/>

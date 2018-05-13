@@ -12,47 +12,6 @@ import { Modal } from 'react-bootstrap';
 import {Popover} from 'react-bootstrap';
 import {OverlayTrigger} from 'react-bootstrap';
 
-// Buttons for sorting posts by recent or popular
-class SortBar extends React.Component {
-	constructor(props, context) {
-		super(props, context);
-		this.state = {
-			value: "recent", // recent or popular
-			isLoaded : true, // are the posts loaded?
-		};
-		this.setRecent = this.setRecent.bind(this);
-		this.setPopular = this.setPopular.bind(this);
-	}
-	setRecent() {
-		if (this.state.value !== "recent") {
-			this.setState({
-				value: "recent",
-			});
-			this.props.toggleSort("recent");
-		}
-	}
-	setPopular() {
-		if (this.state.value !== "popular") {
-			this.setState({
-				value: "popular",
-			});
-			this.props.toggleSort("popular");
-		}
-	}
-    render() {
-		return (
-				<div className="sortbar">
-					<ButtonToolbar>
-					  <ToggleButtonGroup defaultValue={"recent"} type="radio" name="sortbar" >
-						<ToggleButton value={"recent"} onClick={this.setRecent} className="sort-button">Recent</ToggleButton>
-						<ToggleButton value={"popular"} onClick={this.setPopular} className="sort-button">Popular</ToggleButton>
-					  </ToggleButtonGroup>
-					</ButtonToolbar>
-				</div>
-		);
-    }
-}
-
 // black upvote arrow
 function Chevron_up(props) {
 	return (
@@ -165,6 +124,7 @@ class Comment extends React.Component{
 		this.handleDelete = this.handleDelete.bind(this);
 		this.handleExpand = this.handleExpand.bind(this);
 		this.cutoffContent = this.cutoffContent.bind(this);
+		this.handleReport = this.handleReport.bind(this);
 		this.handleShowReportWindow = this.handleShowReportWindow.bind(this);
 		this.handleCloseReportWindow = this.handleCloseReportWindow.bind(this);
 		this.state = {
@@ -288,7 +248,7 @@ class Comment extends React.Component{
 		})
 	}
 
-	// toggle "see more"/"see less" of comment text
+	// toggle "see more" and "see less" of comment text
 	handleExpand(e) {
 		this.setState({
 			expanded : !this.state.expanded,
@@ -296,7 +256,7 @@ class Comment extends React.Component{
 	}
 
 	// prevent dropdown close when clicking 'report'
-	// code from https://github.com/react-bootstrap/react-bootstrap/issues/1490
+	// code adapted from https://github.com/react-bootstrap/react-bootstrap/issues/1490
 	dropdownToggle(newValue){
 	    if (this._forceOpen){
 	        this.setState({ menuOpen: true });
@@ -305,7 +265,7 @@ class Comment extends React.Component{
 	        this.setState({ menuOpen: newValue });
 	    }
 	}
-	menuItemClickedThatShouldntCloseDropdown(){
+	handleReport(){
 	    this._forceOpen = true;
 	    this.handleShowReportWindow();
 		fetch("/api/comments/"+this.props.id+"/r/", {
@@ -334,6 +294,8 @@ class Comment extends React.Component{
 		}
 		return newContent.slice(0,280)
 	}
+
+	// render methods for individual parts of the post
 	renderContent() {
 		let content = this.state.expanded
 							? this.props.content + " "
@@ -380,7 +342,7 @@ class Comment extends React.Component{
 					? <MenuItem onClick={this.handleDelete}>Delete</MenuItem>
 					: (this.state.reported
 						? <MenuItem>Reported ✔</MenuItem>
-						: <MenuItem onClick={() => this.menuItemClickedThatShouldntCloseDropdown()}>Report</MenuItem>)
+						: <MenuItem onClick={() => this.handleReport()}>Report</MenuItem>)
 				}
 			</DropdownButton>
 		);
@@ -461,6 +423,7 @@ class CommentEntryForm extends React.Component {
 		this.onKeyUp = this.onKeyUp.bind(this);
 	}
 
+	// update state value whenever a character is entered
 	handleChange(event) {
 		this.setState({value: event.target.value});
 	}
@@ -474,6 +437,7 @@ class CommentEntryForm extends React.Component {
 		this.setState({value:''});
 	}
 
+	// enter for submit, shift-enter for newline
 	onKeyDown(event: React.KeyboardEvent<HTMLDivElement>) {
 		if (event.key === 'Enter') {
 			event.preventDefault();
@@ -543,6 +507,7 @@ class CommentBlock extends React.Component {
 		this.handleDelete = this.handleDelete.bind(this);
 	}
 
+	// update comment and user state data based on current props
 	componentDidUpdate(prevProps, prevState) {
 		if (this.props.comments != prevProps.comments) {
 			this.setState({
@@ -554,6 +519,7 @@ class CommentBlock extends React.Component {
 		}
 	}
 
+	// re-fetch comments associated with current post
 	silentRefreshComments() {
 		fetch("/api/posts/"+this.props.id+"/comments/", {
 			method: 'GET',
@@ -573,9 +539,13 @@ class CommentBlock extends React.Component {
 					comment_count: result.length,
 				});
 			},
+			(error) => {
+				alert("Issue reaching server. Check your connection and refresh.");
+			}
 		);
 	}
 
+	// get user's comments and votes
 	getUserData() {
 		fetch("/api/users/"+userid+"/", {
 			method: 'GET',
@@ -595,13 +565,15 @@ class CommentBlock extends React.Component {
 					my_upvoted: result.comments_upvoted,
 					my_downvoted: result.comments_downvoted,
 				});
+			},
+			(error) => {
+				alert("Issue reaching server. Check your connection and refresh.");
 			}
 		)
 	}
 
 	// add a new comment
 	handleComment(text) {
-		// this.silentRefreshComments();
 		if (text.trim() != ''){
 			fetch("/api/posts/"+this.props.id+"/comments/", {
 					method: 'POST',
@@ -660,6 +632,9 @@ class CommentBlock extends React.Component {
 				this.setState({
 					comments : newcomments
 				});
+			},
+			(error) => {
+				alert("Issue reaching server. Check your connection and refresh.");
 			}
 		)
 	}
@@ -1333,20 +1308,6 @@ function Spinner() {
 	);
 }
 
-// Spinner for loading comments
-// function LilSpinner() {
-// 	return (
-// 		<div style={{}}>
-// 		<div className="lds-css ng-scope">
-// 		<div style={{width:"100%",height:"100%"}} className="lds-dual-ring2">
-// 		<div>
-// 		</div>
-// 		</div>
-// 		</div>
-// 		</div>
-// 	);
-// }
-
 // get csrf token from cookies
 // from https://stackoverflow.com/questions/35112451/forbidden-csrf-token-missing-or-incorrect-django-error
 function getCookie(name) {
@@ -1775,6 +1736,47 @@ class InfiniteScroll extends React.Component {
 	}
 }
 
+// Buttons for sorting posts by recent or popular
+class SortBar extends React.Component {
+	constructor(props, context) {
+		super(props, context);
+		this.state = {
+			value: "recent", // recent or popular
+			isLoaded : true, // are the posts loaded?
+		};
+		this.setRecent = this.setRecent.bind(this);
+		this.setPopular = this.setPopular.bind(this);
+	}
+	setRecent() {
+		if (this.state.value !== "recent") {
+			this.setState({
+				value: "recent",
+			});
+			this.props.toggleSort("recent");
+		}
+	}
+	setPopular() {
+		if (this.state.value !== "popular") {
+			this.setState({
+				value: "popular",
+			});
+			this.props.toggleSort("popular");
+		}
+	}
+    render() {
+		return (
+				<div className="sortbar">
+					<ButtonToolbar>
+					  <ToggleButtonGroup defaultValue={"recent"} type="radio" name="sortbar" >
+						<ToggleButton value={"recent"} onClick={this.setRecent} className="sort-button">Recent</ToggleButton>
+						<ToggleButton value={"popular"} onClick={this.setPopular} className="sort-button">Popular</ToggleButton>
+					  </ToggleButtonGroup>
+					</ButtonToolbar>
+				</div>
+		);
+    }
+}
+
 class MainTitle extends React.Component {
 	render() {
 		return (
@@ -1784,14 +1786,29 @@ class MainTitle extends React.Component {
 }
 
 class NavBar extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = {value: ''};
+
+		this.handleChange = this.handleChange.bind(this);
+	}
+
+	handleChange(event) {
+      this.setState({value: event.target.value});
+    }
+
 	render() {
 		return (
 			<Navbar fixedTop collapseOnSelect fluid>
 			  <Navbar.Header>
 				<Navbar.Brand>
 				  TigerTalk
-				  <form id="demo-2">
-					  <input type="search" placeholder="Search"/>
+				  <form id="demo-2" action={!this.state.value ? "#" : "/posts"} >
+					  <input id="searchbox"
+					  		 type="search"
+							 name="q"
+							 value={this.state.value}
+							 onChange={this.handleChange}/>
 				  </form>
 				</Navbar.Brand>
 			    <Navbar.Toggle />

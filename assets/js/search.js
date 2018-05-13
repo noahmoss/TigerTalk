@@ -1,31 +1,18 @@
 var React = require('react')
 var ReactDOM = require('react-dom')
 var shuffleSeed = require('shuffle-seed')
+import { Grid, Row, Col } from 'react-bootstrap'
 import { Navbar, Nav, NavItem } from 'react-bootstrap';
 import { ToggleButton, ButtonToolbar, ToggleButtonGroup, DropdownButton, MenuItem, SplitButton } from 'react-bootstrap';
 import { FormGroup, ControlLabel, FormControl, Button, Collapse } from 'react-bootstrap';
 import { Media } from 'react-bootstrap';
+import { isMobile, isChrome, isSafari, isFirefox } from 'react-device-detect';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { Modal } from 'react-bootstrap';
+import {Popover} from 'react-bootstrap';
+import {OverlayTrigger} from 'react-bootstrap';
 
-// get csrf token from cookies
-// from https://stackoverflow.com/questions/35112451/forbidden-csrf-token-missing-or-incorrect-django-error
-function getCookie(name) {
-	var cookieValue = null;
-	if (document.cookie && document.cookie !== '') {
-		var cookies = document.cookie.split(';');
-		for (var i = 0; i < cookies.length; i++) {
-			var cookie = jQuery.trim(cookies[i]);
-			if (cookie.substring(0, name.length + 1) === (name + '=')) {
-				cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-				break;
-			}
-		}
-	}
-	return cookieValue;
-}
-var csrftoken = getCookie("csrftoken");
-
+// black upvote arrow
 function Chevron_up(props) {
 	return (
 		<span className="glyphicon glyphicon-menu-up"
@@ -36,6 +23,7 @@ function Chevron_up(props) {
 	);
 }
 
+// orange upvote arrow
 function Chevron_up_clicked(props) {
 	return (
 		<span className="glyphicon glyphicon-menu-up"
@@ -46,6 +34,7 @@ function Chevron_up_clicked(props) {
 	);
 }
 
+// black downvote arrow
 function Chevron_down(props) {
 	return (
 		<span className="glyphicon glyphicon-menu-down"
@@ -56,6 +45,7 @@ function Chevron_down(props) {
 	)
 }
 
+// orange downvote arrow
 function Chevron_down_clicked(props) {
 	return (
 		<span className="glyphicon glyphicon-menu-down"
@@ -66,14 +56,17 @@ function Chevron_down_clicked(props) {
 	)
 }
 
+// comment count icon
 class Speech_bubble extends React.Component {
  	render() {
  		return (
- 				<span className="glyphicon glyphicon-comment" aria-hidden="true" style={{"cursor": "default"}}></span>
+ 				<span className="glyphicon glyphicon-comment" aria-hidden="true" style={{"cursor": "pointer"}}></span>
 		);
 	}
 }
 
+// Takes a ISO timestamp and returns a timestamp in the format "x minutes ago",
+// "x hours ago", etc, based on the current time
 function timestamp(st) {
 		var moment = require('moment');
 		var postDatetime = moment(st, moment.ISO_8601);
@@ -135,18 +128,22 @@ class Comment extends React.Component{
 		this.handleCloseReportWindow = this.handleCloseReportWindow.bind(this);
 		this.state = {
 			content: this.props.content,
-			upvoted: this.props.upvoted,
-			downvoted: this.props.downvoted,
-			votes: this.props.votes,
+			upvoted: this.props.upvoted, // boolean
+			downvoted: this.props.downvoted, // boolean
+			votes: this.props.votes, // int
+
+			// does the comment length warrent expansion/contraction?
 			needsExpansion: (this.props.content.length > 280
 							|| this.props.content.split(/\r\n|\r|\n/).length > 3),
+
 			expanded: false, // if the comment needs expansion, is it expanded?
-			reported: false,
-			deleted: this.props.deleted,
-			reportWindow: false,
+			reported: false, // has this comment been reported (in current session)?
+			deleted: this.props.deleted, // is this comment deleted?
+			reportWindow: false, // is the report popup showing?
 		};
 	}
 
+	// ensure that the component updates state when props change
 	componentWillReceiveProps(nextProps) {
 		if(this.props.upvoted != nextProps.upvoted) {
 			this.setState({
@@ -162,7 +159,8 @@ class Comment extends React.Component{
 		}
 	}
 
-	// TODO: think about error handling - i.e. behavior when no server connection
+	// register vote or unvote.
+	// tag = "u" for upvote, "d" for downvote, "c" for clearing a vote
 	sendVoteToServer(tag) {
 		fetch("/api/comments/"+this.props.id+"/"+tag+"/", {
 			method: 'GET',
@@ -240,6 +238,7 @@ class Comment extends React.Component{
 		this.sendVoteToServer("c");
 	}
 
+	// delete comment and change props to indicate deleted
 	handleDelete() {
 		this.props.handleDelete(this.props.id);
 		this.setState({
@@ -248,6 +247,7 @@ class Comment extends React.Component{
 		})
 	}
 
+	// toggle "see more"/"see less" of comment text
 	handleExpand(e) {
 		this.setState({
 			expanded : !this.state.expanded,
@@ -897,10 +897,10 @@ class Post extends React.Component{
 	}
 
 	renderContent() {
-		let content = this.state.expanded
-							? this.props.content + " "
-							: this.cutoffContent(this.props.content) + " "
-
+		let content = this.props.content;
+		content = this.state.expanded
+					? content + " "
+					: this.cutoffContent(content) + " "
 
 		return (
 				this.state.needsExpansion
@@ -925,7 +925,14 @@ class Post extends React.Component{
     	this.setState({ reportWindow: true });
   }
 
+
+
+
 	render () {
+		const popoverRight = (
+		  <Popover id="popover-positioned-right" title="Link Copied!">
+		  </Popover>
+		);
 		let date_string = timestamp(this.props.date);
 
 		const postclass = !this.props.color
@@ -1016,33 +1023,44 @@ class Post extends React.Component{
 	}
 }
 
-
-// The post and its associated comments
+// A post and its associated comments
 class PostCommentBlock extends React.Component {
 	constructor(props) {
 		super(props);
+		this.handleClick = this.handleClick.bind(this);
 		this.handleDelete = this.handleDelete.bind(this);
 		this.handleComment = this.handleComment.bind(this);
 		// this.handleCommentDelete = this.handleCommentDelete.bind(this);
 		this.refreshComments = this.refreshComments.bind(this);
 		this.loadNewComments = this.loadNewComments.bind(this);
 		this.toggleRefresh = this.toggleRefresh.bind(this);
+		this.handleColorClick = this.handleColorClick.bind(this);
 		this.getUserData = this.getUserData.bind(this);
+		this.handleCollapsed = this.handleCollapsed.bind(this);
+
 		this.state = {
-			showing: true, // are the comments showing?
+			showing: false, // are the comments showing?
 			isUserDataLoaded: true, // is the updated user data loaded?
 			isLoaded: true, // are the comments loaded?
 			comments: this.props.comments, // current list of comments
 			comment_count: this.props.comment_count,
-			my_comments:  this.props.my_comments,
-			my_upvoted: this.props.my_upvoted_comments,
-			my_downvoted: this.props.my_downvoted_comments,
-			colorclick: true,
+			my_comments: this.props.my_comments,
+			my_upvoted: this.props.my_upvoted,
+			my_downvoted: this.props.my_downvoted,
+			colorclick: false,
+
 		};
 	}
 
-	componentDidMount() {
-		this.toggleRefresh(true);
+
+	componentDidUpdate(prevProps, prevState) {
+		if (prevProps.showing != this.props.showing ) {
+			this.setState({
+				showing:this.props.showing,
+				colorclick:this.props.showing,
+			})
+			this.toggleRefresh(false);
+		}
 	}
 
 	// toggle auto-refresh
@@ -1114,6 +1132,54 @@ class PostCommentBlock extends React.Component {
 
 	}
 
+	// load comments and user data from API when post is clicked
+	handleClick() {
+		if(!this.state.showing) {
+			// get user data about comments
+			this.setState({
+				isUserDataLoaded: false,
+			})
+			fetch("/api/users/"+userid+"/", {
+				method: 'GET',
+				credentials: "same-origin",
+				headers : new Headers(),
+				headers: {
+					 "X-CSRFToken": csrftoken,
+					 'Accept': 'application/json',
+					 'Content-Type': 'application/json',
+				},
+			})
+			.then(res => res.json())
+			.then(
+				(result) => {
+					this.toggleRefresh(true);
+					this.setState({
+						my_upvoted: result.comments_upvoted,
+						my_downvoted: result.comments_downvoted,
+						my_comments: result.comments,
+						isUserDataLoaded: true,
+					});
+				}
+			)
+			this.setState({
+				showing: true,
+				colorclick: true,
+			});
+			this.props.handleOpen(this.props.id);
+			this.refreshComments();
+		}
+		else {
+			this.toggleRefresh(false);
+			this.setState({
+				showing: false,
+				colorclick:false
+			})
+		}
+	}
+	handleCollapsed() {
+		this.props.handleCollapsed(this.props.id);
+	}
+
 	refreshComments() {
 		this.setState({showing: true, isLoaded: false});
 		fetch("/api/posts/"+this.props.id+"/comments/", {
@@ -1151,7 +1217,6 @@ class PostCommentBlock extends React.Component {
 	handleDelete() {
 		this.props.handleDelete(this.props.id);
 	}
-
 	handleComment(id) {
 		var newMyComments = this.state.my_comments.concat(id);
 		this.setState({
@@ -1160,20 +1225,11 @@ class PostCommentBlock extends React.Component {
 		})
 	}
 
-	// handleCommentDelete(id) {
-	// 	var commentsWithoutDeleted = this.state.comments;
-	// 	for (let i = 0; i < this.state.comments.length; i++) {
-	// 		if (this.state.comments[i].id == id) {
-	// 			commentsWithoutDeleted.splice(i, 1);
-	// 			break;
-	// 		}
-	// 	}
-	// 	this.setState({
-	// 		comments: commentsWithoutDeleted,
-	// 		comment_count: this.state.comment_count - 1,
-	// 	})
-	// }
-
+	handleColorClick() {
+		this.setState({
+			colorclick: !this.state.colorclick,
+		})
+	}
 	renderComments() {
 		let color_list = ["#ffcdd2", "#e57373", "#f44336", "#7f0000",
 							"#b71c1c", "#FF0000", " #FF00FF", "#c722d6", "#f06292",
@@ -1212,16 +1268,17 @@ class PostCommentBlock extends React.Component {
 					  color={this.state.colorclick}
 					  />
 
+				<Collapse in={this.state.showing} onExited={this.handleCollapsed}>
 					<div>
 						{this.renderComments()}
 					</div>
+				</Collapse>
 			</div>
 		);
 	}
 }
 
-
-// Spinner for loading post
+// Spinner for loading posts
 function Spinner() {
 	return (
 		<div style={{}}>
@@ -1235,12 +1292,364 @@ function Spinner() {
 	);
 }
 
+// get csrf token from cookies
+// from https://stackoverflow.com/questions/35112451/forbidden-csrf-token-missing-or-incorrect-django-error
+function getCookie(name) {
+	var cookieValue = null;
+	if (document.cookie && document.cookie !== '') {
+		var cookies = document.cookie.split(';');
+		for (var i = 0; i < cookies.length; i++) {
+			var cookie = jQuery.trim(cookies[i]);
+			if (cookie.substring(0, name.length + 1) === (name + '=')) {
+				cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+				break;
+			}
+		}
+	}
+	return cookieValue;
+}
+var csrftoken = getCookie("csrftoken");
+
+// The main list of posts and associated post entry form (above it)
+// TODO: add error handling ('could not reach server' notification)
+class PostList extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			error: null,
+			isLoaded: false, // are any posts loaded?
+			nextPageLoaded: true, // is the next page loaded?
+			morePosts: true, // are there more posts to load?
+			posturl: "/api/posts/",
+			posts: [], // all post objects
+			openPostID: null,
+			newPostCount: 0, // number of posts user has added since refresh
+			my_posts: [], // post ids of user's posts
+			my_upvoted: [], // post ids of user's upvoted posts
+			my_downvoted: [], // post ids of user's downvoted posts
+			my_comments: [],
+			my_upvoted_comments: [],
+			my_downvoted_comments: [],
+		};
+		this.openPost = React.createRef();
+		this.handleDelete = this.handleDelete.bind(this);
+		this.getNextPage = this.getNextPage.bind(this);
+		this.reloadPosts = this.reloadPosts.bind(this);
+		this.getUserData = this.getUserData.bind(this);
+		this.handleOpen = this.handleOpen.bind(this);
+		this.handleCollapsed = this.handleCollapsed.bind(this);
+	}
+
+	// fetch current posts and comments upon page load
+	componentDidMount() {
+		this.getUserData(); // get current data for user
+		this.reloadPosts(this.state.posturl); // load posts
+	}
+
+	// modified from https://stackoverflow.com/questions/123999/how-to-tell-if-a-dom-element-is-visible-in-the-current-viewport/7557433#7557433
+	isElementInViewport(el) {
+	    //special bonus for those using jQuery
+	    if (typeof jQuery === "function" && el instanceof jQuery) {
+	        el = el[0];
+	    }
+
+	    var rect = el.getBoundingClientRect();
+
+	    return (
+	        rect.top >= 0 &&
+	        rect.left >= 0 &&
+	        rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) && /*or $(window).height() */
+	        rect.right <= (window.innerWidth || document.documentElement.clientWidth) /*or $(window).width() */
+	    );
+	}
+
+	getUserData() {
+		fetch("/api/users/"+userid+"/", {
+			method: 'GET',
+			credentials: "same-origin",
+			headers : new Headers(),
+			headers: {
+				 "X-CSRFToken": csrftoken,
+				 'Accept': 'application/json',
+				 'Content-Type': 'application/json',
+			},
+		})
+		.then(res => res.json())
+		.then(
+			(result) => {
+				this.setState({
+					my_posts: result.posts,
+					my_upvoted: result.posts_upvoted,
+					my_downvoted: result.posts_downvoted,
+					my_comments: result.comments,
+					my_upvoted_comments: result.comments_upvoted,
+					my_downvoted_comments: result.comments_downvoted,
+				});
+			}
+		)
+	}
+
+	reloadPosts() {
+		this.setState({
+			isLoaded: false,
+		})
+
+		let url = "/api/posts/?search=" + query;
+
+		fetch(url, {
+			method: 'GET',
+			credentials: "same-origin",
+			headers : new Headers(),
+			headers: {
+				 "X-CSRFToken": csrftoken,
+				 'Accept': 'application/json',
+				 'Content-Type': 'application/json',
+			},
+		})
+		.then(res => res.json())
+		.then(
+			(result) => {
+					this.setState({
+						isLoaded: true,
+						morePosts: result.next !== null,
+						posts: result.results,
+						newPostCount: 0,
+					});
+				},
+			(error) => {
+				this.setState({
+					isLoaded: true,
+					error
+				});
+			}
+		)
+	}
+
+	// load the next page of posts from server and add to current post list
+	getNextPage() {
+		// don't try to fetch posts if there are no more
+		if (this.state.morePosts === false) {
+			return;
+		}
+
+		// set state to trigger loading icon
+		this.setState({
+			nextPageLoaded : false,
+		})
+
+		let currentPostCount = this.state.posts.length;
+		let url = "/api/posts/?search=" + query;
+		fetch(url +"?offset="+currentPostCount, {
+			method: 'GET',
+			credentials: "same-origin",
+			headers : new Headers(),
+			headers: {
+				 "X-CSRFToken": csrftoken,
+				 'Accept': 'application/json',
+				 'Content-Type': 'application/json',
+			},
+		})
+		.then(res => res.json())
+		.then(
+			(result) => {
+				var nextPage = result.results;
+				for (let i = 0; i < nextPage.length; i++) {
+					if (nextPage[i].id < this.state.posts[this.state.posts.length-1].id) {
+						var firstNewPostIndex = i;
+						break;
+					}
+				}
+				this.setState({
+					nextPageLoaded: true,
+					morePosts: result.next !== null,
+					posts: this.state.posts.concat(nextPage.slice(firstNewPostIndex)),
+				});
+			},
+			(error) => {
+				this.setState({
+					nextPageLoaded: true,
+					error
+				});
+			}
+		)
+	}
+
+	// add a new post
+	handlePost(text) {
+		if (text.trim() != ''){
+			fetch("/api/posts/", {
+					method: 'POST',
+					credentials: "same-origin",
+					headers : new Headers(),
+					headers: {
+						 "X-CSRFToken": csrftoken,
+						 'Accept': 'application/json',
+						 'Content-Type': 'application/json',
+					},
+					body:JSON.stringify({
+						"content":text,
+					})
+				})
+			.then(res => res.json())
+			.then(
+				(result) => {
+					this.setState({
+						posts : [result].concat(this.state.posts),
+						newPostCount : this.state.newPostCount + 1,
+						my_posts : [result.id].concat(this.state.my_posts),
+					});
+				},
+				(error) => {
+					alert(error);
+				}
+			)
+		}
+	}
+
+	// delete a post by ID
+	handleDelete(id) {
+		fetch("/api/posts/"+id+"/", {
+				method: 'DELETE',
+				credentials: "same-origin",
+				headers : new Headers(),
+				headers: {
+					 "X-CSRFToken": csrftoken,
+					 'Accept': 'application/json',
+					 'Content-Type': 'application/json',
+				},
+			}
+		)
+		.then(
+			(result) => {
+				var newposts = this.state.posts.filter(
+					function(post) {
+						return post.id !== id;
+					});
+				this.setState({
+					posts : newposts
+				});
+			}
+		)
+	}
+
+	// set openPostID to be the id of the newly opened post, and scroll new
+	// post into view if necessary when old post collapses
+	handleOpen(id) {
+		this.setState({
+			openPostID: id,
+		});
+	}
+	// TODO: debug based on browser
+	handleCollapsed(id) {
+		let openNode = this.openPost.current;
+		let domNode = ReactDOM.findDOMNode(openNode).firstChild;
+		if (!this.isElementInViewport(domNode)) {
+			// TODO: doesn't seem to work on android
+			domNode.scrollIntoView({behavior: "smooth"});
+
+			if (isSafari) {
+				var navHeight = 60;
+				var scrolledY = window.scrollY;
+				if(scrolledY) {
+					setTimeout(window.scroll(0, scrolledY - navHeight,{behavior: "smooth"}), 100);
+				}
+			}
+			if (isFirefox) {
+				var navHeight = 200;
+				var scrolledY = window.scrollY;
+				if(scrolledY) {
+					setTimeout(window.scroll(0, scrolledY - navHeight,{behavior: "smooth"}), 100);
+				}
+			}
+		}
+	}
+
+	render() {
+		return (
+			<div>
+			{
+				this.state.isLoaded
+				? this.state.posts.map((post) =>
+	          		<PostCommentBlock
+						ref={post.id==this.state.openPostID ? this.openPost : null}
+			   			key={"post"+ post.id}
+						id={post.id}
+	                	content={post.content}
+						votes={post.net_votes}
+						comment_count={post.comments.length}
+						comments={post.comments}
+						date={post.date_created}
+						showing={post.id==this.state.openPostID ? true : false}
+						isMine={this.state.my_posts.includes(post.id)}
+						upvoted={this.state.my_upvoted.includes(post.id)}
+						downvoted={this.state.my_downvoted.includes(post.id)}
+						my_upvoted={this.state.my_upvoted_comments}
+						my_downvoted={this.state.my_downvoted_comments}
+						my_comments={this.state.my_comments}
+						handleDelete={this.handleDelete}
+						handleOpen={this.handleOpen}
+						handleCollapsed={this.handleCollapsed}
+						 />)
+				: null
+	        }
+			{
+				this.state.isLoaded && this.state.nextPageLoaded
+				? <InfiniteScroll
+					hasPosts = {this.state.posts.length != 0}
+					morePosts={this.state.morePosts}
+					getNextPage={this.getNextPage} />
+				: <Spinner />
+			}
+			</div>
+		);
+	}
+}
+
+class InfiniteScroll extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			morePosts : this.props.morePosts,
+		}
+		this.onChange = this.onChange.bind(this);
+	}
+
+	onChange(isVisible) {
+		if (isVisible) {
+			this.props.getNextPage();
+		}
+	}
+
+	render () {
+	  var VisibilitySensor = require('react-visibility-sensor');
+
+	  if (!this.props.hasPosts) {
+		  return(
+			  <div className="no-more-posts">
+					No search results for query: "{query}"
+				</div>
+			);
+	  }
+
+	  if (!this.state.morePosts) {
+		  return(
+			  <div className="no-more-posts">
+		  			No more posts!
+				</div>
+			);
+	  }
+
+	  return (
+	    <VisibilitySensor partialVisibility={true} onChange={this.onChange} />
+	  );
+	}
+}
+
 class MainTitle extends React.Component {
 	render() {
 		return (
 			<div>
 				<h3 className="header">TigerTalk</h3>
-				<br />
 				<br />
 				<br />
 			</div>
@@ -1251,7 +1660,7 @@ class MainTitle extends React.Component {
 class NavBar extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = {value: ''};
+		this.state = {value: query};
 
 		this.handleChange = this.handleChange.bind(this);
 	}
@@ -1291,144 +1700,12 @@ class NavBar extends React.Component {
 	}
 }
 
+// Parent class which is rendered in the Django template
 class App extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			isLoaded: false,
-			exists: false,
-			deleted: false,
-			post: null,
-			my_posts: [],
-			my_comments: [],
-			my_upvoted: [],
-			my_downvoted: [],
-			my_upvoted_comments: [],
-			my_downvoted_comments: [],
-		};
-		this.getUserData = this.getUserData.bind(this);
-		this.getPostData = this.getPostData.bind(this);
-		this.handleDelete = this.handleDelete.bind(this);
-	}
-
-	componentDidMount() {
-		this.getUserData();
-		this.getPostData();
-	}
-
-	getUserData() {
-		fetch("/api/users/"+userid+"/", {
-			method: 'GET',
-			credentials: "same-origin",
-			headers : new Headers(),
-			headers: {
-				 "X-CSRFToken": csrftoken,
-				 'Accept': 'application/json',
-				 'Content-Type': 'application/json',
-			},
-		})
-		.then(res => res.json())
-		.then(
-			(result) => {
-				this.setState({
-					my_posts: result.posts,
-					my_comments: result.comments,
-					my_upvoted: result.posts_upvoted,
-					my_downvoted: result.posts_downvoted,
-					my_upvoted_comments: result.comments_upvoted,
-					my_downvoted_comments: result.comments_downvoted,
-				});
-			}
-		)
-	}
-
-	getPostData() {
-		fetch("/api/posts/"+postid+"/", {
-			method: 'GET',
-			credentials: "same-origin",
-			headers : new Headers(),
-			headers: {
-				 "X-CSRFToken": csrftoken,
-				 'Accept': 'application/json',
-				 'Content-Type': 'application/json',
-			},
-		})
-		.then(function(response) {
-	        if (!response.ok) {
-				this.setState({
-					exists: false,
-					isLoaded: true,
-				})
-	        }
-	        return response;
-	    })
-		.then(res => res.json())
-		.then(
-			(result) => {
-				this.setState({
-					exists: true,
-					isLoaded: true,
-					post: result,
-				})
-			},
-			(error) => {
-				this.setState({
-					exists: false,
-					isLoaded: true,
-				})
-			}
-		)
-	}
-
-	handleDelete() {
-		fetch("/api/posts/"+postid+"/", {
-				method: 'DELETE',
-				credentials: "same-origin",
-				headers : new Headers(),
-				headers: {
-					 "X-CSRFToken": csrftoken,
-					 'Accept': 'application/json',
-					 'Content-Type': 'application/json',
-				},
-			}
-		)
-		.then(
-			(result) => {
-				this.setState({
-					deleted: true,
-					exists: false,
-				})
-			}
-		)
-	}
-
-	renderPostCommentBlock() {
-		if (!this.state.isLoaded) {
-			return (
-				<Spinner />
-			)
-		} else if (this.state.exists) {
-			return (
-				<PostCommentBlock
-					id={this.state.post.id}
-					content={this.state.post.content}
-					votes={this.state.post.net_votes}
-					comment_count={this.state.post.comments.length}
-					comments={this.state.post.comments}
-					date={this.state.post.date_created}
-					isMine={this.state.my_posts.includes(this.state.post.id)}
-					upvoted={this.state.my_upvoted.includes(this.state.post.id)}
-					downvoted={this.state.my_downvoted.includes(this.state.post.id)}
-					my_upvoted_comments={this.state.my_upvoted_comments}
-					my_downvoted_comments={this.state.my_downvoted_comments}
-					my_comments={this.state.my_comments}
-					handleDelete={this.handleDelete}
-				/>
-			)
-		} else if (this.state.deleted) {
-			return (<div className="no-post">Post deleted.</div>)
-		} else {
-			return (<div className="no-post"> Post could not be found! </div>)
+			recent : true,
 		}
 	}
 
@@ -1437,9 +1714,11 @@ class App extends React.Component {
 			<div>
 				<NavBar />
 				<MainTitle />
-				{this.renderPostCommentBlock()}
+				{
+					<PostList sort="recent" />
+				}
 			</div>
-		)
+		);
 	}
 }
 

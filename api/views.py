@@ -4,7 +4,7 @@ from api.permissions import IsAuthorOrReadOnly, IsUser
 from django.contrib.auth import get_user_model
 from django.core.mail import send_mail
 from django.conf import settings
-from rest_framework import generics, permissions, status
+from rest_framework import generics, permissions, status, filters
 from rest_framework.response import Response
 from django.shortcuts import render_to_response
 from django.template import RequestContext
@@ -14,15 +14,17 @@ import smtplib
 User = get_user_model()
 
 # list of all posts
-# methods: GET, POST
 class PostList(generics.ListCreateAPIView):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
     permission_classes = (permissions.IsAuthenticated,)
+    filter_backends = (filters.SearchFilter,)
+    search_fields = ('content', 'comments__content')
 
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
 
+# list of all posts sorted by vote count
 class PostListByVotes(generics.ListAPIView):
     serializer_class = PostSerializer
     permission_classes = (permissions.IsAuthenticated,)
@@ -34,14 +36,12 @@ class PostListByVotes(generics.ListAPIView):
                             key=lambda x: -x.net_votes())
 
 # detail for single post
-# methods: GET, DELETE
 class PostDetail(generics.RetrieveDestroyAPIView):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
     permission_classes = (permissions.IsAuthenticated, IsAuthorOrReadOnly,)
 
 # list of comments associated with a post
-# methods: GET, POST
 class PostCommentList(generics.ListCreateAPIView):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
@@ -85,19 +85,18 @@ class PostCommentList(generics.ListCreateAPIView):
 
 
 # list of all comments
-# methods: GET, POST
 class CommentList(generics.ListAPIView):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
     permission_classes = (permissions.IsAuthenticated,)
 
 # detail for a single comment
-# methods: GET, PUT
 class CommentDetail(generics.RetrieveAPIView):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
     permission_classes = (permissions.IsAuthenticated,)
 
+# remove a comment (replace its text with "[DELETED]")
 class CommentRemove(generics.ListAPIView):
         queryset = Comment.objects.all()
         serializer_class = CommentSerializer
@@ -115,7 +114,6 @@ class CommentRemove(generics.ListAPIView):
             return Response({"content":comment.content}, status=status.HTTP_202_ACCEPTED)
 
 # upvote a post based on pk
-# methods: GET
 class PostUpvote(generics.ListAPIView):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
@@ -128,6 +126,7 @@ class PostUpvote(generics.ListAPIView):
         user.posts_downvoted.remove(post)
         return Response({"net_votes" : post.net_votes()})
 
+# downvote a post based on pk
 class PostDownvote(generics.ListAPIView):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
@@ -140,6 +139,7 @@ class PostDownvote(generics.ListAPIView):
         user.posts_upvoted.remove(post)
         return Response({"net_votes" : post.net_votes()})
 
+# clear the vote of a post based on pk
 class PostClearVote(generics.ListAPIView):
         queryset = Post.objects.all()
         serializer_class = PostSerializer
@@ -152,6 +152,7 @@ class PostClearVote(generics.ListAPIView):
             user.posts_upvoted.remove(post)
             return Response({"net_votes" : post.net_votes()})
 
+# upvote a comment based on pk
 class CommentUpvote(generics.ListAPIView):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
@@ -164,6 +165,7 @@ class CommentUpvote(generics.ListAPIView):
         user.comments_downvoted.remove(comment)
         return Response({"net_votes" : comment.net_votes()})
 
+# downvote a comment based on pk
 class CommentDownvote(generics.ListAPIView):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
@@ -176,6 +178,7 @@ class CommentDownvote(generics.ListAPIView):
         user.comments_upvoted.remove(comment)
         return Response({"net_votes" : comment.net_votes()})
 
+# clear the vote of a comment based on pk
 class CommentClearVote(generics.ListAPIView):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
@@ -188,7 +191,7 @@ class CommentClearVote(generics.ListAPIView):
         user.comments_upvoted.remove(comment)
         return Response({"net_votes" : comment.net_votes()})
 
-# adapted from
+# code to send email to superusers, adapted from
 # https://stackoverflow.com/questions/10147455/how-to-send-an-email-with-gmail-as-provider-using-python/12424439#12424439
 def send_email(user, pwd, recipient, subject, body):
     FROM = user
@@ -206,6 +209,7 @@ def send_email(user, pwd, recipient, subject, body):
     server.sendmail(FROM, TO, message)
     server.close()
 
+# report a post based on pk
 class PostReport(generics.ListAPIView):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
@@ -231,6 +235,7 @@ class PostReport(generics.ListAPIView):
 
         return Response({"reported" : post.reported})
 
+# report a comment based on pk
 class CommentReport(generics.ListAPIView):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
@@ -262,6 +267,8 @@ class UserDetail(generics.RetrieveAPIView):
     serializer_class = UserSerializer
     permission_classes = (permissions.IsAuthenticated, IsUser,)
 
+# set the "first_time" field for a user to false
+# (called after a user sees the privacy notice)
 class UserToggleFirstTime(generics.ListAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer

@@ -9,13 +9,13 @@ module.exports = {
 	context: __dirname,
 
 	// entry point
-
 	entry: {
 	    main: './assets/js/index.js',
 	    about: './assets/js/about.js',
 		post: './assets/js/post.js',
-		navbar: './assets/js/navbar.js',
 		splash: './assets/js/splash.js',
+		search: './assets/js/search.js',
+		404: './assets/js/404.js',
 	},
 
 	// default to dev mode
@@ -37,10 +37,6 @@ module.exports = {
 			jQuery: 'jquery',
 			'window.jQuery': 'jquery'
 		}),
-		// new HTMLWebpackPlugin({
-		// 	title: 'Code Splitting'
-		// })
-
 	],
 
 	module: {
@@ -66,5 +62,4 @@ module.exports = {
 		// extensions for resolving modules
 		extensions: ['*', '.js', '.jsx']
 	}
-
 }
