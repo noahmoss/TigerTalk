@@ -178,9 +178,9 @@ class Comment extends React.Component{
 							|| this.props.content.split(/\r\n|\r|\n/).length > 3),
 
 			expanded: false, // if the comment needs expansion, is it expanded?
-			reported: false,
-			deleted: this.props.deleted,
-			reportWindow: false,
+			reported: false, // has this comment been reported (in current session)?
+			deleted: this.props.deleted, // is this comment deleted?
+			reportWindow: false, // is the report popup showing?
 		};
 	}
 
@@ -200,7 +200,8 @@ class Comment extends React.Component{
 		}
 	}
 
-	// TODO: think about error handling - i.e. behavior when no server connection
+	// register vote or unvote.
+	// tag = "u" for upvote, "d" for downvote, "c" for clearing a vote
 	sendVoteToServer(tag) {
 		fetch("/api/comments/"+this.props.id+"/"+tag+"/", {
 			method: 'GET',
@@ -278,6 +279,7 @@ class Comment extends React.Component{
 		this.sendVoteToServer("c");
 	}
 
+	// delete comment and change props to indicate deleted
 	handleDelete() {
 		this.props.handleDelete(this.props.id);
 		this.setState({
@@ -286,6 +288,7 @@ class Comment extends React.Component{
 		})
 	}
 
+	// toggle "see more"/"see less" of comment text
 	handleExpand(e) {
 		this.setState({
 			expanded : !this.state.expanded,
