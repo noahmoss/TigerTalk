@@ -278,3 +278,11 @@ div.team {
 body > div.acknowledgements {
     margin-bottom: 80px;
 }
+
+#root > nav > div > div.navbar-collapse.collapse > ul > li:nth-child(1) > a {
+	width: 60px !important;
+}
+
+#root > nav > div > div.navbar-collapse.collapse > ul > li:nth-child(2) > a {
+	width: 82px !important;
+}
