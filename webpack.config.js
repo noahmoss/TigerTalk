@@ -15,7 +15,7 @@ module.exports = {
 		post: './assets/js/post.js',
 		splash: './assets/js/splash.js',
 		search: './assets/js/search.js',
-		404: './assets/js/404.js',
+		navbar: './assets/js/404.js',
 	},
 
 	// default to dev mode
