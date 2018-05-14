@@ -286,3 +286,8 @@ body > div.acknowledgements {
 #root > nav > div > div.navbar-collapse.collapse > ul > li:nth-child(2) > a {
 	width: 82px !important;
 }
+
+#root > nav > div > div.navbar-header > span > a {
+  color: black !important;
+  font-family: Quicksand !important;
+}

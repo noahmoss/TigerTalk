@@ -180,6 +180,7 @@ class Comment extends React.Component{
 		if (this.state.upvoted) {
 			return;
 		}
+		// increment by 2 if it was previously downvoted
 		else if (this.state.downvoted) {
 			this.setState({
 				upvoted : true,
@@ -187,6 +188,8 @@ class Comment extends React.Component{
 				votes : this.state.votes + 2,
 			})
 		}
+
+		// increment by 1 if it was not voted on before
 		else {
 			this.setState({
 				upvoted : true,
@@ -195,6 +198,8 @@ class Comment extends React.Component{
 		}
 		this.sendVoteToServer("u");
 	}
+
+	// undo an upvote
 	handleUpvoteUnclick() {
 		if (!this.state.upvoted) {
 			return;
@@ -211,6 +216,7 @@ class Comment extends React.Component{
 		if (this.state.downvoted) {
 			return;
 		}
+		// decrement by 2 if it was previously upvoted
 		else if (this.state.upvoted) {
 			this.setState({
 				downvoted : true,
@@ -218,6 +224,8 @@ class Comment extends React.Component{
 				votes : this.state.votes - 2,
 			})
 		}
+
+		// decrement by 1 if it was not previously voted on
 		else {
 			this.setState({
 				downvoted : true,
@@ -226,6 +234,8 @@ class Comment extends React.Component{
 		}
 		this.sendVoteToServer("d");
 	}
+
+	// undo a downvote
 	handleDownvoteUnclick() {
 		if (!this.state.downvoted) {
 			return;
@@ -1792,9 +1802,11 @@ class NavBar extends React.Component {
 		return (
 			<Navbar fixedTop collapseOnSelect fluid>
 			  <Navbar.Header>
-				<Navbar.Brand>
-				  TigerTalk
-				  <form id="demo-2" action={"/posts"} >
+			  	<Navbar.Brand>
+				  	<a style={{ fontFamily: 'Quicksand' }} href="/main">
+						TigerTalk	
+					</a>	
+				   <form id="demo-2" action={"/posts"} >
 					  <input id="searchbox"
 					  		 type="search"
 							 name="q"

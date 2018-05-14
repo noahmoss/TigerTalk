@@ -49,6 +49,12 @@ button#post.btn.btn-default {
   font-family: Quicksand, serif;
 }
 
+#root > nav > div > div.navbar-header > span > a {
+  color: black !important;
+  font-family: Quicksand !important;
+  cursor: pointer;
+}
+
 /* Search Bar: code adapted from https://codepen.io/912lab/pen/LsplC */
 
 /* text input for search bar */
