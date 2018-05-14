@@ -1454,8 +1454,8 @@ class PostList extends React.Component {
 		})
 
 		let currentPostCount = this.state.posts.length;
-		let url = "/api/posts/?search=" + query;
-		fetch(url +"?offset="+currentPostCount, {
+		let url = "/api/posts/?offset=" + currentPostCount + "&query=" + encodeURIComponent(query);
+		fetch(url, {
 			method: 'GET',
 			credentials: "same-origin",
 			headers : new Headers(),
@@ -1644,23 +1644,6 @@ class InfiniteScroll extends React.Component {
 
 	render () {
 	  var VisibilitySensor = require('react-visibility-sensor');
-
-	  // if (!this.props.hasPosts) {
-		//   return(
-		// 	  <div className="no-more-posts">
-		// 			No search results for query: "{query}"
-		// 		</div>
-		// 	);
-	  // }
-	  //
-	  // if (!this.state.morePosts) {
-		//   return(
-		// 	  <div className="no-more-posts">
-		//   			No more posts!
-		// 		</div>
-		// 	);
-	  // }
-
 	  return (
 	    <VisibilitySensor partialVisibility={true} onChange={this.onChange} />
 	  );
