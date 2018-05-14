@@ -27,7 +27,7 @@ SECRET_KEY = os.environ["DJANGO_SECRET_KEY"]
 ALLOWED_HOSTS = ['*']
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 # Application definition
 INSTALLED_APPS = [
@@ -100,19 +100,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'tigertalk.wsgi.application'
-
-DATABASES = {
-      'default': {
-          'ENGINE': 'django.db.backends.postgresql_psycopg2',
-          'NAME': 'tigertalk_db',
-          'USER': 'tigertalk',
-          'PASSWORD': 'tigertalk333',
-          'HOST': 'localhost',
-          'PORT': '',
-      }
-  }
-
-SECRET_KEY = 'p0y2#qp+)8+-&qyy3@27778sal4950uw7!5j-81oly1#dmu1%vdi#'
 
 import dj_database_url
 db_config = dj_database_url.config(conn_max_age=1)
