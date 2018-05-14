@@ -1792,9 +1792,11 @@ class NavBar extends React.Component {
 		return (
 			<Navbar fixedTop collapseOnSelect fluid>
 			  <Navbar.Header>
-				<Navbar.Brand>
-				  TigerTalk
-				  <form id="demo-2" action={"/posts"} >
+			  	<Navbar.Brand>
+				  	<a style={{ fontFamily: 'Quicksand' }} href="/main">
+						TigerTalk	
+					</a>	
+				   <form id="demo-2" action={"/posts"} >
 					  <input id="searchbox"
 					  		 type="search"
 							 name="q"

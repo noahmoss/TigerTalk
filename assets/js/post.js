@@ -937,7 +937,7 @@ class Post extends React.Component{
 					    	: ("post2")
 
 		return (
-			<div className={postclass} style={{borderLeft: "solid 4px", borderLeftColor: "#f19143"}}>
+			<div className={postclass} style={{borderLeft: "solid 4px", borderLeftColor: "#f19143", cursor: "default !important"}}>
 			  <Media className="mainBody" >
 			    <Media.Left>
 			    	<div className="arrowBox">
@@ -1162,19 +1162,6 @@ class PostCommentBlock extends React.Component {
 		})
 	}
 
-	// handleCommentDelete(id) {
-	// 	var commentsWithoutDeleted = this.state.comments;
-	// 	for (let i = 0; i < this.state.comments.length; i++) {
-	// 		if (this.state.comments[i].id == id) {
-	// 			commentsWithoutDeleted.splice(i, 1);
-	// 			break;
-	// 		}
-	// 	}
-	// 	this.setState({
-	// 		comments: commentsWithoutDeleted,
-	// 		comment_count: this.state.comment_count - 1,
-	// 	})
-	// }
 
 	renderComments() {
 		let color_list = ["#ffcdd2", "#e57373", "#f44336", "#7f0000",
@@ -1267,7 +1254,9 @@ class NavBar extends React.Component {
 			<Navbar fixedTop collapseOnSelect fluid>
 			  <Navbar.Header>
 				<Navbar.Brand>
-				  TigerTalk
+				  	<a style={{ fontFamily: 'Quicksand' }} href="/main">
+						TigerTalk	
+					</a>
 				  <form id="demo-2" action={!this.state.value ? "#" : "/posts"} >
 					  <input id="searchbox" type="search" name="q" value={this.state.value} onChange={this.handleChange}/>
 				  </form>

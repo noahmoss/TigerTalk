@@ -180,6 +180,11 @@ input::-webkit-input-placeholder {
   width: 82px;
 }
 
+#root > div > nav > div > div.navbar-header > span > a {
+  color: black !important;
+  font-family: Quicksand !important;
+  cursor: pointer !important;
+}
 /* Main header (TigerTalk) */
 h3 {
   margin-top: 150px;

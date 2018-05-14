@@ -19,7 +19,9 @@ class NavBar extends React.Component {
 			<Navbar fixedTop collapseOnSelect fluid>
 			  <Navbar.Header>
 				<Navbar.Brand>
-				  TigerTalk
+				  	<a style={{ fontFamily: 'Quicksand' }} href="/main">
+						TigerTalk	
+					</a>
 				  <form id="demo-2" action={"/posts"} >
 					  <input id="searchbox"
 					  		 type="search"
@@ -32,8 +34,8 @@ class NavBar extends React.Component {
 			  </Navbar.Header>
 			  <Navbar.Collapse>
 			  <Nav pullRight>
-					<NavItem style={{ fontFamily: 'Quicksand' }} href="/main">
-						Home
+					<NavItem style={{ fontFamily: 'Quicksand' }} href="/about">
+						About
 					</NavItem>
 					<NavItem href="https://docs.google.com/forms/d/e/1FAIpQLSeO1FP1ghYFiDi2AKrBsEOxu2b_NXowGbxCfrlHXFmm6b1Fug/viewform?usp=pp_url&entry.1782114317"
 					target="_blank" style={{ fontFamily: 'Quicksand' }} >
